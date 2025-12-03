@@ -1,31 +1,59 @@
 {
-  "notfound.session.title": {
+  "permission.mode.change.cancelled": {
+    "translation": "权限模式更改已取消",
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/routes/projects/$projectId/sessions/$sessionId/index.tsx", 21]
-    ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/PermissionModeSelector.tsx",
+        61
+      ]
+    ]
+  },
+  "permission.mode.change.pending": {
+    "translation": "权限模式将在发送下一条消息时应用",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/PermissionModeSelector.tsx",
+        64
+      ]
+    ]
+  },
+  "permission.mode.change.pending.tooltip": {
+    "translation": "点击更改权限模式（将在发送下一条消息时应用）",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/PermissionModeSelector.tsx",
+        101
+      ]
+    ]
+  },
+  "permission.mode.change.pending.hint": {
+    "translation": "此更改将在您发送下一条消息时应用",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/PermissionModeSelector.tsx",
+        115
+      ]
+    ]
+  },
+  "notfound.session.title": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/routes/projects/$projectId/session.tsx", 20]],
     "translation": "会话未找到"
   },
   "notfound.session.description": {
     "placeholders": {},
     "comments": [],
-    "origin": [
-      ["src/routes/projects/$projectId/sessions/$sessionId/index.tsx", 22]
-    ],
+    "origin": [["src/routes/projects/$projectId/session.tsx", 21]],
     "translation": "您查找的会话不存在。"
-  },
-  "notfound.project.title": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [["src/routes/projects/$projectId/latest/index.tsx", 14]],
-    "translation": "未找到项目"
-  },
-  "notfound.project.description": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [["src/routes/projects/$projectId/latest/index.tsx", 15]],
-    "translation": "您查找的项目不存在。"
   },
   "notification.none": {
     "placeholders": {},
@@ -57,6 +85,18 @@
     "origin": [["src/lib/notifications.tsx", 107]],
     "translation": "Pop 音"
   },
+  "notification.test": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/NotificationSettings.tsx", 90]],
+    "translation": "测试"
+  },
+  "notification.description": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/NotificationSettings.tsx", 97]],
+    "translation": "选择 Claude Code 任务完成时播放的提示音"
+  },
   "notfound.default.title": {
     "placeholders": {},
     "comments": [],
@@ -75,17 +115,59 @@
     "origin": [["src/components/NotFound.tsx", 43]],
     "translation": "返回首页"
   },
-  "notification.test": {
+  "settings.tab.title": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/NotificationSettings.tsx", 90]],
-    "translation": "测试"
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/MobileSidebar.tsx",
+        249
+      ],
+      ["src/components/GlobalSidebar.tsx", 42]
+    ],
+    "translation": "显示和通知设置"
   },
-  "notification.description": {
+  "settings.title": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/NotificationSettings.tsx", 97]],
-    "translation": "选择 Claude Code 任务完成时播放的提示音"
+    "origin": [["src/components/GlobalSidebar.tsx", 47]],
+    "translation": "设置"
+  },
+  "settings.description": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/GlobalSidebar.tsx", 50]],
+    "translation": "显示和行为设置"
+  },
+  "settings.loading": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/MobileSidebar.tsx",
+        102
+      ],
+      ["src/components/GlobalSidebar.tsx", 58]
+    ],
+    "translation": "正在加载设置..."
+  },
+  "settings.section.session_display": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/GlobalSidebar.tsx", 66]],
+    "translation": "会话显示"
+  },
+  "settings.section.notifications": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/GlobalSidebar.tsx", 73]],
+    "translation": "通知"
+  },
+  "settings.section.system_info": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/GlobalSidebar.tsx", 86]],
+    "translation": "系统信息"
   },
   "system_info.feature.tool_approval.title": {
     "placeholders": {},
@@ -174,236 +256,182 @@
   "settings.session.hide_no_user_message": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 124]],
+    "origin": [["src/components/SettingsControls.tsx", 131]],
     "translation": "隐藏无用户消息的会话"
   },
   "settings.session.hide_no_user_message.description": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 130]],
+    "origin": [["src/components/SettingsControls.tsx", 137]],
     "translation": "仅显示包含用户命令或消息的会话"
   },
   "settings.session.unify_same_title": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 145]],
+    "origin": [["src/components/SettingsControls.tsx", 152]],
     "translation": "合并同名会话"
   },
   "settings.session.unify_same_title.description": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 151]],
+    "origin": [["src/components/SettingsControls.tsx", 158]],
     "translation": "当多个会话标题相同时,仅显示最新的会话"
   },
   "settings.input.enter_key_behavior": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 161]],
+    "origin": [["src/components/SettingsControls.tsx", 168]],
     "translation": "回车键行为"
   },
   "Select enter key behavior": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 169]],
+    "origin": [["src/components/SettingsControls.tsx", 176]],
     "translation": "选择回车键行为"
   },
   "settings.input.enter_key_behavior.shift_enter": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 173]],
+    "origin": [["src/components/SettingsControls.tsx", 180]],
     "translation": "使用 Shift+Enter 发送(默认)"
   },
   "settings.input.enter_key_behavior.enter": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 176]],
+    "origin": [["src/components/SettingsControls.tsx", 183]],
     "translation": "使用 Enter 发送"
   },
   "settings.input.enter_key_behavior.command_enter": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 179]],
+    "origin": [["src/components/SettingsControls.tsx", 186]],
     "translation": "使用 Command+Enter 发送"
   },
   "settings.input.enter_key_behavior.description": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 185]],
+    "origin": [["src/components/SettingsControls.tsx", 192]],
     "translation": "选择消息输入的回车键行为"
   },
   "settings.permission.mode": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 196]],
+    "origin": [["src/components/SettingsControls.tsx", 203]],
     "translation": "权限模式"
   },
   "Select permission mode": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 205]],
+    "origin": [["src/components/SettingsControls.tsx", 212]],
     "translation": "选择权限模式"
   },
   "settings.permission.mode.default": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 209]],
+    "origin": [["src/components/SettingsControls.tsx", 216]],
     "translation": "默认(确认权限)"
   },
   "settings.permission.mode.accept_edits": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 212]],
+    "origin": [["src/components/SettingsControls.tsx", 219]],
     "translation": "接受编辑(自动批准文件编辑)"
   },
   "settings.permission.mode.bypass_permissions": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 215]],
+    "origin": [["src/components/SettingsControls.tsx", 222]],
     "translation": "跳过权限(无提示)"
   },
   "settings.permission.mode.plan": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 218]],
+    "origin": [["src/components/SettingsControls.tsx", 225]],
     "translation": "计划模式(仅规划)"
   },
   "settings.permission.mode.description": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 224]],
+    "origin": [["src/components/SettingsControls.tsx", 231]],
     "translation": "控制如何处理文件操作权限请求"
   },
   "settings.permission.mode.unavailable": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 229]],
+    "origin": [["src/components/SettingsControls.tsx", 236]],
     "translation": "此功能在您的 Claude Code 版本中不可用。所有工具都会自动批准。"
   },
   "settings.locale": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 240]],
+    "origin": [["src/components/SettingsControls.tsx", 247]],
     "translation": "语言"
   },
   "Select language": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 248]],
+    "origin": [["src/components/SettingsControls.tsx", 255]],
     "translation": "选择语言"
   },
   "settings.locale.ja": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 252]],
+    "origin": [["src/components/SettingsControls.tsx", 259]],
     "translation": "日语"
   },
   "settings.locale.en": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 255]],
+    "origin": [["src/components/SettingsControls.tsx", 262]],
     "translation": "英语"
   },
   "settings.locale.zh_CN": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 258]],
+    "origin": [["src/components/SettingsControls.tsx", 265]],
     "translation": "简体中文"
   },
   "settings.locale.description": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 261]],
+    "origin": [["src/components/SettingsControls.tsx", 271]],
     "translation": "选择您偏好的语言"
   },
   "settings.theme": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 269]],
+    "origin": [["src/components/SettingsControls.tsx", 279]],
     "translation": "主题"
   },
   "Select theme": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 274]],
+    "origin": [["src/components/SettingsControls.tsx", 284]],
     "translation": "选择主题"
   },
   "settings.theme.light": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 278]],
+    "origin": [["src/components/SettingsControls.tsx", 288]],
     "translation": "浅色"
   },
   "settings.theme.dark": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 281]],
+    "origin": [["src/components/SettingsControls.tsx", 291]],
     "translation": "深色"
   },
   "settings.theme.system": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 284]],
+    "origin": [["src/components/SettingsControls.tsx", 294]],
     "translation": "跟随系统"
   },
   "settings.theme.description": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SettingsControls.tsx", 290]],
+    "origin": [["src/components/SettingsControls.tsx", 300]],
     "translation": "选择您偏好的颜色主题"
-  },
-  "settings.tab.title": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/MobileSidebar.tsx",
-        249
-      ],
-      ["src/components/GlobalSidebar.tsx", 42]
-    ],
-    "translation": "显示和通知设置"
-  },
-  "settings.title": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [["src/components/GlobalSidebar.tsx", 47]],
-    "translation": "设置"
-  },
-  "settings.description": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [["src/components/GlobalSidebar.tsx", 50]],
-    "translation": "显示和行为设置"
-  },
-  "settings.loading": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/MobileSidebar.tsx",
-        102
-      ],
-      ["src/components/GlobalSidebar.tsx", 58]
-    ],
-    "translation": "正在加载设置..."
-  },
-  "settings.section.session_display": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [["src/components/GlobalSidebar.tsx", 66]],
-    "translation": "会话显示"
-  },
-  "settings.section.notifications": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [["src/components/GlobalSidebar.tsx", 73]],
-    "translation": "通知"
-  },
-  "settings.section.system_info": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [["src/components/GlobalSidebar.tsx", 86]],
-    "translation": "系统信息"
   },
   "projects.page.description": {
     "placeholders": {},
@@ -456,37 +484,37 @@
   "project.new": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/app/projects/components/SetupProjectDialog.tsx", 62]],
+    "origin": [["src/app/projects/components/SetupProjectDialog.tsx", 65]],
     "translation": "新建项目"
   },
   "project.setup.title": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/app/projects/components/SetupProjectDialog.tsx", 68]],
+    "origin": [["src/app/projects/components/SetupProjectDialog.tsx", 71]],
     "translation": "设置新项目"
   },
   "project.setup.description": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/app/projects/components/SetupProjectDialog.tsx", 71]],
+    "origin": [["src/app/projects/components/SetupProjectDialog.tsx", 74]],
     "translation": "导航到要设置为 Claude Code 项目的目录。如果存在 CLAUDE.md,它将描述项目;否则使用 <0>/init</0> 初始化。"
   },
   "common.action.cancel": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/app/projects/components/SetupProjectDialog.tsx", 84]],
+    "origin": [["src/app/projects/components/SetupProjectDialog.tsx", 87]],
     "translation": "取消"
   },
   "project.setup.action.setting_up": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/app/projects/components/SetupProjectDialog.tsx", 93]],
+    "origin": [["src/app/projects/components/SetupProjectDialog.tsx", 96]],
     "translation": "正在设置..."
   },
   "project.setup.action.setup": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/app/projects/components/SetupProjectDialog.tsx", 96]],
+    "origin": [["src/app/projects/components/SetupProjectDialog.tsx", 99]],
     "translation": "设置项目"
   },
   "directory_picker.current": {
@@ -523,7 +551,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionSidebar.tsx",
-        46
+        47
       ]
     ],
     "translation": "显示会话列表"
@@ -538,7 +566,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionSidebar.tsx",
-        59
+        60
       ]
     ],
     "translation": "显示 MCP 服务器设置"
@@ -549,7 +577,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionSidebar.tsx",
-        65
+        66
       ]
     ],
     "translation": "显示定时任务"
@@ -564,7 +592,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionSidebar.tsx",
-        95
+        96
       ]
     ],
     "translation": "返回项目列表"
@@ -615,112 +643,16 @@
     ],
     "translation": "未找到 MCP 服务器"
   },
-  "control.branch": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        162
-      ],
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        250
-      ]
-    ],
-    "translation": "分支"
-  },
-  "control.session_id": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        177
-      ],
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        238
-      ]
-    ],
-    "translation": "会话 ID"
-  },
-  "session.conversation.running": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        188
-      ]
-    ],
-    "translation": "运行中"
-  },
-  "session.conversation.paused": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        197
-      ]
-    ],
-    "translation": "已暂停"
-  },
-  "control.metadata": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        215
-      ]
-    ],
-    "translation": "元数据"
-  },
-  "control.project_path": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        221
-      ]
-    ],
-    "translation": "项目路径"
-  },
-  "session.processing": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        288
-      ]
-    ],
-    "translation": "Claude Code 正在处理..."
-  },
   "sessions.title": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionsTab.tsx",
-        76
+        77
       ]
     ],
     "translation": "会话"
-  },
-  "sessions.new": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionsTab.tsx",
-        92
-      ]
-    ],
-    "translation": "新建"
   },
   "sessions.total": {
     "placeholders": {},
@@ -728,10 +660,29 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionsTab.tsx",
-        98
+        81
       ]
     ],
     "translation": "总计"
+  },
+  "chat.modal.title": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        182
+      ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        462
+      ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionsTab.tsx",
+        102
+      ]
+    ],
+    "translation": "开始新对话"
   },
   "session.status.running": {
     "placeholders": {},
@@ -739,7 +690,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionsTab.tsx",
-        143
+        147
       ]
     ],
     "translation": "运行中"
@@ -750,7 +701,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionsTab.tsx",
-        145
+        149
       ]
     ],
     "translation": "已暂停"
@@ -765,7 +716,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionsTab.tsx",
-        180
+        190
       ]
     ],
     "translation": "加载中..."
@@ -776,32 +727,54 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionsTab.tsx",
-        182
+        192
       ]
     ],
     "translation": "加载更多"
   },
-  "chat.resume": {
+  "settings.session.display": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ResumeChat.tsx",
-        48
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/MobileSidebar.tsx",
+        110
       ]
     ],
-    "translation": "继续"
+    "translation": "会话显示"
   },
-  "chat.send": {
+  "settings.notifications": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ContinueChat.tsx",
-        60
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/MobileSidebar.tsx",
+        117
       ]
     ],
-    "translation": "发送"
+    "translation": "通知"
+  },
+  "Close sidebar": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/MobileSidebar.tsx",
+        153
+      ]
+    ],
+    "translation": "关闭侧边栏"
+  },
+  "system.info.tab.title": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/MobileSidebar.tsx",
+        271
+      ]
+    ],
+    "translation": "显示系统信息"
   },
   "scheduler.title": {
     "placeholders": {},
@@ -930,117 +903,439 @@
     ],
     "translation": "删除"
   },
-  "control.git": {
+  "chat.button.start": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/StartNewChat.tsx",
+        50
+      ]
+    ],
+    "translation": "开始对话"
+  },
+  "chat.resume": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ResumeChat.tsx",
         55
       ]
     ],
-    "translation": "Git"
+    "translation": "继续"
   },
-  "control.new": {
+  "control.branch": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        75
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        237
+      ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        348
       ]
     ],
-    "translation": "新建"
+    "translation": "分支"
   },
-  "session.conversation.abort": {
+  "control.session_id": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        129
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        252
+      ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        335
       ]
     ],
-    "translation": "中止"
+    "translation": "会话 ID"
   },
-  "settings.session.display": {
+  "session.conversation.running": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/MobileSidebar.tsx",
-        110
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        263
       ]
     ],
-    "translation": "会话显示"
+    "translation": "运行中"
   },
-  "settings.notifications": {
+  "session.conversation.paused": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/MobileSidebar.tsx",
-        117
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        272
       ]
     ],
-    "translation": "通知"
+    "translation": "已暂停"
   },
-  "Close sidebar": {
+  "control.metadata": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/MobileSidebar.tsx",
-        153
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        311
       ]
     ],
-    "translation": "关闭侧边栏"
+    "translation": "元数据"
   },
-  "system.info.tab.title": {
+  "control.project_path": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/MobileSidebar.tsx",
-        271
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        317
       ]
     ],
-    "translation": "显示系统信息"
+    "translation": "项目路径"
   },
-  "assistant.tool.view_task": {
+  "session.cost.label": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationModal/SidechainConversationModal.tsx",
-        67
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        362
       ]
     ],
-    "translation": "查看任务"
+    "translation": "会话成本"
   },
-  "assistant.tool.task_id": {
+  "session.cost.total": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationModal/SidechainConversationModal.tsx",
-        96
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        369
       ]
     ],
-    "translation": "任务 ID"
+    "translation": "总计"
   },
-  "assistant.tool.message_count": {
-    "placeholders": {
-      "count": ["messageCount"]
-    },
+  "session.cost.input_tokens": {
+    "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationModal/SidechainConversationModal.tsx",
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        377
+      ]
+    ],
+    "translation": "输入令牌"
+  },
+  "session.cost.output_tokens": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        391
+      ]
+    ],
+    "translation": "输出令牌"
+  },
+  "session.cost.cache_creation": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        405
+      ]
+    ],
+    "translation": "缓存创建"
+  },
+  "session.cost.cache_read": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        419
+      ]
+    ],
+    "translation": "缓存读取"
+  },
+  "session.empty_state.description": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        465
+      ]
+    ],
+    "translation": ""
+  },
+  "session.processing": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        479
+      ]
+    ],
+    "translation": "Claude Code 正在处理..."
+  },
+  "permission.mode.change.disabled.running": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/PermissionModeSelector.tsx",
+        87
+      ]
+    ],
+    "translation": "会话运行时无法更改权限模式"
+  },
+  "permission.mode.change.tooltip": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/PermissionModeSelector.tsx",
         103
       ]
     ],
-    "translation": "{count} 条消息"
+    "translation": "点击更改权限模式"
+  },
+  "permission.mode.select.title": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/PermissionModeSelector.tsx",
+        111
+      ]
+    ],
+    "translation": "选择权限模式"
+  },
+  "cron_builder.sunday": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
+        30
+      ]
+    ],
+    "translation": "星期日"
+  },
+  "cron_builder.monday": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
+        34
+      ]
+    ],
+    "translation": "星期一"
+  },
+  "cron_builder.tuesday": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
+        38
+      ]
+    ],
+    "translation": "星期二"
+  },
+  "cron_builder.wednesday": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
+        42
+      ]
+    ],
+    "translation": "星期三"
+  },
+  "cron_builder.thursday": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
+        46
+      ]
+    ],
+    "translation": "星期四"
+  },
+  "cron_builder.friday": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
+        50
+      ]
+    ],
+    "translation": "星期五"
+  },
+  "cron_builder.saturday": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
+        54
+      ]
+    ],
+    "translation": "星期六"
+  },
+  "cron_builder.schedule_type": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
+        210
+      ]
+    ],
+    "translation": "调度类型"
+  },
+  "cron_builder.hourly": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
+        218
+      ]
+    ],
+    "translation": "每小时"
+  },
+  "cron_builder.daily": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
+        221
+      ]
+    ],
+    "translation": "每天"
+  },
+  "cron_builder.weekly": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
+        224
+      ]
+    ],
+    "translation": "每周"
+  },
+  "cron_builder.custom": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
+        227
+      ]
+    ],
+    "translation": "自定义"
+  },
+  "cron_builder.hour": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
+        237
+      ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
+        287
+      ]
+    ],
+    "translation": "小时(0-23)"
+  },
+  "cron_builder.minute": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
+        249
+      ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
+        299
+      ]
+    ],
+    "translation": "分钟(0-59)"
+  },
+  "cron_builder.day_of_week": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
+        266
+      ]
+    ],
+    "translation": "星期"
+  },
+  "cron_builder.cron_expression": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
+        316
+      ]
+    ],
+    "translation": "Cron 表达式"
+  },
+  "cron_builder.preview": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
+        328
+      ]
+    ],
+    "translation": "预览"
+  },
+  "cron_builder.expression": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
+        340
+      ]
+    ],
+    "translation": "Cron 表达式"
+  },
+  "chat.send": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ContinueChat.tsx",
+        97
+      ]
+    ],
+    "translation": "发送"
   },
   "scheduler.dialog.title.edit": {
     "placeholders": {},
@@ -1251,6 +1546,39 @@
     ],
     "translation": "创建"
   },
+  "control.git": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
+        81
+      ]
+    ],
+    "translation": "Git"
+  },
+  "control.new": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
+        99
+      ]
+    ],
+    "translation": "新建"
+  },
+  "session.conversation.abort": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
+        161
+      ]
+    ],
+    "translation": "中止"
+  },
   "user.content.image": {
     "placeholders": {},
     "comments": [],
@@ -1343,317 +1671,49 @@
     ],
     "translation": "不支持显示此文档类型"
   },
-  "conversation.error.schema": {
+  "assistant.thinking": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/ConversationList.tsx",
-        55
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/AssistantConversationContent.tsx",
+        66
       ]
     ],
-    "translation": "模式错误"
+    "translation": "思考中"
   },
-  "conversation.error.schema_validation": {
+  "assistant.tool.tool_id": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/ConversationList.tsx",
-        70
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/AssistantConversationContent.tsx",
+        145
       ]
     ],
-    "translation": "模式验证错误"
+    "translation": "工具 ID"
   },
-  "conversation.error.schema_validation.description": {
+  "assistant.tool.input_parameters": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/ConversationList.tsx",
-        73
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/AssistantConversationContent.tsx",
+        153
       ]
     ],
-    "translation": "无法解析此对话条目。这可能是由于格式更改或解析问题。"
+    "translation": "输入参数"
   },
-  "conversation.error.report_issue": {
+  "assistant.tool.result": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/ConversationList.tsx",
-        80
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/AssistantConversationContent.tsx",
+        167
       ]
     ],
-    "translation": "报告此问题"
-  },
-  "conversation.error.raw_content": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/ConversationList.tsx",
-        87
-      ]
-    ],
-    "translation": "原始数据:"
-  },
-  "chat.modal.title": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      ["src/app/projects/[projectId]/components/newChat/NewChatModal.tsx", 33]
-    ],
-    "translation": "开始新对话"
-  },
-  "Type your message here... (Start with / for commands, @ for files, Enter to send)": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      ["src/app/projects/[projectId]/components/newChat/NewChat.tsx", 28]
-    ],
-    "translation": "在此输入消息...(输入 / 使用命令,@ 使用文件,Enter 发送)"
-  },
-  "Type your message here... (Start with / for commands, @ for files, Command+Enter to send)": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      ["src/app/projects/[projectId]/components/newChat/NewChat.tsx", 33]
-    ],
-    "translation": "在此输入消息...(输入 / 使用命令,@ 使用文件,Command+Enter 发送)"
-  },
-  "Type your message here... (Start with / for commands, @ for files, Shift+Enter to send)": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      ["src/app/projects/[projectId]/components/newChat/NewChat.tsx", 37]
-    ],
-    "translation": "在此输入消息...(输入 / 使用命令,@ 使用文件,Shift+Enter 发送)"
-  },
-  "chat.button.start": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      ["src/app/projects/[projectId]/components/newChat/NewChat.tsx", 49]
-    ],
-    "translation": "开始对话"
-  },
-  "cron_builder.sunday": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
-        30
-      ]
-    ],
-    "translation": "星期日"
-  },
-  "cron_builder.monday": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
-        34
-      ]
-    ],
-    "translation": "星期一"
-  },
-  "cron_builder.tuesday": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
-        38
-      ]
-    ],
-    "translation": "星期二"
-  },
-  "cron_builder.wednesday": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
-        42
-      ]
-    ],
-    "translation": "星期三"
-  },
-  "cron_builder.thursday": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
-        46
-      ]
-    ],
-    "translation": "星期四"
-  },
-  "cron_builder.friday": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
-        50
-      ]
-    ],
-    "translation": "星期五"
-  },
-  "cron_builder.saturday": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
-        54
-      ]
-    ],
-    "translation": "星期六"
-  },
-  "cron_builder.schedule_type": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
-        210
-      ]
-    ],
-    "translation": "调度类型"
-  },
-  "cron_builder.hourly": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
-        218
-      ]
-    ],
-    "translation": "每小时"
-  },
-  "cron_builder.daily": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
-        221
-      ]
-    ],
-    "translation": "每天"
-  },
-  "cron_builder.weekly": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
-        224
-      ]
-    ],
-    "translation": "每周"
-  },
-  "cron_builder.custom": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
-        227
-      ]
-    ],
-    "translation": "自定义"
-  },
-  "cron_builder.hour": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
-        237
-      ],
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
-        287
-      ]
-    ],
-    "translation": "小时(0-23)"
-  },
-  "cron_builder.minute": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
-        249
-      ],
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
-        299
-      ]
-    ],
-    "translation": "分钟(0-59)"
-  },
-  "cron_builder.day_of_week": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
-        266
-      ]
-    ],
-    "translation": "星期"
-  },
-  "cron_builder.cron_expression": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
-        316
-      ]
-    ],
-    "translation": "Cron 表达式"
-  },
-  "cron_builder.preview": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
-        328
-      ]
-    ],
-    "translation": "预览"
-  },
-  "cron_builder.expression": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/CronExpressionBuilder.tsx",
-        340
-      ]
-    ],
-    "translation": "Cron 表达式"
-  },
-  "Available files and directories": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
-        267
-      ]
-    ],
-    "translation": "可用的文件和目录"
+    "translation": "工具结果"
   },
   "diff.files.changed": {
     "placeholders": {},
@@ -1897,71 +1957,161 @@
     ],
     "translation": "加载差异中..."
   },
-  "assistant.thinking": {
+  "conversation.error.schema": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/AssistantConversationContent.tsx",
-        61
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/ConversationList.tsx",
+        71
       ]
     ],
-    "translation": "思考中"
+    "translation": "模式错误"
+  },
+  "conversation.error.schema_validation": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/ConversationList.tsx",
+        86
+      ]
+    ],
+    "translation": "模式验证错误"
+  },
+  "conversation.error.schema_validation.description": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/ConversationList.tsx",
+        89
+      ]
+    ],
+    "translation": "无法解析此对话条目。这可能是由于格式更改或解析问题。"
+  },
+  "conversation.error.report_issue": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/ConversationList.tsx",
+        96
+      ]
+    ],
+    "translation": "报告此问题"
+  },
+  "conversation.error.raw_content": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/ConversationList.tsx",
+        103
+      ]
+    ],
+    "translation": "原始数据:"
   },
   "assistant.tool.view_task_details": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/AssistantConversationContent.tsx",
-        118
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/TaskModal.tsx",
+        124
       ]
     ],
     "translation": "查看任务详情"
   },
-  "assistant.tool.tool_id": {
+  "assistant.tool.task_id": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/AssistantConversationContent.tsx",
-        157
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/TaskModal.tsx",
+        146
       ]
     ],
-    "translation": "工具 ID"
+    "translation": "任务 ID"
   },
-  "assistant.tool.input_parameters": {
-    "placeholders": {},
+  "assistant.tool.message_count": {
+    "placeholders": {
+      "count": ["conversations.length"]
+    },
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/AssistantConversationContent.tsx",
-        165
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/TaskModal.tsx",
+        155
       ]
     ],
-    "translation": "输入参数"
+    "translation": "{count} 条消息"
   },
-  "assistant.tool.result": {
+  "assistant.tool.loading_task": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/AssistantConversationContent.tsx",
-        179
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/TaskModal.tsx",
+        169
       ]
     ],
-    "translation": "工具结果"
+    "translation": ""
   },
-  "Available commands": {
+  "assistant.tool.error_loading_task": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/components/chatForm/CommandCompletion.tsx",
-        193
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/TaskModal.tsx",
+        177
       ]
     ],
-    "translation": "可用命令"
+    "translation": ""
+  },
+  "assistant.tool.retry": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/TaskModal.tsx",
+        180
+      ]
+    ],
+    "translation": ""
+  },
+  "assistant.tool.no_task_data": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/TaskModal.tsx",
+        187
+      ]
+    ],
+    "translation": ""
+  },
+  "assistant.tool.no_task_data_description": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/TaskModal.tsx",
+        190
+      ]
+    ],
+    "translation": ""
+  },
+  "Available files and directories": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
+        267
+      ]
+    ],
+    "translation": "可用的文件和目录"
   },
   "chat.error.send_failed": {
     "placeholders": {},
@@ -2034,6 +2184,17 @@
       ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 541]
     ],
     "translation": "处理中..."
+  },
+  "Available commands": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/components/chatForm/CommandCompletion.tsx",
+        193
+      ]
+    ],
+    "translation": "可用命令"
   },
   "scheduler.create_job": {
     "message": "Create Job",
@@ -2156,7 +2317,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        68
+        92
       ]
     ],
     "translation": "新建对话"
@@ -2168,7 +2329,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        48
+        74
       ]
     ],
     "translation": "打开 Git 对话框"
@@ -2192,7 +2353,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        104
+        126
       ]
     ],
     "translation": "滚动到底部"
@@ -2204,7 +2365,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        88
+        110
       ]
     ],
     "translation": "滚动到顶部"
@@ -2221,18 +2382,6 @@
     ],
     "translation": "输入要发送给 Claude Code 的消息...(输入 / 使用命令,@ 使用文件)"
   },
-  "chat.placeholder.resume.command_enter": {
-    "message": "Type your message... (Start with / for commands, @ for files, Command+Enter to send)",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ResumeChat.tsx",
-        35
-      ]
-    ],
-    "translation": "输入消息...(输入 / 使用命令,@ 使用文件,Command+Enter 发送)"
-  },
   "chat.placeholder.continue.command_enter": {
     "message": "Type your message... (Start with / for commands, @ for files, Command+Enter to send)",
     "placeholders": {},
@@ -2240,22 +2389,26 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ContinueChat.tsx",
-        37
+        66
+      ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/StartNewChat.tsx",
+        29
       ]
     ],
     "translation": "输入消息...(输入 / 使用命令,@ 使用文件,Command+Enter 发送)"
   },
-  "chat.placeholder.resume.enter": {
-    "message": "Type your message... (Start with / for commands, @ for files, Enter to send)",
+  "chat.placeholder.resume.command_enter": {
+    "message": "Type your message... (Start with / for commands, @ for files, Command+Enter to send)",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ResumeChat.tsx",
-        28
+        42
       ]
     ],
-    "translation": "输入消息...(输入 / 使用命令,@ 使用文件,Enter 发送)"
+    "translation": "输入消息...(输入 / 使用命令,@ 使用文件,Command+Enter 发送)"
   },
   "chat.placeholder.continue.enter": {
     "message": "Type your message... (Start with / for commands, @ for files, Enter to send)",
@@ -2264,22 +2417,26 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ContinueChat.tsx",
-        30
+        59
+      ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/StartNewChat.tsx",
+        22
       ]
     ],
     "translation": "输入消息...(输入 / 使用命令,@ 使用文件,Enter 发送)"
   },
-  "chat.placeholder.resume.shift_enter": {
-    "message": "Type your message... (Start with / for commands, @ for files, Shift+Enter to send)",
+  "chat.placeholder.resume.enter": {
+    "message": "Type your message... (Start with / for commands, @ for files, Enter to send)",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ResumeChat.tsx",
-        41
+        35
       ]
     ],
-    "translation": "输入消息...(输入 / 使用命令,@ 使用文件,Shift+Enter 发送)"
+    "translation": "输入消息...(输入 / 使用命令,@ 使用文件,Enter 发送)"
   },
   "chat.placeholder.continue.shift_enter": {
     "message": "Type your message... (Start with / for commands, @ for files, Shift+Enter to send)",
@@ -2288,7 +2445,23 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ContinueChat.tsx",
-        43
+        72
+      ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/StartNewChat.tsx",
+        35
+      ]
+    ],
+    "translation": "输入消息...(输入 / 使用命令,@ 使用文件,Shift+Enter 发送)"
+  },
+  "chat.placeholder.resume.shift_enter": {
+    "message": "Type your message... (Start with / for commands, @ for files, Shift+Enter to send)",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ResumeChat.tsx",
+        48
       ]
     ],
     "translation": "输入消息...(输入 / 使用命令,@ 使用文件,Shift+Enter 发送)"
@@ -2301,41 +2474,5 @@
       ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 210]
     ],
     "translation": "您可以在定时任务选项卡中查看和管理"
-  },
-  "session.cost.label": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [],
-    "translation": "会话成本"
-  },
-  "session.cost.total": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [],
-    "translation": "总计"
-  },
-  "session.cost.input_tokens": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [],
-    "translation": "输入令牌"
-  },
-  "session.cost.output_tokens": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [],
-    "translation": "输出令牌"
-  },
-  "session.cost.cache_creation": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [],
-    "translation": "缓存创建"
-  },
-  "session.cost.cache_read": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [],
-    "translation": "缓存读取"
   }
 }
