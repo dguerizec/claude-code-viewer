@@ -17,38 +17,160 @@ import {
 } from "../SSEContext";
 import { sseAtom } from "../store/sseAtom";
 
+const RECONNECT_DELAY_MS = 3000;
+const HEARTBEAT_INTERVAL_MS = 10_000;
+const HEARTBEAT_TIMEOUT_MS = HEARTBEAT_INTERVAL_MS * 3; // 30 seconds
+
 export const ServerEventsProvider: FC<PropsWithChildren> = ({ children }) => {
   const sseRef = useRef<ReturnType<typeof callSSE> | null>(null);
   const listenersRef = useRef<
     Map<SSEEvent["kind"], Set<(event: SSEEvent) => void>>
   >(new Map());
+  const sseListenerCleanupsRef = useRef<Array<() => void>>([]);
+  const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const heartbeatCheckIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const lastHeartbeatRef = useRef<number>(Date.now());
   const [, setSSEState] = useAtom(sseAtom);
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    const sse = callSSE({
-      onOpen: async () => {
-        // reconnect 中のイベントは購読できないので
-        // open 時にまとめて invalidate する
-        await queryClient.invalidateQueries({
-          queryKey: projectListQuery.queryKey,
-        });
-      },
-    });
-    sseRef.current = sse;
+    const stopHeartbeatCheck = () => {
+      if (heartbeatCheckIntervalRef.current) {
+        clearInterval(heartbeatCheckIntervalRef.current);
+        heartbeatCheckIntervalRef.current = null;
+      }
+    };
 
-    const { removeEventListener } = sse.addEventListener("connect", (event) => {
-      setSSEState({
-        isConnected: true,
+    const checkHeartbeatAndReconnectIfNeeded = () => {
+      const timeSinceLastHeartbeat = Date.now() - lastHeartbeatRef.current;
+      if (timeSinceLastHeartbeat > HEARTBEAT_TIMEOUT_MS) {
+        console.log(
+          `SSE heartbeat timeout (${timeSinceLastHeartbeat}ms since last heartbeat), forcing reconnection...`,
+        );
+        stopHeartbeatCheck();
+        // Force close and reconnect
+        if (sseRef.current) {
+          sseRef.current.cleanUp();
+          sseRef.current = null;
+        }
+        setSSEState({ isConnected: false });
+        // Schedule reconnection
+        if (reconnectTimeoutRef.current) {
+          clearTimeout(reconnectTimeoutRef.current);
+        }
+        reconnectTimeoutRef.current = setTimeout(() => {
+          console.log("SSE reconnecting after heartbeat timeout...");
+          createSSEConnection();
+        }, RECONNECT_DELAY_MS);
+        return true;
+      }
+      return false;
+    };
+
+    const startHeartbeatCheck = () => {
+      stopHeartbeatCheck();
+      lastHeartbeatRef.current = Date.now();
+      heartbeatCheckIntervalRef.current = setInterval(() => {
+        checkHeartbeatAndReconnectIfNeeded();
+      }, HEARTBEAT_INTERVAL_MS);
+    };
+
+    // Check connection when tab becomes visible again
+    // (setInterval is throttled in background tabs)
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        checkHeartbeatAndReconnectIfNeeded();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    const createSSEConnection = () => {
+      // Clean up previous connection if any
+      if (sseRef.current) {
+        sseRef.current.cleanUp();
+      }
+      for (const cleanup of sseListenerCleanupsRef.current) {
+        cleanup();
+      }
+      sseListenerCleanupsRef.current = [];
+      stopHeartbeatCheck();
+
+      const sse = callSSE({
+        onError: (_event, isClosed) => {
+          if (isClosed) {
+            setSSEState({ isConnected: false });
+            console.log(
+              `SSE connection closed, reconnecting in ${RECONNECT_DELAY_MS}ms...`,
+            );
+            // Schedule reconnection
+            if (reconnectTimeoutRef.current) {
+              clearTimeout(reconnectTimeoutRef.current);
+            }
+            reconnectTimeoutRef.current = setTimeout(() => {
+              console.log("SSE reconnecting...");
+              createSSEConnection();
+            }, RECONNECT_DELAY_MS);
+          }
+        },
       });
+      sseRef.current = sse;
 
-      console.log("SSE connected", event);
-    });
+      // Register the "connect" listener
+      const { removeEventListener: removeConnectListener } =
+        sse.addEventListener("connect", async (event) => {
+          setSSEState({
+            isConnected: true,
+          });
+          console.log("SSE connected", event);
+          // Start heartbeat monitoring after successful connection
+          startHeartbeatCheck();
+          // Invalidate queries to refresh data that may have changed during disconnection
+          // This is done here (on "connect" event) rather than on EventSource "open"
+          // because we only want to invalidate once the server confirms the connection
+          await queryClient.invalidateQueries({
+            queryKey: projectListQuery.queryKey,
+          });
+        });
+      sseListenerCleanupsRef.current.push(removeConnectListener);
+
+      // Register the "heartbeat" listener to track connection liveness
+      const { removeEventListener: removeHeartbeatListener } =
+        sse.addEventListener("heartbeat", () => {
+          lastHeartbeatRef.current = Date.now();
+        });
+      sseListenerCleanupsRef.current.push(removeHeartbeatListener);
+
+      // Re-register all existing listeners from listenersRef
+      for (const [eventType, listeners] of listenersRef.current.entries()) {
+        for (const listener of listeners) {
+          const { removeEventListener } = sse.addEventListener(
+            eventType,
+            (event) => {
+              listener(event as SSEEvent);
+            },
+          );
+          sseListenerCleanupsRef.current.push(removeEventListener);
+        }
+      }
+    };
+
+    createSSEConnection();
 
     return () => {
-      // clean up
-      sse.cleanUp();
-      removeEventListener();
+      // Clean up on unmount
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      stopHeartbeatCheck();
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+      }
+      if (sseRef.current) {
+        sseRef.current.cleanUp();
+      }
+      for (const cleanup of sseListenerCleanupsRef.current) {
+        cleanup();
+      }
+      sseListenerCleanupsRef.current = [];
     };
   }, [setSSEState, queryClient]);
 
