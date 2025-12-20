@@ -1,37 +1,47 @@
 {
-  "sidebar.show.all.projects.session.list": {
-    "translation": "Show Session List (all projects)",
+  "session.context.tooltip": {
+    "translation": "Context Window Usage",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionSidebar.tsx",
-        62
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        327
       ]
     ]
   },
-  "sessions.all_projects.title": {
-    "translation": "Sessions (all projects)",
+  "session.context.label": {
+    "translation": "Context Window",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/AllProjectsSessionsTab.tsx",
-        73
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        518
       ]
     ]
   },
-  "notfound.session.title": {
+  "session.context.current_tokens": {
+    "translation": "Current tokens",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/routes/projects/$projectId/session.tsx", 20]],
-    "translation": "Session Not Found"
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        542
+      ]
+    ]
   },
-  "notfound.session.description": {
+  "session.context.max_tokens": {
+    "translation": "Max tokens",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/routes/projects/$projectId/session.tsx", 21]],
-    "translation": "The session you are looking for does not exist."
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        551
+      ]
+    ]
   },
   "notification.none": {
     "placeholders": {},
@@ -62,6 +72,48 @@
     "comments": [],
     "origin": [["src/lib/notifications.tsx", 107]],
     "translation": "Pop"
+  },
+  "notfound.session.title": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/routes/projects/$projectId/session.tsx", 20]],
+    "translation": "Session Not Found"
+  },
+  "notfound.session.description": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/routes/projects/$projectId/session.tsx", 21]],
+    "translation": "The session you are looking for does not exist."
+  },
+  "notfound.default.title": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/NotFound.tsx", 19]],
+    "translation": "Page Not Found"
+  },
+  "notfound.default.description": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/NotFound.tsx", 20]],
+    "translation": "The page you are looking for does not exist or has been moved."
+  },
+  "notfound.button.go_home": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/NotFound.tsx", 43]],
+    "translation": "Go Home"
+  },
+  "notification.test": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/NotificationSettings.tsx", 90]],
+    "translation": "Test"
+  },
+  "notification.description": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/NotificationSettings.tsx", 97]],
+    "translation": "Select sound to play when Claude Code task completes"
   },
   "system_info.feature.tool_approval.title": {
     "placeholders": {},
@@ -146,36 +198,6 @@
     "comments": [],
     "origin": [["src/components/SystemInfoCard.tsx", 124]],
     "translation": "Available Features"
-  },
-  "notification.test": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [["src/components/NotificationSettings.tsx", 90]],
-    "translation": "Test"
-  },
-  "notification.description": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [["src/components/NotificationSettings.tsx", 97]],
-    "translation": "Select sound to play when Claude Code task completes"
-  },
-  "notfound.default.title": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [["src/components/NotFound.tsx", 19]],
-    "translation": "Page Not Found"
-  },
-  "notfound.default.description": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [["src/components/NotFound.tsx", 20]],
-    "translation": "The page you are looking for does not exist or has been moved."
-  },
-  "notfound.button.go_home": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [["src/components/NotFound.tsx", 43]],
-    "translation": "Go Home"
   },
   "settings.session.hide_no_user_message": {
     "placeholders": {},
@@ -365,20 +387,20 @@
         "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/MobileSidebar.tsx",
         249
       ],
-      ["src/components/GlobalSidebar.tsx", 42]
+      ["src/components/GlobalSidebar.tsx", 44]
     ],
     "translation": "Display and Notification Settings"
   },
   "settings.title": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/GlobalSidebar.tsx", 47]],
+    "origin": [["src/components/GlobalSidebar.tsx", 49]],
     "translation": "Settings"
   },
   "settings.description": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/GlobalSidebar.tsx", 50]],
+    "origin": [["src/components/GlobalSidebar.tsx", 52]],
     "translation": "Display and behavior settings"
   },
   "settings.loading": {
@@ -389,26 +411,26 @@
         "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/MobileSidebar.tsx",
         102
       ],
-      ["src/components/GlobalSidebar.tsx", 58]
+      ["src/components/GlobalSidebar.tsx", 60]
     ],
     "translation": "Loading settings..."
   },
   "settings.section.session_display": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/GlobalSidebar.tsx", 66]],
+    "origin": [["src/components/GlobalSidebar.tsx", 68]],
     "translation": "Session Display"
   },
   "settings.section.notifications": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/GlobalSidebar.tsx", 73]],
+    "origin": [["src/components/GlobalSidebar.tsx", 75]],
     "translation": "Notifications"
   },
   "settings.section.system_info": {
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/GlobalSidebar.tsx", 86]],
+    "origin": [["src/components/GlobalSidebar.tsx", 88]],
     "translation": "System Information"
   },
   "projects.page.description": {
@@ -529,10 +551,21 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionSidebar.tsx",
-        49
+        69
       ]
     ],
     "translation": "Show Session List"
+  },
+  "sidebar.show.all.projects.session.list": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionSidebar.tsx",
+        82
+      ]
+    ],
+    "translation": "Show Session List (all projects)"
   },
   "sidebar.show.mcp.settings": {
     "placeholders": {},
@@ -544,7 +577,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionSidebar.tsx",
-        72
+        92
       ]
     ],
     "translation": "Show MCP Server Settings"
@@ -555,7 +588,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionSidebar.tsx",
-        78
+        98
       ]
     ],
     "translation": "Show Scheduler Jobs"
@@ -570,10 +603,111 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionSidebar.tsx",
-        108
+        129
       ]
     ],
     "translation": "Back to Projects"
+  },
+  "sessions.title": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionsTab.tsx",
+        48
+      ]
+    ],
+    "translation": "Sessions"
+  },
+  "sessions.total": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/AllProjectsSessionsTab.tsx",
+        46
+      ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionsTab.tsx",
+        52
+      ]
+    ],
+    "translation": "Total"
+  },
+  "chat.modal.title": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        227
+      ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        588
+      ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionsTab.tsx",
+        73
+      ]
+    ],
+    "translation": "Start New Chat"
+  },
+  "common.loading": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
+        419
+      ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/AllProjectsSessionsTab.tsx",
+        82
+      ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionsTab.tsx",
+        108
+      ]
+    ],
+    "translation": "Loading..."
+  },
+  "sessions.load.more": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/AllProjectsSessionsTab.tsx",
+        84
+      ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionsTab.tsx",
+        110
+      ]
+    ],
+    "translation": "Load More"
+  },
+  "session.status.running": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionListItem.tsx",
+        74
+      ]
+    ],
+    "translation": "Running"
+  },
+  "session.status.paused": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionListItem.tsx",
+        76
+      ]
+    ],
+    "translation": "Paused"
   },
   "mcp.title": {
     "placeholders": {},
@@ -621,114 +755,16 @@
     ],
     "translation": "No MCP Servers Found"
   },
-  "sessions.title": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionsTab.tsx",
-        77
-      ]
-    ],
-    "translation": "Sessions"
-  },
-  "sessions.total": {
+  "sessions.all_projects.title": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/AllProjectsSessionsTab.tsx",
-        77
-      ],
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionsTab.tsx",
-        81
+        42
       ]
     ],
-    "translation": "Total"
-  },
-  "chat.modal.title": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        226
-      ],
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        506
-      ],
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionsTab.tsx",
-        102
-      ]
-    ],
-    "translation": "Start New Chat"
-  },
-  "session.status.running": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/AllProjectsSessionsTab.tsx",
-        122
-      ],
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionsTab.tsx",
-        147
-      ]
-    ],
-    "translation": "Running"
-  },
-  "session.status.paused": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/AllProjectsSessionsTab.tsx",
-        124
-      ],
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionsTab.tsx",
-        149
-      ]
-    ],
-    "translation": "Paused"
-  },
-  "common.loading": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        419
-      ],
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/AllProjectsSessionsTab.tsx",
-        170
-      ],
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionsTab.tsx",
-        190
-      ]
-    ],
-    "translation": "Loading..."
-  },
-  "sessions.load.more": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/AllProjectsSessionsTab.tsx",
-        172
-      ],
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/SessionsTab.tsx",
-        192
-      ]
-    ],
-    "translation": "Load More"
+    "translation": "Sessions (all projects)"
   },
   "settings.session.display": {
     "placeholders": {},
@@ -773,6 +809,17 @@
       ]
     ],
     "translation": "Show System Information"
+  },
+  "chat.resume": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ResumeChat.tsx",
+        55
+      ]
+    ],
+    "translation": "Resume"
   },
   "scheduler.title": {
     "placeholders": {},
@@ -886,225 +933,167 @@
     ],
     "translation": "Delete"
   },
-  "chat.resume": {
+  "control.branch": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ResumeChat.tsx",
-        55
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        282
+      ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        427
       ]
     ],
-    "translation": "Resume"
+    "translation": "Branch"
   },
-  "scheduler.dialog.title.edit": {
+  "control.session_id": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
-        164
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        297
+      ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        414
       ]
     ],
-    "translation": "Edit Scheduled Job"
+    "translation": "Session ID"
   },
-  "scheduler.dialog.title.create": {
+  "session.conversation.running": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
-        166
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        342
       ]
     ],
-    "translation": "Create Scheduled Job"
+    "translation": "Running"
   },
-  "scheduler.dialog.description": {
+  "session.conversation.paused": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
-        170
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        351
       ]
     ],
-    "translation": "Configure a scheduled job to send messages to Claude Code"
+    "translation": "Paused"
   },
-  "scheduler.form.enabled": {
+  "control.metadata": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
-        179
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        390
       ]
     ],
-    "translation": "Enable"
+    "translation": "Metadata"
   },
-  "scheduler.form.enabled.description": {
+  "control.project_path": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
-        182
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        396
       ]
     ],
-    "translation": "Enable or disable this scheduled job"
+    "translation": "Project Path"
   },
-  "scheduler.form.name": {
+  "session.cost.label": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
-        196
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        441
       ]
     ],
-    "translation": "Job Name"
+    "translation": "Session Cost"
   },
-  "scheduler.form.schedule_type": {
+  "session.cost.total": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
-        213
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        448
       ]
     ],
-    "translation": "Schedule Type"
+    "translation": "Total"
   },
-  "scheduler.form.schedule_type.cron": {
+  "session.cost.input_tokens": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
-        227
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        456
       ]
     ],
-    "translation": "Recurring (Cron)"
+    "translation": "Input tokens"
   },
-  "scheduler.form.schedule_type.reserved": {
+  "session.cost.output_tokens": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
-        230
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        470
       ]
     ],
-    "translation": "One-time Execution"
+    "translation": "Output tokens"
   },
-  "scheduler.form.reserved_time": {
+  "session.cost.cache_creation": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
-        245
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        484
       ]
     ],
-    "translation": "Scheduled Execution Time"
+    "translation": "Cache creation"
   },
-  "scheduler.form.reserved_time.hint": {
+  "session.cost.cache_read": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
-        255
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        498
       ]
     ],
-    "translation": "Will be executed once at the specified date and time, then automatically deleted"
+    "translation": "Cache read"
   },
-  "scheduler.form.message": {
+  "session.empty_state.description": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
-        263
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        591
       ]
     ],
-    "translation": "Message Content"
+    "translation": "session.empty_state.description"
   },
-  "scheduler.form.message.hint": {
+  "session.processing": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
-        309
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
+        605
       ]
     ],
-    "translation": "/ for command completion, @ for file completion"
-  },
-  "scheduler.form.concurrency_policy": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
-        317
-      ]
-    ],
-    "translation": "Concurrency Policy"
-  },
-  "scheduler.form.concurrency_policy.skip": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
-        331
-      ]
-    ],
-    "translation": "Skip if already running"
-  },
-  "scheduler.form.concurrency_policy.run": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
-        334
-      ]
-    ],
-    "translation": "Run even if already running"
-  },
-  "common.saving": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
-        355
-      ]
-    ],
-    "translation": "Saving..."
-  },
-  "common.update": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
-        357
-      ]
-    ],
-    "translation": "Update"
-  },
-  "common.create": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
-        359
-      ]
-    ],
-    "translation": "Create"
+    "translation": "Claude Code is processing..."
   },
   "cron_builder.sunday": {
     "placeholders": {},
@@ -1318,21 +1307,219 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/StartNewChat.tsx",
-        57
+        58
       ]
     ],
     "translation": "Start Chat"
   },
-  "permission.mode.select.title": {
+  "scheduler.dialog.title.edit": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/PermissionModePopover.tsx",
-        80
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
+        164
       ]
     ],
-    "translation": "Select Permission Mode"
+    "translation": "Edit Scheduled Job"
+  },
+  "scheduler.dialog.title.create": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
+        166
+      ]
+    ],
+    "translation": "Create Scheduled Job"
+  },
+  "scheduler.dialog.description": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
+        170
+      ]
+    ],
+    "translation": "Configure a scheduled job to send messages to Claude Code"
+  },
+  "scheduler.form.enabled": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
+        179
+      ]
+    ],
+    "translation": "Enable"
+  },
+  "scheduler.form.enabled.description": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
+        182
+      ]
+    ],
+    "translation": "Enable or disable this scheduled job"
+  },
+  "scheduler.form.name": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
+        196
+      ]
+    ],
+    "translation": "Job Name"
+  },
+  "scheduler.form.schedule_type": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
+        213
+      ]
+    ],
+    "translation": "Schedule Type"
+  },
+  "scheduler.form.schedule_type.cron": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
+        227
+      ]
+    ],
+    "translation": "Recurring (Cron)"
+  },
+  "scheduler.form.schedule_type.reserved": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
+        230
+      ]
+    ],
+    "translation": "One-time Execution"
+  },
+  "scheduler.form.reserved_time": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
+        245
+      ]
+    ],
+    "translation": "Scheduled Execution Time"
+  },
+  "scheduler.form.reserved_time.hint": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
+        255
+      ]
+    ],
+    "translation": "Will be executed once at the specified date and time, then automatically deleted"
+  },
+  "scheduler.form.message": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
+        263
+      ]
+    ],
+    "translation": "Message Content"
+  },
+  "scheduler.form.message.hint": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
+        309
+      ]
+    ],
+    "translation": "/ for command completion, @ for file completion"
+  },
+  "scheduler.form.concurrency_policy": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
+        317
+      ]
+    ],
+    "translation": "Concurrency Policy"
+  },
+  "scheduler.form.concurrency_policy.skip": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
+        331
+      ]
+    ],
+    "translation": "Skip if already running"
+  },
+  "scheduler.form.concurrency_policy.run": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
+        334
+      ]
+    ],
+    "translation": "Run even if already running"
+  },
+  "common.saving": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
+        355
+      ]
+    ],
+    "translation": "Saving..."
+  },
+  "common.update": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
+        357
+      ]
+    ],
+    "translation": "Update"
+  },
+  "common.create": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/scheduler/SchedulerJobDialog.tsx",
+        359
+      ]
+    ],
+    "translation": "Create"
   },
   "permission.mode.change.tooltip": {
     "placeholders": {},
@@ -1474,168 +1661,6 @@
     ],
     "translation": "Interrupt and apply now"
   },
-  "control.branch": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        281
-      ],
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        392
-      ]
-    ],
-    "translation": "Branch"
-  },
-  "control.session_id": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        296
-      ],
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        379
-      ]
-    ],
-    "translation": "Session ID"
-  },
-  "session.conversation.running": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        307
-      ]
-    ],
-    "translation": "Running"
-  },
-  "session.conversation.paused": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        316
-      ]
-    ],
-    "translation": "Paused"
-  },
-  "control.metadata": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        355
-      ]
-    ],
-    "translation": "Metadata"
-  },
-  "control.project_path": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        361
-      ]
-    ],
-    "translation": "Project Path"
-  },
-  "session.cost.label": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        406
-      ]
-    ],
-    "translation": "Session Cost"
-  },
-  "session.cost.total": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        413
-      ]
-    ],
-    "translation": "Total"
-  },
-  "session.cost.input_tokens": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        421
-      ]
-    ],
-    "translation": "Input tokens"
-  },
-  "session.cost.output_tokens": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        435
-      ]
-    ],
-    "translation": "Output tokens"
-  },
-  "session.cost.cache_creation": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        449
-      ]
-    ],
-    "translation": "Cache creation"
-  },
-  "session.cost.cache_read": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        463
-      ]
-    ],
-    "translation": "Cache read"
-  },
-  "session.empty_state.description": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        509
-      ]
-    ],
-    "translation": "session.empty_state.description"
-  },
-  "session.processing": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        523
-      ]
-    ],
-    "translation": "Claude Code is processing..."
-  },
   "chat.queue.files_not_supported": {
     "placeholders": {},
     "comments": [],
@@ -1679,10 +1704,21 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ContinueChat.tsx",
-        288
+        289
       ]
     ],
     "translation": "Send"
+  },
+  "permission.mode.select.title": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/PermissionModePopover.tsx",
+        80
+      ]
+    ],
+    "translation": "Select Permission Mode"
   },
   "user.content.image": {
     "placeholders": {},
@@ -1866,50 +1902,6 @@
     ],
     "translation": "assistant.tool.no_task_data_description"
   },
-  "assistant.thinking": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/AssistantConversationContent.tsx",
-        66
-      ]
-    ],
-    "translation": "Thinking"
-  },
-  "assistant.tool.tool_id": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/AssistantConversationContent.tsx",
-        145
-      ]
-    ],
-    "translation": "Tool ID"
-  },
-  "assistant.tool.input_parameters": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/AssistantConversationContent.tsx",
-        153
-      ]
-    ],
-    "translation": "Input Parameters"
-  },
-  "assistant.tool.result": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/AssistantConversationContent.tsx",
-        167
-      ]
-    ],
-    "translation": "Tool Result"
-  },
   "conversation.error.schema": {
     "placeholders": {},
     "comments": [],
@@ -1964,6 +1956,50 @@
       ]
     ],
     "translation": "Raw Data: "
+  },
+  "assistant.thinking": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/AssistantConversationContent.tsx",
+        66
+      ]
+    ],
+    "translation": "Thinking"
+  },
+  "assistant.tool.tool_id": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/AssistantConversationContent.tsx",
+        145
+      ]
+    ],
+    "translation": "Tool ID"
+  },
+  "assistant.tool.input_parameters": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/AssistantConversationContent.tsx",
+        153
+      ]
+    ],
+    "translation": "Input Parameters"
+  },
+  "assistant.tool.result": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/conversationList/AssistantConversationContent.tsx",
+        167
+      ]
+    ],
+    "translation": "Tool Result"
   },
   "diff.files.changed": {
     "placeholders": {},
@@ -2207,17 +2243,6 @@
     ],
     "translation": "Loading diff..."
   },
-  "Available commands": {
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/app/projects/[projectId]/components/chatForm/CommandCompletion.tsx",
-        193
-      ]
-    ],
-    "translation": "Available commands"
-  },
   "Available files and directories": {
     "placeholders": {},
     "comments": [],
@@ -2229,11 +2254,22 @@
     ],
     "translation": "Available files and directories"
   },
+  "Available commands": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/components/chatForm/CommandCompletion.tsx",
+        193
+      ]
+    ],
+    "translation": "Available commands"
+  },
   "chat.error.send_failed": {
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 377]
+      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 388]
     ],
     "translation": "Failed to send message. Please try again."
   },
@@ -2241,7 +2277,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 413]
+      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 425]
     ],
     "translation": "Message input with completion support"
   },
@@ -2249,7 +2285,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 462]
+      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 474]
     ],
     "translation": "Attach"
   },
@@ -2257,7 +2293,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 474]
+      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 486]
     ],
     "translation": "Autocomplete Active"
   },
@@ -2265,7 +2301,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 483]
+      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 495]
     ],
     "translation": "Send Mode"
   },
@@ -2273,7 +2309,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 500]
+      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 512]
     ],
     "translation": "Send Now"
   },
@@ -2281,7 +2317,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 503]
+      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 515]
     ],
     "translation": "Schedule Send"
   },
@@ -2289,7 +2325,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 514]
+      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 526]
     ],
     "translation": "Scheduled Send Time"
   },
@@ -2297,7 +2333,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 543]
+      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 555]
     ],
     "translation": "Processing..."
   },
@@ -2400,7 +2436,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 223]
+      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 229]
     ],
     "translation": "Failed to schedule message"
   },
@@ -2485,7 +2521,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 207]
+      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 212]
     ],
     "translation": "Message scheduled successfully"
   },
@@ -2518,7 +2554,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 550]
+      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 562]
     ],
     "translation": "Queue"
   },
@@ -2707,7 +2743,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 212]
+      ["src/app/projects/[projectId]/components/chatForm/ChatInput.tsx", 217]
     ],
     "translation": "You can view and manage it in the Scheduler tab"
   }
