@@ -14,6 +14,7 @@ export type CurrentContextUsage = z.infer<typeof currentContextUsageSchema>;
 export const sessionMetaSchema = z.object({
   messageCount: z.number(),
   firstUserMessage: parsedUserMessageSchema.nullable(),
+  modelName: z.string().nullable(),
   cost: z.object({
     totalUsd: z.number(),
     breakdown: z.object({

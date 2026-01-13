@@ -147,7 +147,8 @@ export class SessionMetaService extends Context.Tag("SessionMetaService")<
 
           // Calculate cost information including agent sessions
           const fileContents = [content, ...agentContents];
-          const { totalCost } = aggregateTokenUsageAndCost(fileContents);
+          const { totalCost, modelName } =
+            aggregateTokenUsageAndCost(fileContents);
 
           // Calculate current context usage
           const conversations = parseJsonl(content);
@@ -157,6 +158,7 @@ export class SessionMetaService extends Context.Tag("SessionMetaService")<
           const sessionMeta: SessionMeta = {
             messageCount: lines.length,
             firstUserMessage: firstUserMessage,
+            modelName: modelName || null,
             cost: {
               totalUsd: totalCost.totalUsd,
               breakdown: totalCost.breakdown,

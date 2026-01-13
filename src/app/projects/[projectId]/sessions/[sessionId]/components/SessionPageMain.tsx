@@ -2,6 +2,7 @@ import { Trans } from "@lingui/react";
 import { useMutation } from "@tanstack/react-query";
 import { Link, useSearch } from "@tanstack/react-router";
 import {
+  BotIcon,
   BrainIcon,
   DownloadIcon,
   GitBranchIcon,
@@ -11,6 +12,18 @@ import {
   MessageSquareIcon,
   PauseIcon,
 } from "lucide-react";
+
+/**
+ * Formats a model name to a short display version.
+ * Removes "claude-" prefix and strips version suffix (e.g., "-4-5-20251101").
+ * Example: "claude-opus-4-5-20251101" -> "opus"
+ */
+function formatShortModelName(modelName: string): string {
+  return modelName
+    .replace(/^claude-/, "") // Remove "claude-" prefix
+    .replace(/-\d.*$/, ""); // Remove "-" followed by digit and everything after
+}
+
 import {
   type FC,
   type ReactNode,
@@ -374,6 +387,26 @@ const SessionPageMainContent: FC<
                     </TooltipContent>
                   </Tooltip>
                 )}
+              {isExistingSession && sessionData?.session.meta.modelName && (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Badge
+                      variant="secondary"
+                      className="h-6 text-xs flex items-center gap-1 max-w-full cursor-help"
+                    >
+                      <BotIcon className="w-3 h-3 flex-shrink-0" />
+                      <span className="truncate">
+                        {formatShortModelName(
+                          sessionData.session.meta.modelName,
+                        )}
+                      </span>
+                    </Badge>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    {sessionData.session.meta.modelName}
+                  </TooltipContent>
+                </Tooltip>
+              )}
             </div>
             {relatedSessionProcess?.status === "running" && (
               <Badge
@@ -478,6 +511,21 @@ const SessionPageMainContent: FC<
                           </Badge>
                         </div>
                       )}
+                      {isExistingSession &&
+                        sessionData?.session.meta.modelName && (
+                          <div className="flex flex-col gap-1">
+                            <span className="text-xs text-muted-foreground">
+                              <Trans id="session.model.label" />
+                            </span>
+                            <Badge
+                              variant="secondary"
+                              className="h-7 text-xs flex items-center gap-1 w-fit"
+                            >
+                              <BotIcon className="w-3 h-3" />
+                              {sessionData.session.meta.modelName}
+                            </Badge>
+                          </div>
+                        )}
                       {isExistingSession && sessionData && (
                         <div className="flex flex-col gap-1">
                           <span className="text-xs text-muted-foreground">
