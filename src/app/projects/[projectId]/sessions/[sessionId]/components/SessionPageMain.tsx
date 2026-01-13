@@ -50,6 +50,7 @@ import { ChatActionMenu } from "./resumeChat/ChatActionMenu";
 import { ContinueChat } from "./resumeChat/ContinueChat";
 import { ResumeChat } from "./resumeChat/ResumeChat";
 import { StartNewChat } from "./resumeChat/StartNewChat";
+import { SessionIdDropdown } from "./SessionIdDropdown";
 
 type SessionPageMainProps = {
   projectId: string;
@@ -332,20 +333,12 @@ const SessionPageMainContent: FC<
                   </TooltipContent>
                 </Tooltip>
               )}
-              {isExistingSession && sessionId && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Badge
-                      variant="secondary"
-                      className="h-6 text-xs flex items-center max-w-full font-mono cursor-help"
-                    >
-                      <span className="truncate">{sessionId}</span>
-                    </Badge>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <Trans id="control.session_id" />
-                  </TooltipContent>
-                </Tooltip>
+              {isExistingSession && sessionId && sessionData && (
+                <SessionIdDropdown
+                  sessionId={sessionId}
+                  jsonlFilePath={sessionData.session.jsonlFilePath}
+                  runningPermissionMode={relatedSessionProcess?.permissionMode}
+                />
               )}
               {isExistingSession &&
                 sessionData?.session.meta.currentContextUsage && (
@@ -457,17 +450,18 @@ const SessionPageMainContent: FC<
                           </Tooltip>
                         </div>
                       )}
-                      {sessionId && isExistingSession && (
+                      {sessionId && isExistingSession && sessionData && (
                         <div className="flex flex-col gap-1">
                           <span className="text-xs text-muted-foreground">
                             <Trans id="control.session_id" />
                           </span>
-                          <Badge
-                            variant="secondary"
-                            className="h-7 text-xs flex items-center w-fit font-mono"
-                          >
-                            {sessionId}
-                          </Badge>
+                          <SessionIdDropdown
+                            sessionId={sessionId}
+                            jsonlFilePath={sessionData.session.jsonlFilePath}
+                            runningPermissionMode={
+                              relatedSessionProcess?.permissionMode
+                            }
+                          />
                         </div>
                       )}
                       {currentBranch && (

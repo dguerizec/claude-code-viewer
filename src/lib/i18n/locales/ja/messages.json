@@ -419,11 +419,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        247
+        248
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        639
+        633
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/sessionSidebar/AllProjectsSessionsTab.tsx",
@@ -951,11 +951,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        331
+        332
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        476
+        470
       ]
     ],
     "translation": "ブランチ"
@@ -977,7 +977,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        439
+        432
       ]
     ],
     "translation": "メタデータ"
@@ -1035,7 +1035,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        445
+        438
       ]
     ],
     "translation": "プロジェクトパス"
@@ -1070,11 +1070,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        346
-      ],
-      [
-        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        463
+        456
       ]
     ],
     "translation": "セッションID"
@@ -1653,7 +1649,6 @@
     "translation": "ビープ音"
   },
   "notification.browser.denied": {
-    "translation": "ブラウザで通知がブロックされています",
     "placeholders": {},
     "comments": [],
     "origin": [
@@ -1661,10 +1656,10 @@
         "src/components/NotificationSettings.tsx",
         164
       ]
-    ]
+    ],
+    "translation": "ブラウザで通知がブロックされています"
   },
   "notification.browser.description": {
-    "translation": "アプリがバックグラウンドにある時、タスク完了のブラウザ通知を受け取る",
     "placeholders": {},
     "comments": [],
     "origin": [
@@ -1672,10 +1667,10 @@
         "src/components/NotificationSettings.tsx",
         171
       ]
-    ]
+    ],
+    "translation": "アプリがバックグラウンドにある時、タスク完了のブラウザ通知を受け取る"
   },
   "notification.browser.disabled": {
-    "translation": "無効",
     "placeholders": {},
     "comments": [],
     "origin": [
@@ -1683,10 +1678,10 @@
         "src/components/NotificationSettings.tsx",
         157
       ]
-    ]
+    ],
+    "translation": "無効"
   },
   "notification.browser.enable": {
-    "translation": "通知を有効にする",
     "placeholders": {},
     "comments": [],
     "origin": [
@@ -1694,10 +1689,10 @@
         "src/components/NotificationSettings.tsx",
         142
       ]
-    ]
+    ],
+    "translation": "通知を有効にする"
   },
   "notification.browser.enabled": {
-    "translation": "有効",
     "placeholders": {},
     "comments": [],
     "origin": [
@@ -1705,10 +1700,10 @@
         "src/components/NotificationSettings.tsx",
         155
       ]
-    ]
+    ],
+    "translation": "有効"
   },
   "notification.browser.label": {
-    "translation": "ブラウザ通知",
     "placeholders": {},
     "comments": [],
     "origin": [
@@ -1716,7 +1711,8 @@
         "src/components/NotificationSettings.tsx",
         131
       ]
-    ]
+    ],
+    "translation": "ブラウザ通知"
   },
   "notification.chime": {
     "placeholders": {},
@@ -2504,7 +2500,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        591
+        585
       ]
     ],
     "translation": "現在のトークン数"
@@ -2515,7 +2511,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        567
+        561
       ]
     ],
     "translation": "コンテキストウィンドウ"
@@ -2526,7 +2522,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        600
+        594
       ]
     ],
     "translation": "最大トークン数"
@@ -2537,7 +2533,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        376
+        369
       ]
     ],
     "translation": "コンテキストウィンドウ使用量"
@@ -2559,7 +2555,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        400
+        393
       ]
     ],
     "translation": "一時停止"
@@ -2570,7 +2566,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        391
+        384
       ]
     ],
     "translation": "実行中"
@@ -2581,7 +2577,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        533
+        527
       ]
     ],
     "translation": "キャッシュ作成"
@@ -2592,7 +2588,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        547
+        541
       ]
     ],
     "translation": "キャッシュ読込"
@@ -2603,7 +2599,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        505
+        499
       ]
     ],
     "translation": "入力トークン"
@@ -2614,7 +2610,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        490
+        484
       ]
     ],
     "translation": "セッションコスト"
@@ -2625,7 +2621,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        519
+        513
       ]
     ],
     "translation": "出力トークン"
@@ -2636,7 +2632,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        497
+        491
       ]
     ],
     "translation": "合計"
@@ -2647,7 +2643,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        642
+        636
       ]
     ],
     "translation": ""
@@ -2658,7 +2654,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        656
+        650
       ]
     ],
     "translation": "Claude Codeが処理中..."
@@ -2733,6 +2729,61 @@
     ],
     "translation": "実行中"
   },
+  "session_id.copied": {
+    "translation": "クリップボードにコピーしました",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionIdDropdown.tsx",
+        44
+      ]
+    ]
+  },
+  "session_id.copy_failed": {
+    "translation": "コピーに失敗しました",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionIdDropdown.tsx",
+        48
+      ]
+    ]
+  },
+  "session_id.file_path": {
+    "translation": "ファイルパス",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionIdDropdown.tsx",
+        80
+      ]
+    ]
+  },
+  "session_id.label": {
+    "translation": "セッションID",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionIdDropdown.tsx",
+        68
+      ]
+    ]
+  },
+  "session_id.resume_command": {
+    "translation": "再開コマンド",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionIdDropdown.tsx",
+        74
+      ]
+    ]
+  },
   "sessions.all_projects.title": {
     "placeholders": {},
     "comments": [],
@@ -2776,7 +2827,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/SessionPageMain.tsx",
-        307
+        308
       ]
     ],
     "translation": "このプロジェクトのセッションを表示"
