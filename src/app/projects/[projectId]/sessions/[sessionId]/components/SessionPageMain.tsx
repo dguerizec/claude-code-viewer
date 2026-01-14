@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link, useSearch } from "@tanstack/react-router";
 import {
   BotIcon,
@@ -49,6 +49,7 @@ import {
 import { usePermissionRequests } from "@/hooks/usePermissionRequests";
 import { useSchedulerJobs } from "@/hooks/useScheduler";
 import { honoClient } from "@/lib/api/client";
+import { sessionDetailQuery, sessionProcessesQuery } from "@/lib/api/queries";
 import type { PermissionMode } from "@/types/session-process";
 import { firstUserMessageToTitle } from "../../../services/firstCommandToTitle";
 import { useExportSession } from "../hooks/useExportSession";
@@ -165,9 +166,11 @@ const SessionPageMainContent: FC<
   const [previousConversationLength, setPreviousConversationLength] =
     useState(0);
   const [isDiffModalOpen, setIsDiffModalOpen] = useState(false);
+  const [isReloading, setIsReloading] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   // Track if user is near bottom - initialized to true so first messages auto-scroll
   const isNearBottomRef = useRef(true);
+  const queryClient = useQueryClient();
 
   const abortTask = useMutation({
     mutationFn: async (sessionProcessId: string) => {
@@ -255,6 +258,23 @@ const SessionPageMainContent: FC<
       });
     }
   };
+
+  const handleForceReload = useCallback(async () => {
+    if (!sessionId) return;
+    setIsReloading(true);
+    try {
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: sessionDetailQuery(projectId, sessionId).queryKey,
+        }),
+        queryClient.invalidateQueries({
+          queryKey: sessionProcessesQuery.queryKey,
+        }),
+      ]);
+    } finally {
+      setIsReloading(false);
+    }
+  }, [queryClient, projectId, sessionId]);
 
   let headerTitle: ReactNode = projectName ?? projectId;
   if (!isExistingSession) {
@@ -712,6 +732,8 @@ const SessionPageMainContent: FC<
             onOpenDiffModal={
               isExistingSession ? () => setIsDiffModalOpen(true) : undefined
             }
+            onForceReload={isExistingSession ? handleForceReload : undefined}
+            isReloading={isReloading}
             sessionProcess={relatedSessionProcess}
             abortTask={abortTask}
             isNewChat={!isExistingSession}

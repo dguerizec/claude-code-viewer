@@ -8,6 +8,7 @@ import {
   GlobeIcon,
   LoaderIcon,
   PlusIcon,
+  RefreshCwIcon,
   XIcon,
 } from "lucide-react";
 import type { FC } from "react";
@@ -31,6 +32,8 @@ interface ChatActionMenuProps {
   onScrollToTop?: () => void;
   onScrollToBottom?: () => void;
   onOpenDiffModal?: () => void;
+  onForceReload?: () => void;
+  isReloading?: boolean;
   sessionProcess?: PublicSessionProcess;
   abortTask?: UseMutationResult<unknown, Error, string, unknown>;
   isNewChat?: boolean;
@@ -44,6 +47,8 @@ export const ChatActionMenu: FC<ChatActionMenuProps> = ({
   onScrollToTop,
   onScrollToBottom,
   onOpenDiffModal,
+  onForceReload,
+  isReloading = false,
   sessionProcess,
   abortTask,
   isNewChat = false,
@@ -175,6 +180,26 @@ export const ChatActionMenu: FC<ChatActionMenuProps> = ({
             })}
           >
             <ArrowDownIcon className="w-3.5 h-3.5" />
+          </Button>
+        )}
+        {onForceReload && (
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={onForceReload}
+            disabled={isPending || isReloading}
+            className="h-7 px-2 gap-1.5 text-xs bg-muted/20 rounded-lg border border-border/40"
+            title={i18n._({
+              id: "control.force_reload",
+              message: "Force Reload",
+            })}
+          >
+            {isReloading ? (
+              <RefreshCwIcon className="w-3.5 h-3.5 animate-spin" />
+            ) : (
+              <RefreshCwIcon className="w-3.5 h-3.5" />
+            )}
           </Button>
         )}
         {isToolApprovalAvailable &&

@@ -999,6 +999,18 @@
     ],
     "translation": "フル表示"
   },
+  "control.force_reload": {
+    "message": "Force Reload",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
+        194
+      ]
+    ],
+    "translation": "強制リロード"
+  },
   "control.git": {
     "placeholders": {},
     "comments": [],
