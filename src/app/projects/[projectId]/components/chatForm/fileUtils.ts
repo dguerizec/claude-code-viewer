@@ -92,6 +92,34 @@ export const fileToText = (file: File): Promise<string> => {
 };
 
 /**
+ * Process an image file immediately and return ImageBlockParam
+ * Used for drag & drop where file references may become invalid
+ */
+export const processImageImmediately = async (
+  file: File,
+): Promise<ImageBlockParam | null> => {
+  if (!file.type.startsWith("image/")) {
+    return null;
+  }
+
+  const mediaType = mediaTypeSchema.safeParse(file.type);
+  if (!mediaType.success) {
+    return null;
+  }
+
+  const base64Data = await fileToBase64(file);
+
+  return {
+    type: "image",
+    source: {
+      type: "base64",
+      media_type: mediaType.data,
+      data: base64Data,
+    },
+  };
+};
+
+/**
  * Process a file and return appropriate block structure
  */
 export const processFile = async (

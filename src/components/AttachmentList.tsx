@@ -10,21 +10,20 @@ export type ExistingAttachment =
   | { type: "image"; data: ImageBlockParam; id: string }
   | { type: "document"; data: DocumentBlockParam; id: string };
 
-/** Represents a new file not yet encoded */
-export type NewFileAttachment = {
-  file: File;
-  id: string;
-};
+/** Represents a pending file attachment - either a File reference or already-read image data */
+export type PendingAttachment =
+  | { type: "file"; file: File; id: string }
+  | { type: "image"; data: ImageBlockParam; name: string; id: string };
 
 export interface AttachmentListProps {
   /** Existing attachments (already encoded as base64/text) */
   existingAttachments: ExistingAttachment[];
-  /** New files (not yet encoded) */
-  newFiles: NewFileAttachment[];
+  /** Pending attachments (files or already-read images) */
+  pendingAttachments: PendingAttachment[];
   /** Called when removing an existing attachment */
   onRemoveExisting: (id: string) => void;
-  /** Called when removing a new file */
-  onRemoveNew: (id: string) => void;
+  /** Called when removing a pending attachment */
+  onRemovePending: (id: string) => void;
   /** Whether the list is disabled */
   disabled?: boolean;
 }
@@ -54,12 +53,13 @@ const getTypeFromMime = (mimeType: string): "image" | "document" | "text" => {
 
 export const AttachmentList: FC<AttachmentListProps> = ({
   existingAttachments,
-  newFiles,
+  pendingAttachments,
   onRemoveExisting,
-  onRemoveNew,
+  onRemovePending,
   disabled = false,
 }) => {
-  const hasAttachments = existingAttachments.length > 0 || newFiles.length > 0;
+  const hasAttachments =
+    existingAttachments.length > 0 || pendingAttachments.length > 0;
 
   if (!hasAttachments) {
     return null;
@@ -92,24 +92,48 @@ export const AttachmentList: FC<AttachmentListProps> = ({
         );
       })}
 
-      {/* New files */}
-      {newFiles.map(({ file, id }) => {
-        const type = getTypeFromMime(file.type);
-        const Icon = getAttachmentIcon(type);
+      {/* Pending attachments */}
+      {pendingAttachments.map((attachment) => {
+        if (attachment.type === "file") {
+          const type = getTypeFromMime(attachment.file.type);
+          const Icon = getAttachmentIcon(type);
 
+          return (
+            <div
+              key={attachment.id}
+              className="flex items-center gap-2 px-3 py-1.5 bg-muted rounded-lg text-sm"
+            >
+              <Icon className="w-4 h-4 text-muted-foreground" />
+              <span className="truncate max-w-[150px]">
+                {attachment.file.name}
+              </span>
+              <button
+                type="button"
+                onClick={() => onRemovePending(attachment.id)}
+                className="text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50"
+                disabled={disabled}
+                aria-label={`Remove ${attachment.file.name}`}
+              >
+                <XIcon className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          );
+        }
+
+        // type === "image" (already-read image)
         return (
           <div
-            key={id}
+            key={attachment.id}
             className="flex items-center gap-2 px-3 py-1.5 bg-muted rounded-lg text-sm"
           >
-            <Icon className="w-4 h-4 text-muted-foreground" />
-            <span className="truncate max-w-[150px]">{file.name}</span>
+            <ImageIcon className="w-4 h-4 text-muted-foreground" />
+            <span className="truncate max-w-[150px]">{attachment.name}</span>
             <button
               type="button"
-              onClick={() => onRemoveNew(id)}
+              onClick={() => onRemovePending(attachment.id)}
               className="text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50"
               disabled={disabled}
-              aria-label={`Remove ${file.name}`}
+              aria-label={`Remove ${attachment.name}`}
             >
               <XIcon className="w-3.5 h-3.5" />
             </button>

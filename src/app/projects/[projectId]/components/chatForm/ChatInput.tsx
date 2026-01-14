@@ -15,7 +15,10 @@ import {
   useState,
 } from "react";
 import { toast } from "sonner";
-import { AttachmentList } from "../../../../../components/AttachmentList";
+import {
+  AttachmentList,
+  type PendingAttachment,
+} from "../../../../../components/AttachmentList";
 import { Button } from "../../../../../components/ui/button";
 import { Input } from "../../../../../components/ui/input";
 import { Label } from "../../../../../components/ui/label";
@@ -35,7 +38,11 @@ import type {
 import { useConfig } from "../../../../hooks/useConfig";
 import type { CommandCompletionRef } from "./CommandCompletion";
 import type { FileCompletionRef } from "./FileCompletion";
-import { isSupportedMimeType, processFile } from "./fileUtils";
+import {
+  isSupportedMimeType,
+  processFile,
+  processImageImmediately,
+} from "./fileUtils";
 import { InlineCompletion } from "./InlineCompletion";
 import { useDraftMessage } from "./useDraftMessage";
 
@@ -101,8 +108,8 @@ export const ChatInput: FC<ChatInputProps> = ({
     baseSessionId,
   );
   const [message, setMessage] = useState(draft);
-  const [attachedFiles, setAttachedFiles] = useState<
-    Array<{ file: File; id: string }>
+  const [pendingAttachments, setPendingAttachments] = useState<
+    PendingAttachment[]
   >([]);
   const [cursorPosition, setCursorPosition] = useState<{
     relative: { top: number; left: number };
@@ -199,31 +206,37 @@ export const ChatInput: FC<ChatInputProps> = ({
   }, []);
 
   const handleSubmit = async () => {
-    if (!message.trim() && attachedFiles.length === 0) return;
+    if (!message.trim() && pendingAttachments.length === 0) return;
 
     const images: ImageBlockParam[] = [];
     const documents: DocumentBlockParam[] = [];
 
-    for (const { file } of attachedFiles) {
-      const result = await processFile(file);
+    for (const attachment of pendingAttachments) {
+      if (attachment.type === "image") {
+        // Already-read image (from drag & drop)
+        images.push(attachment.data);
+      } else {
+        // File reference - read now
+        const result = await processFile(attachment.file);
 
-      if (result === null) {
-        continue;
-      }
+        if (result === null) {
+          continue;
+        }
 
-      if (result.type === "text") {
-        documents.push({
-          type: "document",
-          source: {
-            type: "text",
-            media_type: "text/plain",
-            data: result.content,
-          },
-        });
-      } else if (result.type === "image") {
-        images.push(result.block);
-      } else if (result.type === "document") {
-        documents.push(result.block);
+        if (result.type === "text") {
+          documents.push({
+            type: "document",
+            source: {
+              type: "text",
+              media_type: "text/plain",
+              data: result.content,
+            },
+          });
+        } else if (result.type === "image") {
+          images.push(result.block);
+        } else if (result.type === "document") {
+          documents.push(result.block);
+        }
       }
     }
 
@@ -272,7 +285,7 @@ export const ChatInput: FC<ChatInputProps> = ({
         );
 
         setMessage("");
-        setAttachedFiles([]);
+        setPendingAttachments([]);
         clearDraft();
       } catch (error) {
         toast.error(
@@ -292,7 +305,7 @@ export const ChatInput: FC<ChatInputProps> = ({
       const documentsToSend = documents.length > 0 ? documents : undefined;
 
       setMessage("");
-      setAttachedFiles([]);
+      setPendingAttachments([]);
       clearDraft();
 
       await onSubmit({
@@ -314,17 +327,18 @@ export const ChatInput: FC<ChatInputProps> = ({
     }
   };
 
-  const handleRemoveFile = (id: string) => {
-    setAttachedFiles((prev) => prev.filter((f) => f.id !== id));
+  const handleRemoveAttachment = (id: string) => {
+    setPendingAttachments((prev) => prev.filter((a) => a.id !== id));
   };
 
   const addFiles = (files: FileList | File[]) => {
     const fileArray = Array.from(files);
-    const newFiles = fileArray.map((file) => ({
+    const newAttachments: PendingAttachment[] = fileArray.map((file) => ({
+      type: "file",
       file,
       id: `${file.name}-${Date.now()}-${Math.random()}`,
     }));
-    setAttachedFiles((prev) => [...prev, ...newFiles]);
+    setPendingAttachments((prev) => [...prev, ...newAttachments]);
 
     // Switch to immediate mode if in scheduled mode (scheduled send doesn't support attachments)
     if (sendMode === "scheduled") {
@@ -373,7 +387,7 @@ export const ChatInput: FC<ChatInputProps> = ({
     e.preventDefault();
   };
 
-  const handleZoneDrop = (e: React.DragEvent) => {
+  const handleZoneDrop = async (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     zoneDragCounterRef.current = 0;
@@ -384,8 +398,66 @@ export const ChatInput: FC<ChatInputProps> = ({
     const supportedFiles = Array.from(files).filter((file) =>
       isSupportedMimeType(file.type),
     );
-    if (supportedFiles.length > 0) {
-      addFiles(supportedFiles);
+    if (supportedFiles.length === 0) return;
+
+    // Separate images from other files
+    // Images are read immediately to avoid issues with temporary blob references
+    // (e.g., from screenshot tools where the file reference may become invalid)
+    const imageFiles = supportedFiles.filter((file) =>
+      file.type.startsWith("image/"),
+    );
+    const otherFiles = supportedFiles.filter(
+      (file) => !file.type.startsWith("image/"),
+    );
+
+    const newAttachments: PendingAttachment[] = [];
+
+    // Read images immediately
+    if (imageFiles.length > 0) {
+      const imagePromises = imageFiles.map(async (file) => {
+        const imageData = await processImageImmediately(file);
+        if (imageData) {
+          return {
+            type: "image" as const,
+            data: imageData,
+            name: file.name || `image.${file.type.split("/")[1]}`,
+            id: `${file.name}-${Date.now()}-${Math.random()}`,
+          };
+        }
+        return null;
+      });
+
+      const results = await Promise.all(imagePromises);
+      for (const result of results) {
+        if (result !== null) {
+          newAttachments.push(result);
+        }
+      }
+    }
+
+    // Add other files as file references (they will be read at submit time)
+    for (const file of otherFiles) {
+      newAttachments.push({
+        type: "file",
+        file,
+        id: `${file.name}-${Date.now()}-${Math.random()}`,
+      });
+    }
+
+    if (newAttachments.length > 0) {
+      setPendingAttachments((prev) => [...prev, ...newAttachments]);
+
+      // Switch to immediate mode if in scheduled mode
+      if (sendMode === "scheduled") {
+        setSendMode("immediate");
+        toast.info(
+          i18n._({
+            id: "chat.send_mode.switched_to_immediate",
+            message:
+              "Switched to immediate send (scheduled send doesn't support attachments)",
+          }),
+        );
+      }
     }
   };
 
@@ -568,13 +640,13 @@ export const ChatInput: FC<ChatInputProps> = ({
             />
           </div>
 
-          {attachedFiles.length > 0 && (
+          {pendingAttachments.length > 0 && (
             <div className="px-5 py-3 border-t border-border/40">
               <AttachmentList
                 existingAttachments={[]}
-                newFiles={attachedFiles}
+                pendingAttachments={pendingAttachments}
                 onRemoveExisting={() => {}}
-                onRemoveNew={handleRemoveFile}
+                onRemovePending={handleRemoveAttachment}
                 disabled={isPending}
               />
             </div>
@@ -691,9 +763,9 @@ export const ChatInput: FC<ChatInputProps> = ({
                           </SelectItem>
                           <SelectItem
                             value="scheduled"
-                            disabled={attachedFiles.length > 0}
+                            disabled={pendingAttachments.length > 0}
                           >
-                            {attachedFiles.length > 0 ? (
+                            {pendingAttachments.length > 0 ? (
                               <Trans
                                 id="chat.send_mode.scheduled_disabled_with_attachments"
                                 message="Scheduled (not available with attachments)"
@@ -715,11 +787,11 @@ export const ChatInput: FC<ChatInputProps> = ({
                       size="sm"
                       onClick={() => setSendMode("scheduled")}
                       disabled={
-                        isPending || disabled || attachedFiles.length > 0
+                        isPending || disabled || pendingAttachments.length > 0
                       }
                       className="sm:hidden gap-1.5"
                       title={
-                        attachedFiles.length > 0
+                        pendingAttachments.length > 0
                           ? "Scheduled send not available with attachments"
                           : undefined
                       }
@@ -733,7 +805,7 @@ export const ChatInput: FC<ChatInputProps> = ({
                 <Button
                   onClick={handleSubmit}
                   disabled={
-                    (!message.trim() && attachedFiles.length === 0) ||
+                    (!message.trim() && pendingAttachments.length === 0) ||
                     isPending ||
                     disabled
                   }

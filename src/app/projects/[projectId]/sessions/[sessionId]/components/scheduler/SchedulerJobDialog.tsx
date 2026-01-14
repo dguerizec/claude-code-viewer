@@ -8,7 +8,7 @@ import { AttachButton } from "@/components/AttachButton";
 import {
   AttachmentList,
   type ExistingAttachment,
-  type NewFileAttachment,
+  type PendingAttachment,
 } from "@/components/AttachmentList";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -94,7 +94,9 @@ export const SchedulerJobDialog: FC<SchedulerJobDialogProps> = ({
   const [existingAttachments, setExistingAttachments] = useState<
     ExistingAttachment[]
   >([]);
-  const [newFiles, setNewFiles] = useState<NewFileAttachment[]>([]);
+  const [pendingAttachments, setPendingAttachments] = useState<
+    PendingAttachment[]
+  >([]);
 
   // Message completion hook
   const completion = useMessageCompletion();
@@ -142,7 +144,7 @@ export const SchedulerJobDialog: FC<SchedulerJobDialogProps> = ({
         }
       }
       setExistingAttachments(attachments);
-      setNewFiles([]);
+      setPendingAttachments([]);
     } else {
       // Reset form for new job
       setName("");
@@ -161,24 +163,25 @@ export const SchedulerJobDialog: FC<SchedulerJobDialogProps> = ({
       setEnabled(true);
       setConcurrencyPolicy("skip");
       setExistingAttachments([]);
-      setNewFiles([]);
+      setPendingAttachments([]);
     }
   }, [job, projectId]);
 
   const handleFilesSelected = (files: File[]) => {
-    const newAttachments = files.map((file) => ({
+    const newAttachments: PendingAttachment[] = files.map((file) => ({
+      type: "file",
       file,
       id: `new-${file.name}-${Date.now()}-${Math.random().toString(36).slice(2)}`,
     }));
-    setNewFiles((prev) => [...prev, ...newAttachments]);
+    setPendingAttachments((prev) => [...prev, ...newAttachments]);
   };
 
   const handleRemoveExisting = (id: string) => {
     setExistingAttachments((prev) => prev.filter((a) => a.id !== id));
   };
 
-  const handleRemoveNew = (id: string) => {
-    setNewFiles((prev) => prev.filter((f) => f.id !== id));
+  const handleRemovePending = (id: string) => {
+    setPendingAttachments((prev) => prev.filter((a) => a.id !== id));
   };
 
   const handleSubmit = async () => {
@@ -220,27 +223,33 @@ export const SchedulerJobDialog: FC<SchedulerJobDialogProps> = ({
       }
     }
 
-    // Process new files into blocks
+    // Process pending attachments into blocks
     const newImages: ImageBlockParam[] = [];
     const newDocuments: DocumentBlockParam[] = [];
 
-    for (const { file } of newFiles) {
-      const result = await processFile(file);
-      if (result === null) continue;
+    for (const attachment of pendingAttachments) {
+      if (attachment.type === "image") {
+        // Already-read image
+        newImages.push(attachment.data);
+      } else {
+        // File reference - read now
+        const result = await processFile(attachment.file);
+        if (result === null) continue;
 
-      if (result.type === "image") {
-        newImages.push(result.block);
-      } else if (result.type === "document") {
-        newDocuments.push(result.block);
-      } else if (result.type === "text") {
-        newDocuments.push({
-          type: "document",
-          source: {
-            type: "text",
-            media_type: "text/plain",
-            data: result.content,
-          },
-        });
+        if (result.type === "image") {
+          newImages.push(result.block);
+        } else if (result.type === "document") {
+          newDocuments.push(result.block);
+        } else if (result.type === "text") {
+          newDocuments.push({
+            type: "document",
+            source: {
+              type: "text",
+              media_type: "text/plain",
+              data: result.content,
+            },
+          });
+        }
       }
     }
 
@@ -480,9 +489,9 @@ export const SchedulerJobDialog: FC<SchedulerJobDialogProps> = ({
             </Label>
             <AttachmentList
               existingAttachments={existingAttachments}
-              newFiles={newFiles}
+              pendingAttachments={pendingAttachments}
               onRemoveExisting={handleRemoveExisting}
-              onRemoveNew={handleRemoveNew}
+              onRemovePending={handleRemovePending}
               disabled={isSubmitting}
             />
             <AttachButton
