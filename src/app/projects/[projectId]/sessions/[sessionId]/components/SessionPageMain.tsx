@@ -428,6 +428,24 @@ const SessionPageMainContent: FC<
                 </Tooltip>
               )}
             </div>
+            {relatedSessionProcess?.status === "starting" && (
+              <Badge
+                variant="secondary"
+                className="bg-blue-500/10 text-blue-900 dark:text-blue-200 border-blue-500/20 flex-shrink-0 h-6 text-xs"
+              >
+                <LoaderIcon className="w-3 h-3 mr-1 animate-spin" />
+                <Trans id="session.conversation.starting" />
+              </Badge>
+            )}
+            {relatedSessionProcess?.status === "pending" && (
+              <Badge
+                variant="secondary"
+                className="bg-blue-500/10 text-blue-900 dark:text-blue-200 border-blue-500/20 flex-shrink-0 h-6 text-xs"
+              >
+                <LoaderIcon className="w-3 h-3 mr-1 animate-spin" />
+                <Trans id="session.conversation.pending" />
+              </Badge>
+            )}
             {relatedSessionProcess?.status === "running" && (
               <Badge
                 variant="secondary"
@@ -707,7 +725,9 @@ const SessionPageMainContent: FC<
               </div>
             )}
             {isExistingSession &&
-              relatedSessionProcess?.status === "running" && (
+              (relatedSessionProcess?.status === "running" ||
+                relatedSessionProcess?.status === "starting" ||
+                relatedSessionProcess?.status === "pending") && (
                 <div className="flex justify-start items-center py-8 animate-in fade-in duration-500">
                   <div className="flex flex-col items-center gap-4">
                     <div className="relative">

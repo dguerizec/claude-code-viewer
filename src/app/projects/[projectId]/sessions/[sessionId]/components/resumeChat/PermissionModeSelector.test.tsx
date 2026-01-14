@@ -78,20 +78,45 @@ describe("PermissionModeSelector", () => {
     expect(props.sessionStatus).toBe("none");
   });
 
-  it("should validate running state detection logic", () => {
+  it("should accept starting session status", () => {
+    const props: PermissionModeSelectorProps = {
+      sessionId: "test-session",
+      currentMode: "default",
+      sessionStatus: "starting",
+    };
+
+    expect(props.sessionStatus).toBe("starting");
+  });
+
+  it("should accept pending session status", () => {
+    const props: PermissionModeSelectorProps = {
+      sessionId: "test-session",
+      currentMode: "default",
+      sessionStatus: "pending",
+    };
+
+    expect(props.sessionStatus).toBe("pending");
+  });
+
+  it("should validate active session state detection logic", () => {
     // Test the logic pattern used in the component
     const testCases: Array<{
-      status: "paused" | "running" | "none";
+      status: "starting" | "pending" | "paused" | "running" | "none";
       expected: boolean;
     }> = [
+      { status: "starting", expected: true },
+      { status: "pending", expected: true },
       { status: "running", expected: true },
       { status: "paused", expected: false },
       { status: "none", expected: false },
     ];
 
     for (const testCase of testCases) {
-      const isRunning = testCase.status === "running";
-      expect(isRunning).toBe(testCase.expected);
+      const isActiveSession =
+        testCase.status === "starting" ||
+        testCase.status === "pending" ||
+        testCase.status === "running";
+      expect(isActiveSession).toBe(testCase.expected);
     }
   });
 

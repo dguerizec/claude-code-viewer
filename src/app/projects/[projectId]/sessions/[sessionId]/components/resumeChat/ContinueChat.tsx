@@ -21,7 +21,7 @@ export const ContinueChat: FC<{
   projectId: string;
   sessionId: string;
   sessionProcessId: string;
-  sessionProcessStatus?: "running" | "paused";
+  sessionProcessStatus?: "starting" | "pending" | "running" | "paused";
   currentPermissionMode?: string;
 }> = ({
   projectId,
@@ -149,10 +149,14 @@ export const ContinueChat: FC<{
   };
 
   const handleSubmit = async (input: MessageInput) => {
-    const isRunning = sessionProcessStatus === "running";
+    // Session is active if it's starting, pending, or running
+    const isActiveSession =
+      sessionProcessStatus === "starting" ||
+      sessionProcessStatus === "pending" ||
+      sessionProcessStatus === "running";
 
-    // If session is running, show options dialog
-    if (isRunning) {
+    // If session is active, show options dialog
+    if (isActiveSession) {
       setPendingMessage(input);
       setShowOptionsDialog(true);
       return;
@@ -196,7 +200,10 @@ export const ContinueChat: FC<{
     });
   };
 
-  const isRunning = sessionProcessStatus === "running";
+  const isActiveSession =
+    sessionProcessStatus === "starting" ||
+    sessionProcessStatus === "pending" ||
+    sessionProcessStatus === "running";
   const isPending =
     continueSessionProcess.isPending ||
     stopSessionProcess.isPending ||
@@ -219,8 +226,8 @@ export const ContinueChat: FC<{
         buttonText={<Trans id="chat.send" />}
         containerClassName=""
         buttonSize="default"
-        enableScheduledSend={!isRunning}
-        showQueueOption={isRunning}
+        enableScheduledSend={!isActiveSession}
+        showQueueOption={isActiveSession}
         baseSessionId={sessionId}
       />
       <SendMessageOptionsDialog

@@ -5,6 +5,7 @@ import type { FC } from "react";
 import { Badge } from "@/components/ui/badge";
 import type { SupportedLocale } from "@/lib/i18n/schema";
 import { cn } from "@/lib/utils";
+import type { SessionProcessStatus } from "@/types/session-process";
 import { formatLocaleDate } from "../../../../../../../lib/date/formatLocaleDate";
 import { firstUserMessageToTitle } from "../../../../services/firstCommandToTitle";
 import type { Tab } from "./schema";
@@ -21,14 +22,38 @@ interface SessionData {
   };
 }
 
+const getStatusColorClass = (status: SessionProcessStatus): string => {
+  switch (status) {
+    case "starting":
+    case "pending":
+      return "bg-blue-500 text-white";
+    case "running":
+      return "bg-green-500 text-white";
+    case "paused":
+      return "bg-yellow-500 text-white";
+  }
+};
+
+const StatusLabel: FC<{ status: SessionProcessStatus }> = ({ status }) => {
+  switch (status) {
+    case "starting":
+      return <Trans id="session.status.starting" />;
+    case "pending":
+      return <Trans id="session.status.pending" />;
+    case "running":
+      return <Trans id="session.status.running" />;
+    case "paused":
+      return <Trans id="session.status.paused" />;
+  }
+};
+
 export const SessionListItem: FC<{
   session: SessionData;
   projectId: string;
   projectName?: string | null;
   currentTab: Tab;
   isActive: boolean;
-  isRunning: boolean;
-  isPaused: boolean;
+  status: SessionProcessStatus | undefined;
   locale: SupportedLocale;
 }> = ({
   session,
@@ -36,8 +61,7 @@ export const SessionListItem: FC<{
   projectName,
   currentTab,
   isActive,
-  isRunning,
-  isPaused,
+  status,
   locale,
 }) => {
   const title =
@@ -61,20 +85,12 @@ export const SessionListItem: FC<{
           <h3 className="text-sm font-medium line-clamp-2 leading-tight text-sidebar-foreground flex-1">
             {title}
           </h3>
-          {(isRunning || isPaused) && (
+          {status !== undefined && (
             <Badge
-              variant={isRunning ? "default" : "secondary"}
-              className={cn(
-                "text-xs",
-                isRunning && "bg-green-500 text-white",
-                isPaused && "bg-yellow-500 text-white",
-              )}
+              variant="default"
+              className={cn("text-xs", getStatusColorClass(status))}
             >
-              {isRunning ? (
-                <Trans id="session.status.running" />
-              ) : (
-                <Trans id="session.status.paused" />
-              )}
+              <StatusLabel status={status} />
             </Badge>
           )}
         </div>

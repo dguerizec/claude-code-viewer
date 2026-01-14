@@ -1,4 +1,7 @@
-import type { PublicSessionProcess } from "../../../../../../../types/session-process";
+import type {
+  PublicSessionProcess,
+  SessionProcessStatus,
+} from "../../../../../../../types/session-process";
 
 interface SessionWithDate {
   id: string;
@@ -20,9 +23,10 @@ export const sortSessionsByStatusAndDate = <T extends SessionWithDate>(
     const aStatus = aProcess?.status;
     const bStatus = bProcess?.status;
 
-    // Define priority: running = 0, paused = 1, others = 2
-    const getPriority = (status: "paused" | "running" | undefined) => {
-      if (status === "running") return 0;
+    // Define priority: active sessions (starting, pending, running) = 0, paused = 1, others = 2
+    const getPriority = (status: SessionProcessStatus | undefined) => {
+      if (status === "starting" || status === "pending" || status === "running")
+        return 0;
       if (status === "paused") return 1;
       return 2;
     };

@@ -198,16 +198,25 @@ const LayerImpl = Effect.gen(function* () {
       yield* Ref.set(processesRef, updatedProcesses);
 
       if (currentStatus !== nextState.type) {
+        // Filter to public processes that have a sessionId
+        const publicProcesses = updatedProcesses
+          .filter(CCSessionProcess.isPublic)
+          .flatMap((process) => {
+            const sessionId = CCSessionProcess.getSessionId(process);
+            if (sessionId === undefined) return [];
+            return [
+              {
+                id: process.def.sessionProcessId,
+                projectId: process.def.projectId,
+                sessionId,
+                status: CCSessionProcess.getPublicStatus(process),
+                permissionMode: process.def.permissionMode,
+              },
+            ];
+          });
+
         yield* eventBus.emit("sessionProcessChanged", {
-          processes: updatedProcesses
-            .filter(CCSessionProcess.isPublic)
-            .map((process) => ({
-              id: process.def.sessionProcessId,
-              projectId: process.def.projectId,
-              sessionId: process.sessionId,
-              status: process.type === "paused" ? "paused" : "running",
-              permissionMode: process.def.permissionMode,
-            })),
+          processes: publicProcesses,
           changed: nextState,
         });
       }

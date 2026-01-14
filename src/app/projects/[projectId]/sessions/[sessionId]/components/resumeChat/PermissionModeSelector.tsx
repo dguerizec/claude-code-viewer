@@ -40,7 +40,7 @@ export interface PermissionModeSelectorProps {
   /** The current active mode (from process or config) */
   currentMode: PermissionMode;
   /** Session status */
-  sessionStatus: "paused" | "running" | "none";
+  sessionStatus: "starting" | "pending" | "paused" | "running" | "none";
   /** Callback when user wants to interrupt running process */
   onInterruptAndChange?: (newMode: PermissionMode) => void;
 }
@@ -59,7 +59,11 @@ export const PermissionModeSelector: FC<PermissionModeSelectorProps> = ({
     useState<PermissionMode | null>(null);
   const { pendingMode, setPendingMode } = usePendingPermissionMode(sessionId);
 
-  const isRunning = sessionStatus === "running";
+  // Session is active if it's starting, pending, or running
+  const isActiveSession =
+    sessionStatus === "starting" ||
+    sessionStatus === "pending" ||
+    sessionStatus === "running";
 
   // Display mode: pending > current
   const displayMode = pendingMode ?? currentMode;
@@ -79,8 +83,8 @@ export const PermissionModeSelector: FC<PermissionModeSelectorProps> = ({
       return;
     }
 
-    // If running, show confirmation dialog
-    if (isRunning) {
+    // If session is active, show confirmation dialog
+    if (isActiveSession) {
       setPendingModeForConfirm(mode);
       setRunningConfirmDialogOpen(true);
       setOpen(false);

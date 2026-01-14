@@ -6,6 +6,7 @@ import type { InferEffect } from "../../../lib/effect/types";
 import { UserConfigService } from "../../platform/services/UserConfigService";
 import { ProjectRepository } from "../../project/infrastructure/ProjectRepository";
 import type { UserMessageInput } from "../functions/createMessageGenerator";
+import * as CCSessionProcess from "../models/CCSessionProcess";
 import { ClaudeCodeLifeCycleService } from "../services/ClaudeCodeLifeCycleService";
 import { SessionProcessNotFoundError } from "../services/ClaudeCodeSessionProcessService";
 
@@ -19,18 +20,24 @@ const LayerImpl = Effect.gen(function* () {
       const publicSessionProcesses =
         yield* claudeCodeLifeCycleService.getPublicSessionProcesses();
 
+      // Filter out processes without a sessionId (new conversations that haven't received init yet)
+      // and map to public representation
+      const processes: PublicSessionProcess[] = [];
+      for (const p of publicSessionProcesses) {
+        const sessionId = CCSessionProcess.getSessionId(p);
+        if (sessionId !== undefined) {
+          processes.push({
+            id: p.def.sessionProcessId,
+            projectId: p.def.projectId,
+            sessionId,
+            status: CCSessionProcess.getPublicStatus(p),
+            permissionMode: p.def.permissionMode,
+          });
+        }
+      }
+
       return {
-        response: {
-          processes: publicSessionProcesses.map(
-            (p): PublicSessionProcess => ({
-              id: p.def.sessionProcessId,
-              projectId: p.def.projectId,
-              sessionId: p.sessionId,
-              status: p.type === "paused" ? "paused" : "running",
-              permissionMode: p.def.permissionMode,
-            }),
-          ),
-        },
+        response: { processes },
         status: 200,
       } as const satisfies ControllerResponse;
     });

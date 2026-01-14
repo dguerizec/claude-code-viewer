@@ -87,8 +87,7 @@ export const SessionsTab: FC<{
               projectId={projectId}
               currentTab={currentTab}
               isActive={session.id === currentSessionId}
-              isRunning={sessionProcess?.status === "running"}
-              isPaused={sessionProcess?.status === "paused"}
+              status={sessionProcess?.status}
               locale={config.locale}
             />
           );
