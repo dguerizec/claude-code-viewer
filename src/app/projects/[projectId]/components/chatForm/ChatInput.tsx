@@ -812,25 +812,28 @@ export const ChatInput: FC<ChatInputProps> = ({
 
                 {(enableScheduledSend || showQueueOption) &&
                   sendMode === "immediate" && (
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setSendMode("scheduled")}
-                      disabled={
-                        isPending || disabled || pendingAttachments.length > 0
+                    <Select
+                      value={sendMode}
+                      onValueChange={(value: "immediate" | "scheduled") =>
+                        setSendMode(value)
                       }
-                      className="sm:hidden gap-1.5"
-                      title={
-                        pendingAttachments.length > 0
-                          ? "Scheduled send not available with attachments"
-                          : undefined
-                      }
+                      disabled={isPending || disabled}
                     >
-                      <span className="text-xs">
-                        <Trans id="chat.send_mode.scheduled" />
-                      </span>
-                    </Button>
+                      <SelectTrigger className="sm:hidden h-8 w-[110px] text-xs">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="immediate">
+                          <Trans id="chat.send_mode.immediate" />
+                        </SelectItem>
+                        <SelectItem
+                          value="scheduled"
+                          disabled={pendingAttachments.length > 0}
+                        >
+                          <Trans id="chat.send_mode.scheduled" />
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
                   )}
 
                 <Button
