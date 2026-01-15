@@ -326,16 +326,24 @@ export const ChatInput: FC<ChatInputProps> = ({
       const textToSend = message;
       const imagesToSend = images.length > 0 ? images : undefined;
       const documentsToSend = documents.length > 0 ? documents : undefined;
+      const attachmentsToRestore = [...pendingAttachments];
 
       setMessage("");
       setPendingAttachments([]);
       clearDraft();
 
-      await onSubmit({
-        text: textToSend,
-        images: imagesToSend,
-        documents: documentsToSend,
-      });
+      try {
+        await onSubmit({
+          text: textToSend,
+          images: imagesToSend,
+          documents: documentsToSend,
+        });
+      } catch {
+        // Restore message and attachments on failure so user doesn't lose their input
+        setMessage(textToSend);
+        setPendingAttachments(attachmentsToRestore);
+        setDraft(textToSend);
+      }
     }
   };
 
