@@ -11,13 +11,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { sortSessionsByStatusAndDate } from "@/lib/session-sorting";
 import { cn } from "@/lib/utils";
 import { useConfig } from "../../../../../../hooks/useConfig";
 import { useProjects } from "../../../../../hooks/useProjects";
 import { useRecentSessions } from "../../hooks/useRecentSessions";
 import { sessionProcessesAtom } from "../../store/sessionProcessesAtom";
 import { SessionListItem } from "./SessionListItem";
-import { sortSessionsByStatusAndDate } from "./sortSessions";
 
 const ProjectSelector: FC<{
   onSelectProject: (projectId: string) => void;

@@ -1,8 +1,11 @@
 import { FileSystem, Path } from "@effect/platform";
 import { Context, Effect, Layer } from "effect";
+import { sortSessionsByStatusAndDate } from "../../../../lib/session-sorting";
+import type { PublicSessionProcess } from "../../../../types/session-process";
 import type { ControllerResponse } from "../../../lib/effect/toEffectResponse";
 import type { InferEffect } from "../../../lib/effect/types";
 import { computeClaudeProjectFilePath } from "../../claude-code/functions/computeClaudeProjectFilePath";
+import * as CCSessionProcess from "../../claude-code/models/CCSessionProcess";
 import { ClaudeCodeLifeCycleService } from "../../claude-code/services/ClaudeCodeLifeCycleService";
 import { ApplicationContext } from "../../platform/services/ApplicationContext";
 import { UserConfigService } from "../../platform/services/UserConfigService";
@@ -28,18 +31,57 @@ const LayerImpl = Effect.gen(function* () {
       } as const satisfies ControllerResponse;
     });
 
+  const getPublicSessionProcesses = () =>
+    Effect.gen(function* () {
+      const processes =
+        yield* claudeCodeLifeCycleService.getPublicSessionProcesses();
+      const publicProcesses: PublicSessionProcess[] = [];
+      for (const p of processes) {
+        const sessionId = CCSessionProcess.getSessionId(p);
+        if (sessionId !== undefined) {
+          publicProcesses.push({
+            id: p.def.sessionProcessId,
+            projectId: p.def.projectId,
+            sessionId,
+            status: CCSessionProcess.getPublicStatus(p),
+            permissionMode: p.def.permissionMode,
+          });
+        }
+      }
+      return publicProcesses;
+    });
+
   const getProject = (options: { projectId: string; cursor?: string }) =>
     Effect.gen(function* () {
       const { projectId, cursor } = options;
+      const pageSize = 20;
 
       const userConfig = yield* userConfigService.getUserConfig();
 
       const { project } = yield* projectRepository.getProject(projectId);
-      const { sessions } = yield* sessionRepository.getSessions(projectId, {
-        cursor,
-      });
 
-      let filteredSessions = sessions;
+      // Get all sessions without pagination to sort by status first
+      const { sessions: allSessions } = yield* sessionRepository.getSessions(
+        projectId,
+        {
+          maxCount: Number.MAX_SAFE_INTEGER,
+        },
+      );
+
+      // Get active session processes
+      const sessionProcesses = yield* getPublicSessionProcesses();
+      const projectProcesses = sessionProcesses.filter(
+        (p) => p.projectId === projectId,
+      );
+
+      // Sort sessions by status (active/paused first) then by date
+      const sortedSessions = sortSessionsByStatusAndDate(
+        allSessions,
+        projectProcesses,
+      );
+
+      // Apply user config filters
+      let filteredSessions = sortedSessions;
 
       // Filter sessions based on hideNoUserMessageSession setting
       if (userConfig.hideNoUserMessageSession) {
@@ -93,15 +135,34 @@ const LayerImpl = Effect.gen(function* () {
         }
 
         filteredSessions = Array.from(sessionMap.values());
+        // Re-sort after unification to maintain status-based ordering
+        filteredSessions = sortSessionsByStatusAndDate(
+          filteredSessions,
+          projectProcesses,
+        );
       }
 
-      const hasMore = sessions.length >= 20;
+      // Apply cursor-based pagination
+      let startIndex = 0;
+      if (cursor) {
+        const cursorIndex = filteredSessions.findIndex((s) => s.id === cursor);
+        if (cursorIndex !== -1) {
+          startIndex = cursorIndex + 1;
+        }
+      }
+
+      const sessionsToReturn = filteredSessions.slice(
+        startIndex,
+        startIndex + pageSize,
+      );
+      const hasMore = startIndex + pageSize < filteredSessions.length;
+
       return {
         status: 200,
         response: {
           project,
-          sessions: filteredSessions,
-          nextCursor: hasMore ? sessions.at(-1)?.id : undefined,
+          sessions: sessionsToReturn,
+          nextCursor: hasMore ? sessionsToReturn.at(-1)?.id : undefined,
         },
       } as const satisfies ControllerResponse;
     });
@@ -128,6 +189,9 @@ const LayerImpl = Effect.gen(function* () {
 
       // Get all projects
       const { projects } = yield* projectRepository.getProjects();
+
+      // Get active session processes
+      const sessionProcesses = yield* getPublicSessionProcesses();
 
       // Get sessions from all projects (first page only, limited per project)
       const allSessionsEffects = projects.map((project) =>
@@ -160,12 +224,11 @@ const LayerImpl = Effect.gen(function* () {
         concurrency: "unbounded",
       });
 
-      // Flatten and sort by lastModifiedAt
-      const allSessions = sessionsPerProject
-        .flat()
-        .sort(
-          (a, b) => b.lastModifiedAt.getTime() - a.lastModifiedAt.getTime(),
-        );
+      // Flatten and sort by status (active/paused first) then by date
+      const allSessions = sortSessionsByStatusAndDate(
+        sessionsPerProject.flat(),
+        sessionProcesses,
+      );
 
       // Apply cursor-based pagination
       let startIndex = 0;

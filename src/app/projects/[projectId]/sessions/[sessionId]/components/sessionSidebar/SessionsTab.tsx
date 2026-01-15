@@ -4,12 +4,12 @@ import { useAtomValue } from "jotai";
 import { PlusIcon } from "lucide-react";
 import type { FC } from "react";
 import { Button } from "@/components/ui/button";
+import { sortSessionsByStatusAndDate } from "@/lib/session-sorting";
 import { cn } from "@/lib/utils";
 import { useConfig } from "../../../../../../hooks/useConfig";
 import { useProject } from "../../../../hooks/useProject";
 import { sessionProcessesAtom } from "../../store/sessionProcessesAtom";
 import { SessionListItem } from "./SessionListItem";
-import { sortSessionsByStatusAndDate } from "./sortSessions";
 
 export const SessionsTab: FC<{
   currentSessionId: string;
