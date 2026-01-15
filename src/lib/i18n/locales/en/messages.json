@@ -140,7 +140,7 @@
         349
       ]
     ],
-    "translation": "Select auto-abort timeout"
+    "translation": "Select auto-terminate timeout"
   },
   "Select enter key behavior": {
     "placeholders": {},
@@ -758,7 +758,7 @@
         228
       ]
     ],
-    "translation": "Abort current session and restart with your message. Progress may be lost."
+    "translation": "Terminate current session and restart with your message. Progress may be lost."
   },
   "chat.send_options.abort.label": {
     "message": "Abort & Send",
@@ -770,7 +770,7 @@
         220
       ]
     ],
-    "translation": "Abort & Send"
+    "translation": "Terminate & Send"
   },
   "chat.send_options.description": {
     "message": "Claude is currently working. How would you like to proceed?",
@@ -2780,7 +2780,7 @@
         233
       ]
     ],
-    "translation": "Abort"
+    "translation": "Terminate"
   },
   "session.conversation.paused": {
     "placeholders": {},
@@ -3177,7 +3177,7 @@
         341
       ]
     ],
-    "translation": "Auto-abort idle sessions"
+    "translation": "Auto-terminate idle sessions"
   },
   "settings.auto_abort.description": {
     "placeholders": {},
@@ -3188,7 +3188,7 @@
         361
       ]
     ],
-    "translation": "Automatically abort paused sessions after this period of inactivity."
+    "translation": "Automatically terminate paused sessions after this period of inactivity."
   },
   "settings.auto_abort.hour": {
     "message": "1 hour",
