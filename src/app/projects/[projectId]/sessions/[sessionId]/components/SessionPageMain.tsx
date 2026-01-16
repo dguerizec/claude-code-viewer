@@ -12,7 +12,9 @@ import {
   MessageSquareIcon,
   PauseIcon,
   StarIcon,
+  XIcon,
 } from "lucide-react";
+import { useConfig } from "@/app/hooks/useConfig";
 
 /**
  * Formats a model name to a short display version.
@@ -47,6 +49,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useFeatureFlags } from "@/hooks/useFeatureFlags";
 import { usePermissionRequests } from "@/hooks/usePermissionRequests";
 import { useSchedulerJobs } from "@/hooks/useScheduler";
 import {
@@ -68,6 +71,7 @@ import { ConversationList } from "./conversationList/ConversationList";
 import { DiffModal } from "./diffModal";
 import { ChatActionMenu } from "./resumeChat/ChatActionMenu";
 import { ContinueChat } from "./resumeChat/ContinueChat";
+import { PermissionModeSelector } from "./resumeChat/PermissionModeSelector";
 import { ResumeChat } from "./resumeChat/ResumeChat";
 import { StartNewChat } from "./resumeChat/StartNewChat";
 import { SessionIdDropdown } from "./SessionIdDropdown";
@@ -138,6 +142,9 @@ const SessionPageMainContent: FC<
   const starredSessionIds = useStarredSessionsSet();
   const toggleStar = useToggleStarredSession();
   const isStarred = sessionId ? starredSessionIds.has(sessionId) : false;
+  const { isFlagEnabled } = useFeatureFlags();
+  const isToolApprovalAvailable = isFlagEnabled("tool-approval");
+  const { config } = useConfig();
 
   const handleToggleStar = () => {
     if (sessionId) {
@@ -150,6 +157,12 @@ const SessionPageMainContent: FC<
     if (!sessionId) return undefined;
     return sessionProcess.getSessionProcess(sessionId);
   }, [sessionProcess, sessionId]);
+
+  // Use session process permission mode if available, otherwise fall back to global config
+  const permissionMode =
+    relatedSessionProcess?.permissionMode ??
+    config?.permissionMode ??
+    "default";
 
   // Filter scheduler jobs related to this session
   const sessionScheduledJobs = useMemo(() => {
@@ -339,7 +352,7 @@ const SessionPageMainContent: FC<
             </h1>
           </div>
           <div className="flex items-center gap-2 min-w-0">
-            <div className="flex items-center gap-1.5 min-w-0 overflow-hidden flex-1">
+            <div className="flex items-center gap-1.5 flex-1 flex-wrap">
               {projectPath && (
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -461,271 +474,309 @@ const SessionPageMainContent: FC<
                   </TooltipContent>
                 </Tooltip>
               )}
+              {isToolApprovalAvailable && isExistingSession && sessionId && (
+                <PermissionModeSelector
+                  sessionId={sessionId}
+                  currentMode={permissionMode}
+                  sessionStatus={relatedSessionProcess?.status ?? "none"}
+                  onInterruptAndChange={handleInterruptAndChangePermission}
+                />
+              )}
             </div>
-            {relatedSessionProcess?.status === "starting" && (
-              <Badge
-                variant="secondary"
-                className="bg-blue-500/10 text-blue-900 dark:text-blue-200 border-blue-500/20 flex-shrink-0 h-6 text-xs"
-              >
-                <LoaderIcon className="w-3 h-3 mr-1 animate-spin" />
-                <Trans id="session.conversation.starting" />
-              </Badge>
-            )}
-            {relatedSessionProcess?.status === "pending" && (
-              <Badge
-                variant="secondary"
-                className="bg-blue-500/10 text-blue-900 dark:text-blue-200 border-blue-500/20 flex-shrink-0 h-6 text-xs"
-              >
-                <LoaderIcon className="w-3 h-3 mr-1 animate-spin" />
-                <Trans id="session.conversation.pending" />
-              </Badge>
-            )}
-            {relatedSessionProcess?.status === "running" && (
-              <Badge
-                variant="secondary"
-                className="bg-green-500/10 text-green-900 dark:text-green-200 border-green-500/20 flex-shrink-0 h-6 text-xs"
-              >
-                <LoaderIcon className="w-3 h-3 mr-1 animate-spin" />
-                <Trans id="session.conversation.running" />
-              </Badge>
-            )}
-            {relatedSessionProcess?.status === "paused" && (
-              <Badge
-                variant="secondary"
-                className="bg-orange-500/10 text-orange-900 dark:text-orange-200 border-orange-500/20 flex-shrink-0 h-6 text-xs"
-              >
-                <PauseIcon className="w-3 h-3 mr-1" />
-                <Trans id="session.conversation.paused" />
-              </Badge>
-            )}
-            {sessionId !== undefined && (
-              <Tooltip>
-                <TooltipTrigger asChild>
+            <div className="flex items-center gap-1.5 flex-wrap justify-end">
+              {relatedSessionProcess?.status === "starting" && (
+                <Badge
+                  variant="secondary"
+                  className="bg-blue-500/10 text-blue-900 dark:text-blue-200 border-blue-500/20 flex-shrink-0 h-6 text-xs"
+                >
+                  <LoaderIcon className="w-3 h-3 mr-1 animate-spin" />
+                  <Trans id="session.conversation.starting" />
+                </Badge>
+              )}
+              {relatedSessionProcess?.status === "pending" && (
+                <Badge
+                  variant="secondary"
+                  className="bg-blue-500/10 text-blue-900 dark:text-blue-200 border-blue-500/20 flex-shrink-0 h-6 text-xs"
+                >
+                  <LoaderIcon className="w-3 h-3 mr-1 animate-spin" />
+                  <Trans id="session.conversation.pending" />
+                </Badge>
+              )}
+              {relatedSessionProcess?.status === "running" && (
+                <Badge
+                  variant="secondary"
+                  className="bg-green-500/10 text-green-900 dark:text-green-200 border-green-500/20 flex-shrink-0 h-6 text-xs"
+                >
+                  <LoaderIcon className="w-3 h-3 mr-1 animate-spin" />
+                  <Trans id="session.conversation.running" />
+                </Badge>
+              )}
+              {relatedSessionProcess?.status === "paused" && (
+                <Badge
+                  variant="secondary"
+                  className="bg-yellow-500/10 text-yellow-900 dark:text-yellow-200 border-yellow-500/20 flex-shrink-0 h-6 text-xs"
+                >
+                  <PauseIcon className="w-3 h-3 mr-1" />
+                  <Trans id="session.conversation.paused" />
+                </Badge>
+              )}
+              {relatedSessionProcess &&
+                (relatedSessionProcess.status === "running" ||
+                  relatedSessionProcess.status === "paused") && (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="icon"
+                        onClick={() => {
+                          abortTask.mutate(relatedSessionProcess.id);
+                        }}
+                        disabled={abortTask.isPending}
+                        className="flex-shrink-0 h-6 w-6"
+                      >
+                        {abortTask.isPending ? (
+                          <LoaderIcon className="w-3.5 h-3.5 animate-spin" />
+                        ) : (
+                          <XIcon className="w-3.5 h-3.5" />
+                        )}
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <Trans id="session.conversation.abort" />
+                    </TooltipContent>
+                  </Tooltip>
+                )}
+              {sessionId !== undefined && (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="flex-shrink-0 h-6 w-6"
+                      onClick={() =>
+                        exportSession.mutate({ projectId, sessionId })
+                      }
+                      disabled={exportSession.isPending}
+                      aria-label="Export session to HTML"
+                    >
+                      <DownloadIcon
+                        className={`w-3.5 h-3.5 ${exportSession.isPending ? "animate-pulse" : ""}`}
+                      />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Export to HTML</TooltipContent>
+                </Tooltip>
+              )}
+              <Popover>
+                <PopoverTrigger asChild>
                   <Button
                     variant="ghost"
                     size="icon"
                     className="flex-shrink-0 h-6 w-6"
-                    onClick={() =>
-                      exportSession.mutate({ projectId, sessionId })
-                    }
-                    disabled={exportSession.isPending}
-                    aria-label="Export session to HTML"
+                    aria-label="Session metadata"
                   >
-                    <DownloadIcon
-                      className={`w-3.5 h-3.5 ${exportSession.isPending ? "animate-pulse" : ""}`}
-                    />
+                    <InfoIcon className="w-3.5 h-3.5" />
                   </Button>
-                </TooltipTrigger>
-                <TooltipContent>Export to HTML</TooltipContent>
-              </Tooltip>
-            )}
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="flex-shrink-0 h-6 w-6"
-                  aria-label="Session metadata"
-                >
-                  <InfoIcon className="w-3.5 h-3.5" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-80" align="end">
-                <div className="space-y-4">
-                  <div>
-                    <h3 className="font-semibold text-sm mb-2">
-                      <Trans id="control.metadata" />
-                    </h3>
-                    <div className="space-y-2">
-                      {projectPath && (
-                        <div className="flex flex-col gap-1">
-                          <span className="text-xs text-muted-foreground">
-                            <Trans id="control.project_path" />
-                          </span>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Badge
-                                variant="secondary"
-                                className="h-7 text-xs flex items-center w-fit cursor-help"
-                              >
-                                {projectPath.split("/").pop()}
-                              </Badge>
-                            </TooltipTrigger>
-                            <TooltipContent>{projectPath}</TooltipContent>
-                          </Tooltip>
-                        </div>
-                      )}
-                      {sessionId && isExistingSession && sessionData && (
-                        <div className="flex flex-col gap-1">
-                          <span className="text-xs text-muted-foreground">
-                            <Trans id="control.session_id" />
-                          </span>
-                          <SessionIdDropdown
-                            sessionId={sessionId}
-                            jsonlFilePath={sessionData.session.jsonlFilePath}
-                            runningPermissionMode={
-                              relatedSessionProcess?.permissionMode
-                            }
-                          />
-                        </div>
-                      )}
-                      {currentBranch && (
-                        <div className="flex flex-col gap-1">
-                          <span className="text-xs text-muted-foreground">
-                            <Trans id="control.branch" />
-                          </span>
-                          <Badge
-                            variant="secondary"
-                            className="h-7 text-xs flex items-center gap-1 w-fit"
-                          >
-                            <GitBranchIcon className="w-3 h-3" />
-                            {currentBranch}
-                          </Badge>
-                        </div>
-                      )}
-                      {isExistingSession &&
-                        sessionData?.session.meta.modelName && (
+                </PopoverTrigger>
+                <PopoverContent className="w-80" align="end">
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="font-semibold text-sm mb-2">
+                        <Trans id="control.metadata" />
+                      </h3>
+                      <div className="space-y-2">
+                        {projectPath && (
                           <div className="flex flex-col gap-1">
                             <span className="text-xs text-muted-foreground">
-                              <Trans id="session.model.label" />
+                              <Trans id="control.project_path" />
+                            </span>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Badge
+                                  variant="secondary"
+                                  className="h-7 text-xs flex items-center w-fit cursor-help"
+                                >
+                                  {projectPath.split("/").pop()}
+                                </Badge>
+                              </TooltipTrigger>
+                              <TooltipContent>{projectPath}</TooltipContent>
+                            </Tooltip>
+                          </div>
+                        )}
+                        {sessionId && isExistingSession && sessionData && (
+                          <div className="flex flex-col gap-1">
+                            <span className="text-xs text-muted-foreground">
+                              <Trans id="control.session_id" />
+                            </span>
+                            <SessionIdDropdown
+                              sessionId={sessionId}
+                              jsonlFilePath={sessionData.session.jsonlFilePath}
+                              runningPermissionMode={
+                                relatedSessionProcess?.permissionMode
+                              }
+                            />
+                          </div>
+                        )}
+                        {currentBranch && (
+                          <div className="flex flex-col gap-1">
+                            <span className="text-xs text-muted-foreground">
+                              <Trans id="control.branch" />
                             </span>
                             <Badge
                               variant="secondary"
                               className="h-7 text-xs flex items-center gap-1 w-fit"
                             >
-                              <BotIcon className="w-3 h-3" />
-                              {sessionData.session.meta.modelName}
+                              <GitBranchIcon className="w-3 h-3" />
+                              {currentBranch}
                             </Badge>
                           </div>
                         )}
-                      {isExistingSession && sessionData && (
-                        <div className="flex flex-col gap-1">
-                          <span className="text-xs text-muted-foreground">
-                            <Trans id="session.cost.label" />
-                          </span>
-                          <div className="space-y-1.5">
-                            <Badge
-                              variant="secondary"
-                              className="h-7 text-xs flex items-center w-fit font-semibold"
-                            >
-                              <Trans id="session.cost.total" />: $
-                              {sessionData.session.meta.cost.totalUsd.toFixed(
-                                3,
-                              )}
-                            </Badge>
-                            <div className="text-xs space-y-1 pl-2">
-                              <div className="flex justify-between gap-4">
-                                <span className="text-muted-foreground">
-                                  <Trans id="session.cost.input_tokens" />:
-                                </span>
-                                <span>
-                                  $
-                                  {sessionData.session.meta.cost.breakdown.inputTokensUsd.toFixed(
-                                    3,
-                                  )}{" "}
-                                  (
-                                  {sessionData.session.meta.cost.tokenUsage.inputTokens.toLocaleString()}
-                                  )
-                                </span>
-                              </div>
-                              <div className="flex justify-between gap-4">
-                                <span className="text-muted-foreground">
-                                  <Trans id="session.cost.output_tokens" />:
-                                </span>
-                                <span>
-                                  $
-                                  {sessionData.session.meta.cost.breakdown.outputTokensUsd.toFixed(
-                                    3,
-                                  )}{" "}
-                                  (
-                                  {sessionData.session.meta.cost.tokenUsage.outputTokens.toLocaleString()}
-                                  )
-                                </span>
-                              </div>
-                              <div className="flex justify-between gap-4">
-                                <span className="text-muted-foreground">
-                                  <Trans id="session.cost.cache_creation" />:
-                                </span>
-                                <span>
-                                  $
-                                  {sessionData.session.meta.cost.breakdown.cacheCreationUsd.toFixed(
-                                    3,
-                                  )}{" "}
-                                  (
-                                  {sessionData.session.meta.cost.tokenUsage.cacheCreationTokens.toLocaleString()}
-                                  )
-                                </span>
-                              </div>
-                              <div className="flex justify-between gap-4">
-                                <span className="text-muted-foreground">
-                                  <Trans id="session.cost.cache_read" />:
-                                </span>
-                                <span>
-                                  $
-                                  {sessionData.session.meta.cost.breakdown.cacheReadUsd.toFixed(
-                                    3,
-                                  )}{" "}
-                                  (
-                                  {sessionData.session.meta.cost.tokenUsage.cacheReadTokens.toLocaleString()}
-                                  )
-                                </span>
-                              </div>
+                        {isExistingSession &&
+                          sessionData?.session.meta.modelName && (
+                            <div className="flex flex-col gap-1">
+                              <span className="text-xs text-muted-foreground">
+                                <Trans id="session.model.label" />
+                              </span>
+                              <Badge
+                                variant="secondary"
+                                className="h-7 text-xs flex items-center gap-1 w-fit"
+                              >
+                                <BotIcon className="w-3 h-3" />
+                                {sessionData.session.meta.modelName}
+                              </Badge>
                             </div>
-                          </div>
-                        </div>
-                      )}
-                      {isExistingSession &&
-                        sessionData?.session.meta.currentContextUsage && (
+                          )}
+                        {isExistingSession && sessionData && (
                           <div className="flex flex-col gap-1">
                             <span className="text-xs text-muted-foreground">
-                              <Trans id="session.context.label" />
+                              <Trans id="session.cost.label" />
                             </span>
                             <div className="space-y-1.5">
                               <Badge
                                 variant="secondary"
-                                className={`h-7 text-xs flex items-center gap-1 w-fit font-semibold ${
-                                  sessionData.session.meta.currentContextUsage
-                                    .percentage >= 70
-                                    ? "bg-red-500/10 text-red-900 dark:text-red-200 border-red-500/20"
-                                    : sessionData.session.meta
-                                          .currentContextUsage.percentage >= 50
-                                      ? "bg-orange-500/10 text-orange-900 dark:text-orange-200 border-orange-500/20"
-                                      : ""
-                                }`}
+                                className="h-7 text-xs flex items-center w-fit font-semibold"
                               >
-                                <BrainIcon className="w-3 h-3" />
-                                {sessionData.session.meta.currentContextUsage.percentage.toFixed(
-                                  1,
+                                <Trans id="session.cost.total" />: $
+                                {sessionData.session.meta.cost.totalUsd.toFixed(
+                                  3,
                                 )}
-                                %
                               </Badge>
                               <div className="text-xs space-y-1 pl-2">
                                 <div className="flex justify-between gap-4">
                                   <span className="text-muted-foreground">
-                                    <Trans id="session.context.current_tokens" />
-                                    :
+                                    <Trans id="session.cost.input_tokens" />:
                                   </span>
                                   <span>
-                                    {sessionData.session.meta.currentContextUsage.tokens.toLocaleString()}
+                                    $
+                                    {sessionData.session.meta.cost.breakdown.inputTokensUsd.toFixed(
+                                      3,
+                                    )}{" "}
+                                    (
+                                    {sessionData.session.meta.cost.tokenUsage.inputTokens.toLocaleString()}
+                                    )
                                   </span>
                                 </div>
                                 <div className="flex justify-between gap-4">
                                   <span className="text-muted-foreground">
-                                    <Trans id="session.context.max_tokens" />:
+                                    <Trans id="session.cost.output_tokens" />:
                                   </span>
                                   <span>
-                                    {sessionData.session.meta.currentContextUsage.maxTokens.toLocaleString()}
+                                    $
+                                    {sessionData.session.meta.cost.breakdown.outputTokensUsd.toFixed(
+                                      3,
+                                    )}{" "}
+                                    (
+                                    {sessionData.session.meta.cost.tokenUsage.outputTokens.toLocaleString()}
+                                    )
+                                  </span>
+                                </div>
+                                <div className="flex justify-between gap-4">
+                                  <span className="text-muted-foreground">
+                                    <Trans id="session.cost.cache_creation" />:
+                                  </span>
+                                  <span>
+                                    $
+                                    {sessionData.session.meta.cost.breakdown.cacheCreationUsd.toFixed(
+                                      3,
+                                    )}{" "}
+                                    (
+                                    {sessionData.session.meta.cost.tokenUsage.cacheCreationTokens.toLocaleString()}
+                                    )
+                                  </span>
+                                </div>
+                                <div className="flex justify-between gap-4">
+                                  <span className="text-muted-foreground">
+                                    <Trans id="session.cost.cache_read" />:
+                                  </span>
+                                  <span>
+                                    $
+                                    {sessionData.session.meta.cost.breakdown.cacheReadUsd.toFixed(
+                                      3,
+                                    )}{" "}
+                                    (
+                                    {sessionData.session.meta.cost.tokenUsage.cacheReadTokens.toLocaleString()}
+                                    )
                                   </span>
                                 </div>
                               </div>
                             </div>
                           </div>
                         )}
+                        {isExistingSession &&
+                          sessionData?.session.meta.currentContextUsage && (
+                            <div className="flex flex-col gap-1">
+                              <span className="text-xs text-muted-foreground">
+                                <Trans id="session.context.label" />
+                              </span>
+                              <div className="space-y-1.5">
+                                <Badge
+                                  variant="secondary"
+                                  className={`h-7 text-xs flex items-center gap-1 w-fit font-semibold ${
+                                    sessionData.session.meta.currentContextUsage
+                                      .percentage >= 70
+                                      ? "bg-red-500/10 text-red-900 dark:text-red-200 border-red-500/20"
+                                      : sessionData.session.meta
+                                            .currentContextUsage.percentage >=
+                                          50
+                                        ? "bg-orange-500/10 text-orange-900 dark:text-orange-200 border-orange-500/20"
+                                        : ""
+                                  }`}
+                                >
+                                  <BrainIcon className="w-3 h-3" />
+                                  {sessionData.session.meta.currentContextUsage.percentage.toFixed(
+                                    1,
+                                  )}
+                                  %
+                                </Badge>
+                                <div className="text-xs space-y-1 pl-2">
+                                  <div className="flex justify-between gap-4">
+                                    <span className="text-muted-foreground">
+                                      <Trans id="session.context.current_tokens" />
+                                      :
+                                    </span>
+                                    <span>
+                                      {sessionData.session.meta.currentContextUsage.tokens.toLocaleString()}
+                                    </span>
+                                  </div>
+                                  <div className="flex justify-between gap-4">
+                                    <span className="text-muted-foreground">
+                                      <Trans id="session.context.max_tokens" />:
+                                    </span>
+                                    <span>
+                                      {sessionData.session.meta.currentContextUsage.maxTokens.toLocaleString()}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </PopoverContent>
-            </Popover>
+                </PopoverContent>
+              </Popover>
+            </div>
           </div>
         </header>
 
@@ -797,7 +848,6 @@ const SessionPageMainContent: FC<
         <div className="w-full pt-3">
           <ChatActionMenu
             projectId={projectId}
-            sessionId={sessionId}
             onScrollToTop={handleScrollToTop}
             onScrollToBottom={handleScrollToBottom}
             onOpenDiffModal={
@@ -805,10 +855,7 @@ const SessionPageMainContent: FC<
             }
             onForceReload={isExistingSession ? handleForceReload : undefined}
             isReloading={isReloading}
-            sessionProcess={relatedSessionProcess}
-            abortTask={abortTask}
             isNewChat={!isExistingSession}
-            onInterruptAndChangePermission={handleInterruptAndChangePermission}
           />
         </div>
 

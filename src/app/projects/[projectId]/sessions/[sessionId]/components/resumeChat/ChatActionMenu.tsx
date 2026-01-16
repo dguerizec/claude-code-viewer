@@ -1,68 +1,45 @@
 import { Trans, useLingui } from "@lingui/react";
-import type { UseMutationResult } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
   GitCompareIcon,
   GlobeIcon,
-  LoaderIcon,
   PlusIcon,
   RefreshCwIcon,
-  XIcon,
 } from "lucide-react";
 import type { FC } from "react";
 import { useConfig } from "@/app/hooks/useConfig";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { useFeatureFlags } from "@/hooks/useFeatureFlags";
 import { useBrowserPreview } from "../../../../../../../hooks/useBrowserPreview";
-import type {
-  PermissionMode,
-  PublicSessionProcess,
-} from "../../../../../../../types/session-process";
-import { PermissionModeBadge } from "./PermissionModeBadge";
-import { PermissionModeSelector } from "./PermissionModeSelector";
 
 interface ChatActionMenuProps {
   projectId: string;
-  sessionId?: string;
   isPending?: boolean;
   onScrollToTop?: () => void;
   onScrollToBottom?: () => void;
   onOpenDiffModal?: () => void;
   onForceReload?: () => void;
   isReloading?: boolean;
-  sessionProcess?: PublicSessionProcess;
-  abortTask?: UseMutationResult<unknown, Error, string, unknown>;
   isNewChat?: boolean;
-  onInterruptAndChangePermission?: (newMode: PermissionMode) => void;
 }
 
 export const ChatActionMenu: FC<ChatActionMenuProps> = ({
   projectId,
-  sessionId,
   isPending = false,
   onScrollToTop,
   onScrollToBottom,
   onOpenDiffModal,
   onForceReload,
   isReloading = false,
-  sessionProcess,
-  abortTask,
   isNewChat = false,
-  onInterruptAndChangePermission,
 }) => {
   const { i18n } = useLingui();
   const navigate = useNavigate();
   const { openPreview } = useBrowserPreview();
   const { config, updateConfig } = useConfig();
-  const { isFlagEnabled } = useFeatureFlags();
-  const isToolApprovalAvailable = isFlagEnabled("tool-approval");
-  // Use session process permission mode if available, otherwise fall back to global config
-  const permissionMode =
-    sessionProcess?.permissionMode ?? config?.permissionMode ?? "default";
 
   const fullView = !(config?.simplifiedView ?? false);
 
@@ -200,38 +177,6 @@ export const ChatActionMenu: FC<ChatActionMenuProps> = ({
             ) : (
               <RefreshCwIcon className="w-3.5 h-3.5" />
             )}
-          </Button>
-        )}
-        {isToolApprovalAvailable &&
-          (sessionId ? (
-            <PermissionModeSelector
-              sessionId={sessionId}
-              currentMode={permissionMode}
-              sessionStatus={sessionProcess?.status ?? "none"}
-              onInterruptAndChange={onInterruptAndChangePermission}
-            />
-          ) : (
-            <PermissionModeBadge permissionMode={permissionMode} />
-          ))}
-        {sessionProcess && abortTask && (
-          <Button
-            type="button"
-            variant="destructive"
-            size="sm"
-            onClick={() => {
-              abortTask.mutate(sessionProcess.id);
-            }}
-            disabled={abortTask.isPending || isPending}
-            className="h-7 px-2 gap-1.5 text-xs rounded-lg"
-          >
-            {abortTask.isPending ? (
-              <LoaderIcon className="w-3.5 h-3.5 animate-spin" />
-            ) : (
-              <XIcon className="w-3.5 h-3.5" />
-            )}
-            <span>
-              <Trans id="session.conversation.abort" />
-            </span>
           </Button>
         )}
       </div>
