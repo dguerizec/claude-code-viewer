@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "./AuthProvider";
 import { Loading } from "./Loading";
 import { NotificationSettings } from "./NotificationSettings";
+import { PersistentDialogIndicators } from "./PersistentDialogIndicators";
 import { useSearch } from "./SearchProvider";
 import { SettingsControls } from "./SettingsControls";
 import { SystemInfoCard } from "./SystemInfoCard";
@@ -168,7 +169,8 @@ export const GlobalSidebar: FC<GlobalSidebarProps> = ({
               </TooltipContent>
             </Tooltip>
           </div>
-          <div className="flex-1 flex flex-col p-2 space-y-1">
+          {/* Tabs - aligned to top */}
+          <div className="flex flex-col p-2 space-y-1 border-b border-sidebar-border">
             {allTabs.map((tab) => {
               const Icon = tab.icon;
               return (
@@ -196,6 +198,11 @@ export const GlobalSidebar: FC<GlobalSidebarProps> = ({
               );
             })}
           </div>
+          {/* Persistent dialog indicators - centered in remaining space */}
+          <div className="flex-1 flex flex-col items-center justify-center">
+            <PersistentDialogIndicators />
+          </div>
+
           {/* Logout button at bottom - only show when auth is enabled */}
           {authEnabled && (
             <div className="p-2 border-t border-sidebar-border">

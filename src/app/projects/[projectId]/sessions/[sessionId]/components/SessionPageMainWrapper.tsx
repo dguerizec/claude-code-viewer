@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import { Suspense } from "react";
+import { PersistentDialogsProvider } from "@/contexts/PersistentDialogsContext";
 import { Loading } from "../../../../../../components/Loading";
 import { useProject } from "../../../hooks/useProject";
 import { useGitCurrentRevisions } from "../hooks/useGit";
@@ -35,7 +36,7 @@ export const SessionPageMainWrapper: FC<{
     : undefined;
 
   return (
-    <>
+    <PersistentDialogsProvider>
       <Suspense fallback={<Loading />}>
         <SessionSidebar
           currentSessionId={sessionId}
@@ -58,6 +59,6 @@ export const SessionPageMainWrapper: FC<{
           projectName={projectName}
         />
       </Suspense>
-    </>
+    </PersistentDialogsProvider>
   );
 };

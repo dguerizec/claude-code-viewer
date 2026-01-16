@@ -13,6 +13,7 @@ import { useConfig } from "@/app/hooks/useConfig";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { usePersistentDialogs } from "@/contexts/PersistentDialogsContext";
 import { useBrowserPreview } from "../../../../../../../hooks/useBrowserPreview";
 
 interface ChatActionMenuProps {
@@ -20,10 +21,10 @@ interface ChatActionMenuProps {
   isPending?: boolean;
   onScrollToTop?: () => void;
   onScrollToBottom?: () => void;
-  onOpenDiffModal?: () => void;
   onForceReload?: () => void;
   isReloading?: boolean;
   isNewChat?: boolean;
+  showGitButton?: boolean;
 }
 
 export const ChatActionMenu: FC<ChatActionMenuProps> = ({
@@ -31,15 +32,16 @@ export const ChatActionMenu: FC<ChatActionMenuProps> = ({
   isPending = false,
   onScrollToTop,
   onScrollToBottom,
-  onOpenDiffModal,
   onForceReload,
   isReloading = false,
   isNewChat = false,
+  showGitButton = false,
 }) => {
   const { i18n } = useLingui();
   const navigate = useNavigate();
   const { openPreview } = useBrowserPreview();
   const { config, updateConfig } = useConfig();
+  const persistentDialogs = usePersistentDialogs();
 
   const fullView = !(config?.simplifiedView ?? false);
 
@@ -64,12 +66,12 @@ export const ChatActionMenu: FC<ChatActionMenuProps> = ({
   return (
     <div className="px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 mb-1">
       <div className="py-0 flex items-center gap-1.5 flex-wrap">
-        {onOpenDiffModal && (
+        {showGitButton && (
           <Button
             type="button"
             variant="ghost"
             size="sm"
-            onClick={onOpenDiffModal}
+            onClick={() => persistentDialogs?.toggle("git")}
             disabled={isPending}
             className="h-7 px-2 gap-1.5 text-xs bg-muted/20 rounded-lg border border-border/40"
             title={i18n._({

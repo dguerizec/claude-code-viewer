@@ -5,15 +5,24 @@ import {
   FileText,
   GitBranch,
   GitCommitHorizontal,
+  GitCompareIcon,
   Loader2,
   RefreshCcwIcon,
+  X,
 } from "lucide-react";
 import type { FC } from "react";
-import { useCallback, useEffect, useId, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { createPortal } from "react-dom";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
@@ -22,6 +31,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { usePersistentDialog } from "@/contexts/PersistentDialogsContext";
 import { cn } from "@/lib/utils";
 import {
   useCommitAndPush,
@@ -244,17 +254,52 @@ const RefSelector: FC<RefSelectorProps> = ({
 };
 
 export const DiffModal: FC<DiffModalProps> = ({
-  isOpen,
-  onOpenChange,
   projectId,
+  projectName,
   defaultCompareFrom = "HEAD",
   defaultCompareTo = "working",
   revisionsData: parentRevisionsData,
 }) => {
   const { i18n } = useLingui();
   const commitMessageId = useId();
+  const contentRef = useRef<HTMLDivElement>(null);
   const [compareFrom, setCompareFrom] = useState(defaultCompareFrom);
   const [compareTo, setCompareTo] = useState(defaultCompareTo);
+
+  // Register as a persistent dialog
+  const dialogConfig = useMemo(
+    () => ({
+      id: "git",
+      icon: GitCompareIcon,
+      label: <Trans id="control.git" />,
+      description: projectName,
+    }),
+    [projectName],
+  );
+  const { isVisible, hide } = usePersistentDialog(dialogConfig);
+
+  // Handle Escape key to hide
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        e.stopPropagation();
+        hide();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown, true);
+    return () => document.removeEventListener("keydown", handleKeyDown, true);
+  }, [isVisible, hide]);
+
+  // Handle click outside to hide
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      hide();
+    }
+  };
 
   // File selection state (FR-002: all selected by default)
   const [selectedFiles, setSelectedFiles] = useState<Map<string, boolean>>(
@@ -351,11 +396,15 @@ export const DiffModal: FC<DiffModalProps> = ({
     }
   }, [diffData]);
 
+  // Load diff when refs change, but NOT when visibility changes
+  // This preserves scroll/selection state when hiding/showing
+  const hasLoadedRef = useRef(false);
   useEffect(() => {
-    if (isOpen && compareFrom && compareTo) {
+    if (compareFrom && compareTo) {
       loadDiff();
+      hasLoadedRef.current = true;
     }
-  }, [isOpen, compareFrom, compareTo, loadDiff]);
+  }, [compareFrom, compareTo, loadDiff]);
 
   const handleCompare = () => {
     loadDiff();
@@ -502,12 +551,50 @@ export const DiffModal: FC<DiffModalProps> = ({
     commitMessage.trim().length === 0 ||
     commitMutation.isPending;
 
-  return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-7xl w-[95vw] h-[90vh] overflow-hidden flex flex-col px-2 md:px-8">
-        <DialogTitle className="sr-only">
-          <Trans id="diff.modal.title" />
-        </DialogTitle>
+  // Render as portal with custom overlay (stays mounted, visibility controlled by CSS)
+  return createPortal(
+    <div
+      className={cn(
+        "fixed inset-0 z-50 flex items-center justify-center",
+        isVisible ? "visible" : "invisible pointer-events-none",
+      )}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="diff-modal-title"
+    >
+      {/* Overlay/backdrop */}
+      <div
+        className={cn(
+          "absolute inset-0 bg-black/50 transition-opacity duration-200",
+          isVisible ? "opacity-100" : "opacity-0",
+        )}
+        onClick={handleOverlayClick}
+        onKeyDown={(e) => e.key === "Escape" && hide()}
+      />
+
+      {/* Dialog content */}
+      <div
+        ref={contentRef}
+        className={cn(
+          "relative z-10 bg-background rounded-lg shadow-lg border",
+          "max-w-7xl w-[95vw] h-[90vh] overflow-hidden flex flex-col gap-4 px-2 md:px-8 py-6",
+          "transition-all duration-200",
+          isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95",
+        )}
+      >
+        {/* Close button */}
+        <button
+          type="button"
+          onClick={hide}
+          className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none"
+          aria-label="Close"
+        >
+          <X className="h-4 w-4" />
+        </button>
+
+        <h2 id="diff-modal-title" className="text-lg font-semibold">
+          <Trans id="control.git" /> — {projectName}
+        </h2>
         <div className="flex flex-wrap items-end gap-2">
           <RefSelector
             label={i18n._("Compare from")}
@@ -758,7 +845,8 @@ export const DiffModal: FC<DiffModalProps> = ({
             </div>
           </div>
         )}
-      </DialogContent>
-    </Dialog>
+      </div>
+    </div>,
+    document.body,
   );
 };

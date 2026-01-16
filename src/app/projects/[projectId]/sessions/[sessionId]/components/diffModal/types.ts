@@ -30,8 +30,7 @@ export interface DiffSummary {
 
 export interface DiffModalProps {
   projectId: string;
-  isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
+  projectName: string;
   defaultCompareFrom?: string;
   defaultCompareTo?: string;
   revisionsData?:

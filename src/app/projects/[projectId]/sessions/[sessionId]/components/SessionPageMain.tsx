@@ -193,7 +193,6 @@ const SessionPageMainContent: FC<
 
   const [previousConversationLength, setPreviousConversationLength] =
     useState(0);
-  const [isDiffModalOpen, setIsDiffModalOpen] = useState(false);
   const [isReloading, setIsReloading] = useState(false);
   const [isCreatingSession, setIsCreatingSession] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
@@ -850,12 +849,10 @@ const SessionPageMainContent: FC<
             projectId={projectId}
             onScrollToTop={handleScrollToTop}
             onScrollToBottom={handleScrollToBottom}
-            onOpenDiffModal={
-              isExistingSession ? () => setIsDiffModalOpen(true) : undefined
-            }
             onForceReload={isExistingSession ? handleForceReload : undefined}
             isReloading={isReloading}
             isNewChat={!isExistingSession}
+            showGitButton={isExistingSession}
           />
         </div>
 
@@ -881,9 +878,9 @@ const SessionPageMainContent: FC<
 
       {isExistingSession && (
         <DiffModal
+          key={projectId}
           projectId={projectId}
-          isOpen={isDiffModalOpen}
-          onOpenChange={setIsDiffModalOpen}
+          projectName={projectName}
           revisionsData={revisionsData}
         />
       )}
