@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import { Suspense } from "react";
+import { DiffLineCommentProvider } from "@/contexts/DiffLineCommentContext";
 import { PersistentDialogsProvider } from "@/contexts/PersistentDialogsContext";
 import { Loading } from "../../../../../../components/Loading";
 import { useProject } from "../../../hooks/useProject";
@@ -37,28 +38,30 @@ export const SessionPageMainWrapper: FC<{
 
   return (
     <PersistentDialogsProvider>
-      <Suspense fallback={<Loading />}>
-        <SessionSidebar
-          currentSessionId={sessionId}
-          projectId={projectId}
-          projectName={projectName}
-          isMobileOpen={isMobileSidebarOpen}
-          onMobileOpenChange={setIsMobileSidebarOpen}
-          initialTab={tab}
-        />
-      </Suspense>
-      <Suspense fallback={<Loading />}>
-        <SessionPageMain
-          key={sessionId}
-          projectId={projectId}
-          sessionId={sessionId}
-          setIsMobileSidebarOpen={setIsMobileSidebarOpen}
-          projectPath={projectPath}
-          currentBranch={currentBranch}
-          revisionsData={revisionsData}
-          projectName={projectName}
-        />
-      </Suspense>
+      <DiffLineCommentProvider>
+        <Suspense fallback={<Loading />}>
+          <SessionSidebar
+            currentSessionId={sessionId}
+            projectId={projectId}
+            projectName={projectName}
+            isMobileOpen={isMobileSidebarOpen}
+            onMobileOpenChange={setIsMobileSidebarOpen}
+            initialTab={tab}
+          />
+        </Suspense>
+        <Suspense fallback={<Loading />}>
+          <SessionPageMain
+            key={sessionId}
+            projectId={projectId}
+            sessionId={sessionId}
+            setIsMobileSidebarOpen={setIsMobileSidebarOpen}
+            projectPath={projectPath}
+            currentBranch={currentBranch}
+            revisionsData={revisionsData}
+            projectName={projectName}
+          />
+        </Suspense>
+      </DiffLineCommentProvider>
     </PersistentDialogsProvider>
   );
 };

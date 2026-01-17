@@ -13,6 +13,7 @@ import { useConfig } from "@/app/hooks/useConfig";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { useDiffLineComment } from "@/contexts/DiffLineCommentContext";
 import { usePersistentDialogs } from "@/contexts/PersistentDialogsContext";
 import { useBrowserPreview } from "../../../../../../../hooks/useBrowserPreview";
 
@@ -42,6 +43,7 @@ export const ChatActionMenu: FC<ChatActionMenuProps> = ({
   const { openPreview } = useBrowserPreview();
   const { config, updateConfig } = useConfig();
   const persistentDialogs = usePersistentDialogs();
+  const { nonEmptyCommentCount } = useDiffLineComment();
 
   const fullView = !(config?.simplifiedView ?? false);
 
@@ -73,7 +75,7 @@ export const ChatActionMenu: FC<ChatActionMenuProps> = ({
             size="sm"
             onClick={() => persistentDialogs?.toggle("git")}
             disabled={isPending}
-            className="h-7 px-2 gap-1.5 text-xs bg-muted/20 rounded-lg border border-border/40"
+            className="h-7 px-2 gap-1.5 text-xs bg-muted/20 rounded-lg border border-border/40 relative"
             title={i18n._({
               id: "control.open_git_dialog",
               message: "Open Git Dialog",
@@ -83,6 +85,11 @@ export const ChatActionMenu: FC<ChatActionMenuProps> = ({
             <span>
               <Trans id="control.git" />
             </span>
+            {nonEmptyCommentCount > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 min-w-[16px] h-4 flex items-center justify-center text-[10px] font-medium bg-blue-500 text-white rounded-full px-1">
+                {nonEmptyCommentCount}
+              </span>
+            )}
           </Button>
         )}
         <Button

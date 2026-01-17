@@ -1,14 +1,33 @@
 "use client";
 
-import { DiffFile, DiffModeEnum, DiffView } from "@git-diff-view/react";
+import {
+  DiffFile,
+  DiffModeEnum,
+  DiffView,
+  SplitSide,
+} from "@git-diff-view/react";
 import { Trans } from "@lingui/react";
 import "@git-diff-view/react/styles/diff-view.css";
 import { ChevronDown, ChevronRight } from "lucide-react";
-import { type FC, useCallback, useId, useMemo, useState } from "react";
+import { type FC, useCallback, useId, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  type CommentsMap,
+  hasNonEmptyComment,
+  type LineCommentData,
+} from "@/contexts/DiffLineCommentContext";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
+import {
+  formatAllComments,
+  formatLineCommentBlock,
+  LineCommentWidget,
+} from "./LineCommentWidget";
+
+export type { LineCommentData };
+export { formatLineCommentBlock, formatAllComments };
+
 import type { FileStatus } from "./types";
 
 export interface DiffViewOptions {
@@ -135,6 +154,19 @@ export function getFileElementId(filePath: string): string {
   return `diff-file-${filePath.replace(/[^a-zA-Z0-9-_]/g, "-")}`;
 }
 
+/**
+ * Creates a unique key for a comment based on file, line, and side
+ */
+export function createCommentKey(
+  filePath: string,
+  lineNumber: number,
+  side: "old" | "new",
+): string {
+  return `${filePath}:${lineNumber}:${side}`;
+}
+
+// CommentsMap is imported from @/contexts/DiffLineCommentContext
+
 interface FileStats {
   additions: number;
   deletions: number;
@@ -205,6 +237,15 @@ interface SingleFileDiffProps {
   theme: "light" | "dark";
   options: DiffViewOptions;
   stats?: FileStats;
+  comments: CommentsMap;
+  onAddComment: (
+    filePath: string,
+    lineNumber: number,
+    side: "old" | "new",
+    lineContent: string,
+  ) => void;
+  onUpdateComment: (key: string, comment: string) => void;
+  onRemoveComment: (key: string) => void;
 }
 
 interface FileHeaderProps {
@@ -212,6 +253,7 @@ interface FileHeaderProps {
   isCollapsed: boolean;
   onToggle: () => void;
   stats?: FileStats;
+  commentCount?: number;
 }
 
 const FileHeader: FC<FileHeaderProps> = ({
@@ -219,6 +261,7 @@ const FileHeader: FC<FileHeaderProps> = ({
   isCollapsed,
   onToggle,
   stats,
+  commentCount,
 }) => (
   <button
     type="button"
@@ -232,6 +275,11 @@ const FileHeader: FC<FileHeaderProps> = ({
     )}
     {stats?.status && <FileStatusBadge status={stats.status} />}
     <span className="truncate flex-1">{fileName}</span>
+    {commentCount !== undefined && commentCount > 0 && (
+      <span className="shrink-0 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-1.5 py-0.5 rounded">
+        {commentCount} 💬
+      </span>
+    )}
     {stats && (
       <span className="shrink-0 text-xs">
         {stats.additions > 0 && (
@@ -306,6 +354,10 @@ const SingleFileDiff: FC<SingleFileDiffProps> = ({
   theme,
   options,
   stats,
+  comments,
+  onAddComment,
+  onUpdateComment,
+  onRemoveComment,
 }) => {
   const fileName = useMemo(() => extractFileName(diffText), [diffText]);
   const lang = useMemo(() => getLangFromFileName(fileName), [fileName]);
@@ -346,6 +398,10 @@ const SingleFileDiff: FC<SingleFileDiffProps> = ({
       fileName={fileName}
       lang={lang}
       stats={stats}
+      comments={comments}
+      onAddComment={onAddComment}
+      onUpdateComment={onUpdateComment}
+      onRemoveComment={onRemoveComment}
     />
   );
 };
@@ -357,6 +413,19 @@ interface SingleFileDiffContentProps {
   fileName: string;
   lang: string;
   stats?: FileStats;
+  comments: CommentsMap;
+  onAddComment: (
+    filePath: string,
+    lineNumber: number,
+    side: "old" | "new",
+    lineContent: string,
+  ) => void;
+  onUpdateComment: (key: string, comment: string) => void;
+  onRemoveComment: (key: string) => void;
+}
+
+interface ExtendDataItem {
+  commentKey: string;
 }
 
 const SingleFileDiffContent: FC<SingleFileDiffContentProps> = ({
@@ -366,8 +435,17 @@ const SingleFileDiffContent: FC<SingleFileDiffContentProps> = ({
   fileName,
   lang,
   stats,
+  comments,
+  onAddComment,
+  onUpdateComment,
+  onRemoveComment,
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+  // Use a ref to access comments without causing re-renders of renderExtendLine
+  // This prevents the textarea cursor from jumping to the end on each keystroke
+  const commentsRef = useRef(comments);
+  commentsRef.current = comments;
 
   const diffFile = useMemo(() => {
     // DiffFile expects the full git diff for a single file in the hunks array
@@ -396,6 +474,86 @@ const SingleFileDiffContent: FC<SingleFileDiffContentProps> = ({
   const diffViewMode =
     options.mode === "split" ? DiffModeEnum.Split : DiffModeEnum.Unified;
 
+  const getLineContent = useCallback(
+    (lineNumber: number, side: SplitSide): string => {
+      try {
+        if (side === SplitSide.old) {
+          return diffFile.getOldPlainLine(lineNumber)?.value ?? "";
+        }
+        return diffFile.getNewPlainLine(lineNumber)?.value ?? "";
+      } catch {
+        return "";
+      }
+    },
+    [diffFile],
+  );
+
+  // Count non-empty comments for this file (for header badge)
+  const commentCount = useMemo(() => {
+    let count = 0;
+    for (const comment of comments.values()) {
+      if (comment.filePath === fileName && hasNonEmptyComment(comment)) count++;
+    }
+    return count;
+  }, [comments, fileName]);
+
+  // Build extendData from comments for this file
+  const extendData = useMemo(() => {
+    const oldFile: Record<string, { data: ExtendDataItem }> = {};
+    const newFile: Record<string, { data: ExtendDataItem }> = {};
+
+    for (const [key, comment] of comments.entries()) {
+      if (comment.filePath !== fileName) continue;
+
+      const lineKey = String(comment.lineNumber);
+      if (comment.side === "old") {
+        oldFile[lineKey] = { data: { commentKey: key } };
+      } else {
+        newFile[lineKey] = { data: { commentKey: key } };
+      }
+    }
+
+    return { oldFile, newFile };
+  }, [comments, fileName]);
+
+  const handleAddWidgetClick = useCallback(
+    (lineNumber: number, side: SplitSide) => {
+      const sideStr = side === SplitSide.old ? "old" : "new";
+      const lineContent = getLineContent(lineNumber, side);
+      onAddComment(fileName, lineNumber, sideStr, lineContent);
+    },
+    [fileName, getLineContent, onAddComment],
+  );
+
+  const renderExtendLine = useCallback(
+    ({
+      data,
+    }: {
+      lineNumber: number;
+      side: SplitSide;
+      data: ExtendDataItem;
+      diffFile: DiffFile;
+      onUpdate: () => void;
+    }) => {
+      // Use ref to get current comments to avoid re-renders on comment text changes
+      const comment = commentsRef.current.get(data.commentKey);
+      if (!comment) return null;
+
+      return (
+        <LineCommentWidget
+          filePath={comment.filePath}
+          lineNumber={comment.lineNumber}
+          initialComment={comment.comment}
+          onCommentChange={(newComment) =>
+            onUpdateComment(data.commentKey, newComment)
+          }
+          onCancel={() => onRemoveComment(data.commentKey)}
+        />
+      );
+    },
+    [onUpdateComment, onRemoveComment],
+  );
+
   return (
     <div
       id={getFileElementId(fileName)}
@@ -406,6 +564,7 @@ const SingleFileDiffContent: FC<SingleFileDiffContentProps> = ({
         isCollapsed={isCollapsed}
         onToggle={() => setIsCollapsed(!isCollapsed)}
         stats={stats}
+        commentCount={commentCount}
       />
       {!isCollapsed && (
         <DiffView
@@ -413,6 +572,10 @@ const SingleFileDiffContent: FC<SingleFileDiffContentProps> = ({
           diffViewMode={diffViewMode}
           diffViewHighlight={options.highlight}
           diffViewWrap={options.wrap}
+          diffViewAddWidget={true}
+          onAddWidgetClick={handleAddWidgetClick}
+          extendData={extendData}
+          renderExtendLine={renderExtendLine}
         />
       )}
     </div>
@@ -466,6 +629,15 @@ interface DiffViewerProps {
   options: DiffViewOptions;
   className?: string;
   fileStats?: DiffFileStats[];
+  comments: CommentsMap;
+  onAddComment: (
+    filePath: string,
+    lineNumber: number,
+    side: "old" | "new",
+    lineContent: string,
+  ) => void;
+  onUpdateComment: (key: string, comment: string) => void;
+  onRemoveComment: (key: string) => void;
 }
 
 export const DiffViewer: FC<DiffViewerProps> = ({
@@ -473,6 +645,10 @@ export const DiffViewer: FC<DiffViewerProps> = ({
   options,
   className,
   fileStats,
+  comments,
+  onAddComment,
+  onUpdateComment,
+  onRemoveComment,
 }) => {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
@@ -510,6 +686,10 @@ export const DiffViewer: FC<DiffViewerProps> = ({
             theme={theme}
             options={options}
             stats={statsMap.get(fileName)}
+            comments={comments}
+            onAddComment={onAddComment}
+            onUpdateComment={onUpdateComment}
+            onRemoveComment={onRemoveComment}
           />
         );
       })}

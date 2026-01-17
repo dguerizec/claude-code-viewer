@@ -15,6 +15,7 @@ import {
   useState,
 } from "react";
 import { toast } from "sonner";
+import { useDiffLineComment } from "@/contexts/DiffLineCommentContext";
 import {
   AttachmentList,
   type PendingAttachment,
@@ -186,6 +187,54 @@ export const ChatInput: FC<ChatInputProps> = ({
       textareaRef.current?.focus();
     }
   }, [restoredMessage, onMessageRestored, setDraft]);
+
+  // Register callback for inserting text from diff line comments
+  const { registerInsertCallback } = useDiffLineComment();
+  useEffect(() => {
+    const insertTextAtCursor = (text: string) => {
+      const textarea = textareaRef.current;
+      if (!textarea) {
+        // Fallback: append to current message
+        setMessage((prev) => {
+          const separator = prev.trim() ? "\n\n" : "";
+          const newValue = prev + separator + text;
+          setDraft(newValue);
+          return newValue;
+        });
+        return;
+      }
+
+      // Get current cursor position (or end of text if not focused)
+      const start = textarea.selectionStart ?? message.length;
+      const end = textarea.selectionEnd ?? message.length;
+
+      // Determine separator based on context
+      const beforeCursor = message.slice(0, start);
+      const afterCursor = message.slice(end);
+      const needsLeadingSeparator =
+        beforeCursor.trim() && !beforeCursor.endsWith("\n\n");
+      const needsTrailingSeparator =
+        afterCursor.trim() && !afterCursor.startsWith("\n");
+
+      const leadingSep = needsLeadingSeparator ? "\n\n" : "";
+      const trailingSep = needsTrailingSeparator ? "\n\n" : "";
+
+      const newValue =
+        beforeCursor + leadingSep + text + trailingSep + afterCursor;
+      setMessage(newValue);
+      setDraft(newValue);
+
+      // Set cursor position after inserted text
+      const newCursorPos =
+        start + leadingSep.length + text.length + trailingSep.length;
+      requestAnimationFrame(() => {
+        textarea.focus();
+        textarea.setSelectionRange(newCursorPos, newCursorPos);
+      });
+    };
+
+    return registerInsertCallback(insertTextAtCursor);
+  }, [registerInsertCallback, message, setDraft]);
 
   // Global drag listeners to detect when files are dragged anywhere on the page
   useEffect(() => {

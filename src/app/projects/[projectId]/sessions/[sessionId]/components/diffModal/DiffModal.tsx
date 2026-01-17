@@ -7,6 +7,7 @@ import {
   GitCommitHorizontal,
   GitCompareIcon,
   Loader2,
+  MessageSquarePlus,
   RefreshCcwIcon,
   X,
 } from "lucide-react";
@@ -24,6 +25,14 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -31,6 +40,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  type CommentsMap,
+  hasNonEmptyComment,
+  useDiffLineComment,
+} from "@/contexts/DiffLineCommentContext";
 import { usePersistentDialog } from "@/contexts/PersistentDialogsContext";
 import { cn } from "@/lib/utils";
 import {
@@ -42,9 +56,11 @@ import {
 } from "../../hooks/useGit";
 import type { DiffViewOptions } from "./DiffViewer";
 import {
+  createCommentKey,
   DEFAULT_DIFF_OPTIONS,
   DiffOptionToggle,
   DiffViewer,
+  formatAllComments,
   getFileElementId,
 } from "./DiffViewer";
 import type { DiffModalProps, DiffSummary, FileStatus, GitRef } from "./types";
@@ -112,14 +128,38 @@ interface DiffSummaryProps {
   summary: DiffSummary;
   className?: string;
   onFileClick?: (filePath: string) => void;
+  comments?: CommentsMap;
 }
 
 const DiffSummaryComponent: FC<DiffSummaryProps> = ({
   summary,
   className,
   onFileClick,
+  comments,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+
+  // Count non-empty comments per file
+  const commentCountByFile = useMemo(() => {
+    if (!comments) return new Map<string, number>();
+    const counts = new Map<string, number>();
+    for (const comment of comments.values()) {
+      if (hasNonEmptyComment(comment)) {
+        const current = counts.get(comment.filePath) ?? 0;
+        counts.set(comment.filePath, current + 1);
+      }
+    }
+    return counts;
+  }, [comments]);
+
+  // Total non-empty comment count
+  const totalCommentCount = useMemo(() => {
+    let total = 0;
+    for (const count of commentCountByFile.values()) {
+      total += count;
+    }
+    return total;
+  }, [commentCountByFile]);
 
   return (
     <div
@@ -148,6 +188,11 @@ const DiffSummaryComponent: FC<DiffSummaryProps> = ({
               {summary.filesChanged} <Trans id="diff.files" />
             </span>
           </span>
+          {totalCommentCount > 0 && (
+            <span className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-1.5 py-0.5 rounded">
+              {totalCommentCount} 💬
+            </span>
+          )}
         </div>
         <div className="flex items-center gap-3">
           {summary.insertions > 0 && (
@@ -164,30 +209,38 @@ const DiffSummaryComponent: FC<DiffSummaryProps> = ({
       </button>
       {isExpanded && (
         <div className="border-t border-gray-200 dark:border-gray-700 p-2 space-y-1 max-h-60 overflow-y-auto">
-          {summary.files.map((file) => (
-            <button
-              key={file.filePath}
-              type="button"
-              onClick={() => onFileClick?.(file.filePath)}
-              className="w-full text-left px-2 py-1 text-sm font-mono hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors flex items-center gap-2"
-            >
-              <FileStatusBadge status={file.status} />
-              <span className="truncate flex-1">{file.filePath}</span>
-              <span className="shrink-0 text-xs">
-                {file.additions > 0 && (
-                  <span className="text-green-600 dark:text-green-400">
-                    +{file.additions}
+          {summary.files.map((file) => {
+            const fileCommentCount = commentCountByFile.get(file.filePath) ?? 0;
+            return (
+              <button
+                key={file.filePath}
+                type="button"
+                onClick={() => onFileClick?.(file.filePath)}
+                className="w-full text-left px-2 py-1 text-sm font-mono hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors flex items-center gap-2"
+              >
+                <FileStatusBadge status={file.status} />
+                <span className="truncate flex-1">{file.filePath}</span>
+                {fileCommentCount > 0 && (
+                  <span className="shrink-0 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-1.5 py-0.5 rounded">
+                    {fileCommentCount} 💬
                   </span>
                 )}
-                {file.additions > 0 && file.deletions > 0 && " "}
-                {file.deletions > 0 && (
-                  <span className="text-red-600 dark:text-red-400">
-                    -{file.deletions}
-                  </span>
-                )}
-              </span>
-            </button>
-          ))}
+                <span className="shrink-0 text-xs">
+                  {file.additions > 0 && (
+                    <span className="text-green-600 dark:text-green-400">
+                      +{file.additions}
+                    </span>
+                  )}
+                  {file.additions > 0 && file.deletions > 0 && " "}
+                  {file.deletions > 0 && (
+                    <span className="text-red-600 dark:text-red-400">
+                      -{file.deletions}
+                    </span>
+                  )}
+                </span>
+              </button>
+            );
+          })}
         </div>
       )}
     </div>
@@ -266,6 +319,81 @@ export const DiffModal: FC<DiffModalProps> = ({
   const [compareFrom, setCompareFrom] = useState(defaultCompareFrom);
   const [compareTo, setCompareTo] = useState(defaultCompareTo);
 
+  // Context for inserting line comments into chat
+  const { insertText, setNonEmptyCommentCount } = useDiffLineComment();
+
+  // Local comments state (reset on session change via component remount)
+  const [comments, setComments] = useState<CommentsMap>(() => new Map());
+
+  // State for close confirmation dialog
+  const [showCloseConfirm, setShowCloseConfirm] = useState(false);
+
+  // Calculate non-empty comment count
+  const nonEmptyCommentCount = useMemo(() => {
+    let count = 0;
+    for (const comment of comments.values()) {
+      if (hasNonEmptyComment(comment)) count++;
+    }
+    return count;
+  }, [comments]);
+
+  // Sync non-empty comment count to context for badge display
+  useEffect(() => {
+    setNonEmptyCommentCount(nonEmptyCommentCount);
+  }, [nonEmptyCommentCount, setNonEmptyCommentCount]);
+
+  // Reset context count on unmount
+  useEffect(() => {
+    return () => {
+      setNonEmptyCommentCount(0);
+    };
+  }, [setNonEmptyCommentCount]);
+
+  const handleAddComment = useCallback(
+    (
+      filePath: string,
+      lineNumber: number,
+      side: "old" | "new",
+      lineContent: string,
+    ) => {
+      const key = createCommentKey(filePath, lineNumber, side);
+      // Don't add if already exists
+      if (comments.has(key)) return;
+
+      setComments((prev) => {
+        const next = new Map(prev);
+        next.set(key, {
+          filePath,
+          lineNumber,
+          side,
+          lineContent,
+          comment: "",
+        });
+        return next;
+      });
+    },
+    [comments],
+  );
+
+  const handleUpdateComment = useCallback((key: string, comment: string) => {
+    setComments((prev) => {
+      const existing = prev.get(key);
+      if (!existing) return prev;
+
+      const next = new Map(prev);
+      next.set(key, { ...existing, comment });
+      return next;
+    });
+  }, []);
+
+  const handleRemoveComment = useCallback((key: string) => {
+    setComments((prev) => {
+      const next = new Map(prev);
+      next.delete(key);
+      return next;
+    });
+  }, []);
+
   // Register as a persistent dialog
   const dialogConfig = useMemo(
     () => ({
@@ -276,7 +404,36 @@ export const DiffModal: FC<DiffModalProps> = ({
     }),
     [projectName],
   );
-  const { isVisible, hide } = usePersistentDialog(dialogConfig);
+  const { isVisible, hide: hideDialog } = usePersistentDialog(dialogConfig);
+
+  // Handle hide with confirmation if there are non-empty comments
+  const handleHide = useCallback(() => {
+    if (nonEmptyCommentCount > 0) {
+      setShowCloseConfirm(true);
+    } else {
+      hideDialog();
+    }
+  }, [nonEmptyCommentCount, hideDialog]);
+
+  // Force hide (after confirmation)
+  const handleForceHide = useCallback(() => {
+    setShowCloseConfirm(false);
+    hideDialog();
+  }, [hideDialog]);
+
+  const handleSendAllComments = useCallback(() => {
+    if (nonEmptyCommentCount === 0) return;
+
+    const commentsArray = Array.from(comments.values());
+    const formatted = formatAllComments(commentsArray);
+    insertText(formatted);
+
+    // Clear all comments after sending
+    setComments(new Map());
+
+    // Minimize dialog and focus chat input (focus happens in insertText callback)
+    hideDialog();
+  }, [comments, insertText, nonEmptyCommentCount, hideDialog]);
 
   // Handle Escape key to hide
   useEffect(() => {
@@ -286,18 +443,18 @@ export const DiffModal: FC<DiffModalProps> = ({
       if (e.key === "Escape") {
         e.preventDefault();
         e.stopPropagation();
-        hide();
+        handleHide();
       }
     };
 
     document.addEventListener("keydown", handleKeyDown, true);
     return () => document.removeEventListener("keydown", handleKeyDown, true);
-  }, [isVisible, hide]);
+  }, [isVisible, handleHide]);
 
   // Handle click outside to hide
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
-      hide();
+      handleHide();
     }
   };
 
@@ -569,7 +726,7 @@ export const DiffModal: FC<DiffModalProps> = ({
           isVisible ? "opacity-100" : "opacity-0",
         )}
         onClick={handleOverlayClick}
-        onKeyDown={(e) => e.key === "Escape" && hide()}
+        onKeyDown={(e) => e.key === "Escape" && handleHide()}
       />
 
       {/* Dialog content */}
@@ -585,7 +742,7 @@ export const DiffModal: FC<DiffModalProps> = ({
         {/* Close button */}
         <button
           type="button"
-          onClick={hide}
+          onClick={handleHide}
           className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none"
           aria-label="Close"
         >
@@ -815,6 +972,7 @@ export const DiffModal: FC<DiffModalProps> = ({
                 deletions: diffData.data.summary.totalDeletions,
                 files: diffData.data.files,
               }}
+              comments={comments}
               className="mb-3 shrink-0"
               onFileClick={(filePath) => {
                 const element = document.getElementById(
@@ -825,12 +983,33 @@ export const DiffModal: FC<DiffModalProps> = ({
             />
 
             {/* Scrollable diff content */}
-            <div className="flex-1 overflow-auto min-h-0">
+            <div className="flex-1 overflow-auto min-h-0 relative">
               <DiffViewer
                 rawDiff={diffData.data.rawDiff}
                 options={diffOptions}
                 fileStats={diffData.data.files}
+                comments={comments}
+                onAddComment={handleAddComment}
+                onUpdateComment={handleUpdateComment}
+                onRemoveComment={handleRemoveComment}
               />
+
+              {/* Floating button to send all comments (only non-empty ones) */}
+              {nonEmptyCommentCount > 0 && (
+                <div className="sticky bottom-4 flex justify-end pr-4 pointer-events-none z-10">
+                  <Button
+                    onClick={handleSendAllComments}
+                    className="pointer-events-auto shadow-lg bg-blue-500 hover:bg-blue-600 text-white"
+                    size="sm"
+                  >
+                    <MessageSquarePlus className="w-4 h-4 mr-2" />
+                    <Trans
+                      id="diff.line_comment.send_all"
+                      values={{ count: nonEmptyCommentCount }}
+                    />
+                  </Button>
+                </div>
+              )}
             </div>
           </>
         )}
@@ -845,6 +1024,34 @@ export const DiffModal: FC<DiffModalProps> = ({
             </div>
           </div>
         )}
+
+        {/* Confirmation dialog for closing with unsent comments */}
+        <Dialog open={showCloseConfirm} onOpenChange={setShowCloseConfirm}>
+          <DialogContent className="max-w-md" showCloseButton={false}>
+            <DialogHeader>
+              <DialogTitle>
+                <Trans id="diff.close_confirm.title" />
+              </DialogTitle>
+              <DialogDescription>
+                <Trans
+                  id="diff.close_confirm.description"
+                  values={{ count: nonEmptyCommentCount }}
+                />
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => setShowCloseConfirm(false)}
+              >
+                <Trans id="diff.close_confirm.cancel" />
+              </Button>
+              <Button variant="destructive" onClick={handleForceHide}>
+                <Trans id="diff.close_confirm.confirm" />
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>,
     document.body,
