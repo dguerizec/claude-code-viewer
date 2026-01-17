@@ -16,6 +16,7 @@ import {
 } from "react";
 import { toast } from "sonner";
 import { useDiffLineComment } from "@/contexts/DiffLineCommentContext";
+import { useFileExplorerComment } from "@/contexts/FileExplorerCommentContext";
 import {
   AttachmentList,
   type PendingAttachment,
@@ -190,8 +191,11 @@ export const ChatInput: FC<ChatInputProps> = ({
     }
   }, [restoredMessage, onMessageRestored, setDraft]);
 
-  // Register callback for inserting text from diff line comments
-  const { registerInsertCallback } = useDiffLineComment();
+  // Register callback for inserting text from diff line comments and file explorer comments
+  const { registerInsertCallback: registerDiffInsertCallback } =
+    useDiffLineComment();
+  const { registerInsertCallback: registerFileExplorerInsertCallback } =
+    useFileExplorerComment();
   useEffect(() => {
     const insertTextAtCursor = (text: string) => {
       const textarea = textareaRef.current;
@@ -235,8 +239,21 @@ export const ChatInput: FC<ChatInputProps> = ({
       });
     };
 
-    return registerInsertCallback(insertTextAtCursor);
-  }, [registerInsertCallback, message, setDraft]);
+    // Register the same callback with both contexts
+    const unregisterDiff = registerDiffInsertCallback(insertTextAtCursor);
+    const unregisterFileExplorer =
+      registerFileExplorerInsertCallback(insertTextAtCursor);
+
+    return () => {
+      unregisterDiff();
+      unregisterFileExplorer();
+    };
+  }, [
+    registerDiffInsertCallback,
+    registerFileExplorerInsertCallback,
+    message,
+    setDraft,
+  ]);
 
   // Global drag listeners to detect when files are dragged anywhere on the page
   useEffect(() => {

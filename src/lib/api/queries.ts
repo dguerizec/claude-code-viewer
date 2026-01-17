@@ -161,6 +161,24 @@ export const gitCurrentRevisionsQuery = (projectId: string) =>
     },
   }) as const;
 
+export const gitFileStatusQuery = (projectId: string) =>
+  ({
+    queryKey: ["git", "file-status", projectId],
+    queryFn: async () => {
+      const response = await honoClient.api.projects[":projectId"].git[
+        "file-status"
+      ].$get({
+        param: { projectId },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch file status: ${response.statusText}`);
+      }
+
+      return await response.json();
+    },
+  }) as const;
+
 export const mcpListQuery = (projectId: string) =>
   ({
     queryKey: ["mcp", "list", projectId],

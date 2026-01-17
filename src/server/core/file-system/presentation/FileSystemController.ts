@@ -6,6 +6,7 @@ import { ProjectRepository } from "../../project/infrastructure/ProjectRepositor
 import { fuzzySearchFiles } from "../functions/fuzzySearchFiles";
 import { getDirectoryListing } from "../functions/getDirectoryListing";
 import { getFileCompletion } from "../functions/getFileCompletion";
+import { getFileContent } from "../functions/getFileContent";
 
 const LayerImpl = Effect.gen(function* () {
   const projectRepository = yield* ProjectRepository;
@@ -117,10 +118,63 @@ const LayerImpl = Effect.gen(function* () {
       }
     });
 
+  const getFileContentRoute = (options: {
+    projectId: string;
+    filePath: string;
+  }) =>
+    Effect.gen(function* () {
+      const { projectId, filePath } = options;
+
+      const { project } = yield* projectRepository.getProject(projectId);
+
+      if (project.meta.projectPath === null) {
+        return {
+          response: { error: "Project path not found" },
+          status: 400,
+        } as const satisfies ControllerResponse;
+      }
+
+      const projectPath = project.meta.projectPath;
+
+      const result = yield* getFileContent(projectPath, filePath);
+
+      if (result.type === "error") {
+        // Map error types to HTTP status codes
+        switch (result.error) {
+          case "path_traversal":
+            return {
+              response: { error: result.message },
+              status: 400,
+            } as const satisfies ControllerResponse;
+          case "not_found":
+            return {
+              response: { error: result.message },
+              status: 404,
+            } as const satisfies ControllerResponse;
+          case "not_file":
+            return {
+              response: { error: result.message },
+              status: 400,
+            } as const satisfies ControllerResponse;
+          case "read_error":
+            return {
+              response: { error: result.message },
+              status: 500,
+            } as const satisfies ControllerResponse;
+        }
+      }
+
+      return {
+        response: result.data,
+        status: 200,
+      } as const satisfies ControllerResponse;
+    });
+
   return {
     getFileCompletionRoute,
     getDirectoryListingRoute,
     fuzzySearchFilesRoute,
+    getFileContentRoute,
   };
 });
 

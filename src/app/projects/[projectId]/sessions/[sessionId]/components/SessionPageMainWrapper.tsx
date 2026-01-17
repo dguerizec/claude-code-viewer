@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { Suspense } from "react";
 import { DiffLineCommentProvider } from "@/contexts/DiffLineCommentContext";
+import { FileExplorerCommentProvider } from "@/contexts/FileExplorerCommentContext";
 import { PersistentDialogsProvider } from "@/contexts/PersistentDialogsContext";
 import { Loading } from "../../../../../../components/Loading";
 import { useProject } from "../../../hooks/useProject";
@@ -39,28 +40,30 @@ export const SessionPageMainWrapper: FC<{
   return (
     <PersistentDialogsProvider>
       <DiffLineCommentProvider>
-        <Suspense fallback={<Loading />}>
-          <SessionSidebar
-            currentSessionId={sessionId}
-            projectId={projectId}
-            projectName={projectName}
-            isMobileOpen={isMobileSidebarOpen}
-            onMobileOpenChange={setIsMobileSidebarOpen}
-            initialTab={tab}
-          />
-        </Suspense>
-        <Suspense fallback={<Loading />}>
-          <SessionPageMain
-            key={sessionId}
-            projectId={projectId}
-            sessionId={sessionId}
-            setIsMobileSidebarOpen={setIsMobileSidebarOpen}
-            projectPath={projectPath}
-            currentBranch={currentBranch}
-            revisionsData={revisionsData}
-            projectName={projectName}
-          />
-        </Suspense>
+        <FileExplorerCommentProvider>
+          <Suspense fallback={<Loading />}>
+            <SessionSidebar
+              currentSessionId={sessionId}
+              projectId={projectId}
+              projectName={projectName}
+              isMobileOpen={isMobileSidebarOpen}
+              onMobileOpenChange={setIsMobileSidebarOpen}
+              initialTab={tab}
+            />
+          </Suspense>
+          <Suspense fallback={<Loading />}>
+            <SessionPageMain
+              key={sessionId}
+              projectId={projectId}
+              sessionId={sessionId}
+              setIsMobileSidebarOpen={setIsMobileSidebarOpen}
+              projectPath={projectPath}
+              currentBranch={currentBranch}
+              revisionsData={revisionsData}
+              projectName={projectName}
+            />
+          </Suspense>
+        </FileExplorerCommentProvider>
       </DiffLineCommentProvider>
     </PersistentDialogsProvider>
   );

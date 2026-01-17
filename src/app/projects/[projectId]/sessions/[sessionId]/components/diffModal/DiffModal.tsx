@@ -380,6 +380,14 @@ export const DiffModal: FC<DiffModalProps> = ({
       const existing = prev.get(key);
       if (!existing) return prev;
 
+      // CRITICAL: Don't create a new Map if the value hasn't changed.
+      // This prevents an infinite loop caused by:
+      // 1. LineCommentWidget's useEffect syncs localComment to parent on mount
+      // 2. If we always create a new Map, comments changes -> extendData changes
+      // 3. Library re-renders extend lines -> new onCommentChange callback
+      // 4. LineCommentWidget sees new callback -> useEffect runs again -> LOOP!
+      if (existing.comment === comment) return prev;
+
       const next = new Map(prev);
       next.set(key, { ...existing, comment });
       return next;

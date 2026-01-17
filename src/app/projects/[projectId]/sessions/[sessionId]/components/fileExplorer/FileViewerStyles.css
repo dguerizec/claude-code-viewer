@@ -1,0 +1,43 @@
+/**
+ * CSS overrides to neutralize diff appearance for file viewing mode.
+ *
+ * When using @git-diff-view/react with a pseudo-diff (all lines as "added"),
+ * these styles hide the diff-specific visual elements to make it look like
+ * a normal file viewer.
+ */
+.file-viewer-mode {
+  /* Hide the "+" operator in front of each line */
+  .diff-line-content-operator {
+    display: none !important;
+  }
+
+  /* Hide the empty column for old line numbers (since we only have new lines) */
+  .diff-line-num span:first-child {
+    display: none;
+  }
+}
+
+/**
+ * Override the "added" line backgrounds to use plain (neutral) colors.
+ *
+ * The library sets these CSS variables on selectors with high specificity:
+ *   .diff-tailwindcss-wrapper[data-theme="light"] .diff-style-root
+ *   .diff-tailwindcss-wrapper[data-theme="dark"] .diff-style-root
+ *
+ * We need to match or exceed that specificity. Using the same attribute
+ * selector pattern ensures our overrides take effect.
+ */
+
+/* Light theme: neutralize green backgrounds for added lines */
+.file-viewer-mode .diff-tailwindcss-wrapper[data-theme="light"] .diff-style-root {
+  --diff-add-content--: var(--diff-plain-content--);
+  --diff-add-lineNumber--: var(--diff-plain-lineNumber--);
+  --diff-add-content-highlight--: var(--diff-plain-content--);
+}
+
+/* Dark theme: neutralize green backgrounds for added lines */
+.file-viewer-mode .diff-tailwindcss-wrapper[data-theme="dark"] .diff-style-root {
+  --diff-add-content--: var(--diff-plain-content--);
+  --diff-add-lineNumber--: var(--diff-plain-lineNumber--);
+  --diff-add-content-highlight--: var(--diff-plain-content--);
+}

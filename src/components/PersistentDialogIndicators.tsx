@@ -5,12 +5,15 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useDiffLineComment } from "@/contexts/DiffLineCommentContext";
+import { useFileExplorerComment } from "@/contexts/FileExplorerCommentContext";
 import { usePersistentDialogs } from "@/contexts/PersistentDialogsContext";
 import { cn } from "@/lib/utils";
 
 export const PersistentDialogIndicators: FC = () => {
   const context = usePersistentDialogs();
-  const { nonEmptyCommentCount } = useDiffLineComment();
+  const { nonEmptyCommentCount: diffCommentCount } = useDiffLineComment();
+  const { nonEmptyCommentCount: fileExplorerCommentCount } =
+    useFileExplorerComment();
 
   // When outside a provider (e.g., on project list page), render nothing
   if (!context || context.dialogs.size === 0) {
@@ -24,8 +27,13 @@ export const PersistentDialogIndicators: FC = () => {
       {Array.from(dialogs.values()).map((dialog) => {
         const Icon = dialog.icon;
         const isActive = visibleDialogId === dialog.id;
-        // Show badge for git dialog if there are non-empty comments
-        const badgeCount = dialog.id === "git" ? nonEmptyCommentCount : 0;
+        // Show badge for git or file-explorer dialog based on their comment counts
+        const badgeCount =
+          dialog.id === "git"
+            ? diffCommentCount
+            : dialog.id === "file-explorer"
+              ? fileExplorerCommentCount
+              : 0;
 
         return (
           <Tooltip key={dialog.id}>

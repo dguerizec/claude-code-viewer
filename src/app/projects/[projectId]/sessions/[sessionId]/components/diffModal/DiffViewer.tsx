@@ -554,6 +554,16 @@ const SingleFileDiffContent: FC<SingleFileDiffContentProps> = ({
     [onUpdateComment, onRemoveComment],
   );
 
+  /**
+   * Empty widget line renderer to prevent React error #185.
+   *
+   * When diffViewAddWidget={true}, clicking the "+" button triggers the library's
+   * internal widget system. Even though we use renderExtendLine for rendering
+   * comments, providing this no-op callback ensures the library doesn't encounter
+   * issues with its widget rendering path.
+   */
+  const renderWidgetLine = useCallback(() => null, []);
+
   return (
     <div
       id={getFileElementId(fileName)}
@@ -576,6 +586,7 @@ const SingleFileDiffContent: FC<SingleFileDiffContentProps> = ({
           onAddWidgetClick={handleAddWidgetClick}
           extendData={extendData}
           renderExtendLine={renderExtendLine}
+          renderWidgetLine={renderWidgetLine}
         />
       )}
     </div>

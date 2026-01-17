@@ -3,6 +3,7 @@ import type { ControllerResponse } from "../../../lib/effect/toEffectResponse";
 import type { InferEffect } from "../../../lib/effect/types";
 import { ProjectRepository } from "../../project/infrastructure/ProjectRepository";
 import { getDiff } from "../functions/getDiff";
+import { getFileStatus } from "../functions/getFileStatus";
 import type { CommitErrorCode, PushErrorCode } from "../schema";
 import { GitService } from "../services/GitService";
 
@@ -372,12 +373,36 @@ const LayerImpl = Effect.gen(function* () {
       } as const satisfies ControllerResponse;
     });
 
+  const getFileStatusRoute = (options: { projectId: string }) =>
+    Effect.gen(function* () {
+      const { projectId } = options;
+
+      const { project } = yield* projectRepository.getProject(projectId);
+
+      if (project.meta.projectPath === null) {
+        return {
+          response: { error: "Project path not found" },
+          status: 400,
+        } as const satisfies ControllerResponse;
+      }
+
+      const projectPath = project.meta.projectPath;
+
+      const result = yield* Effect.promise(() => getFileStatus(projectPath));
+
+      return {
+        response: result,
+        status: 200,
+      } as const satisfies ControllerResponse;
+    });
+
   return {
     getGitDiff,
     commitFiles,
     pushCommits,
     commitAndPush,
     getCurrentRevisions,
+    getFileStatusRoute,
   };
 });
 

@@ -69,6 +69,7 @@ import { useSession } from "../hooks/useSession";
 import { useSessionProcess } from "../hooks/useSessionProcess";
 import { ConversationList } from "./conversationList/ConversationList";
 import { DiffModal } from "./diffModal";
+import { FileExplorerDialog } from "./fileExplorer/FileExplorerDialog";
 import { ChatActionMenu } from "./resumeChat/ChatActionMenu";
 import { ContinueChat } from "./resumeChat/ContinueChat";
 import { PermissionModeSelector } from "./resumeChat/PermissionModeSelector";
@@ -882,6 +883,15 @@ const SessionPageMainContent: FC<
           projectId={projectId}
           projectName={projectName}
           revisionsData={revisionsData}
+        />
+      )}
+
+      {isExistingSession && projectPath && (
+        <FileExplorerDialog
+          key={`file-explorer-${projectId}`}
+          projectId={projectId}
+          projectPath={projectPath}
+          projectName={projectName}
         />
       )}
 

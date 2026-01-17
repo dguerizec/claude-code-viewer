@@ -1,7 +1,7 @@
 "use client";
 
 import { Trans, useLingui } from "@lingui/react";
-import { type FC, useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   hasNonEmptyComment,
@@ -16,12 +16,21 @@ interface LineCommentWidgetProps {
   onCancel: () => void;
 }
 
-export const LineCommentWidget: FC<LineCommentWidgetProps> = ({
-  lineNumber,
-  initialComment,
-  onCommentChange,
-  onCancel,
-}) => {
+/**
+ * LineCommentWidget - Widget for adding comments to diff lines.
+ *
+ * Uses forwardRef to properly handle refs that may be passed by the
+ * @git-diff-view/react library when rendering extend lines.
+ * Without forwardRef, React error #185 would be thrown:
+ * "It is not supported to assign `ref` to a function component."
+ */
+export const LineCommentWidget = forwardRef<
+  HTMLDivElement,
+  LineCommentWidgetProps
+>(function LineCommentWidget(
+  { lineNumber, initialComment, onCommentChange, onCancel },
+  ref,
+) {
   const { i18n } = useLingui();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -56,7 +65,10 @@ export const LineCommentWidget: FC<LineCommentWidgetProps> = ({
    * colors (especially dark mode) are applied correctly.
    */
   return (
-    <div className="diff-line-comment-widget p-3 !bg-[#f6f8fa] dark:!bg-[#161b22]">
+    <div
+      ref={ref}
+      className="diff-line-comment-widget p-3 !bg-[#f6f8fa] dark:!bg-[#161b22]"
+    >
       {/* Title */}
       <div className="text-sm mb-2 !text-[#57606a] dark:!text-[#8b949e]">
         <Trans id="diff.line_comment.title" values={{ line: lineNumber }} />
@@ -85,7 +97,7 @@ export const LineCommentWidget: FC<LineCommentWidgetProps> = ({
       </div>
     </div>
   );
-};
+});
 
 /**
  * Formats a line comment into a markdown block for the chat textarea.

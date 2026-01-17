@@ -408,6 +408,18 @@ export const routes = (app: HonoAppType, options: CliOptions) =>
           },
         )
 
+        .get("/api/projects/:projectId/git/file-status", async (c) => {
+          const response = await effectToResponse(
+            c,
+            gitController
+              .getFileStatusRoute({
+                ...c.req.param(),
+              })
+              .pipe(Effect.provide(runtime)),
+          );
+          return response;
+        })
+
         /**
          * ClaudeCodeController Routes
          */
@@ -748,6 +760,28 @@ export const routes = (app: HonoAppType, options: CliOptions) =>
               fileSystemController.fuzzySearchFilesRoute({
                 ...c.req.valid("query"),
               }),
+            );
+            return response;
+          },
+        )
+
+        .get(
+          "/api/fs/file-content",
+          zValidator(
+            "query",
+            z.object({
+              projectId: z.string(),
+              filePath: z.string(),
+            }),
+          ),
+          async (c) => {
+            const response = await effectToResponse(
+              c,
+              fileSystemController
+                .getFileContentRoute({
+                  ...c.req.valid("query"),
+                })
+                .pipe(Effect.provide(runtime)),
             );
             return response;
           },
