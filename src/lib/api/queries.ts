@@ -1,3 +1,4 @@
+import type { FuzzySearchResult } from "../../server/core/file-system/functions/fuzzySearchFiles";
 import type { DirectoryListingResult } from "../../server/core/file-system/functions/getDirectoryListing";
 import type { FileCompletionResult } from "../../server/core/file-system/functions/getFileCompletion";
 import { honoClient } from "./client";
@@ -188,6 +189,32 @@ export const fileCompletionQuery = (projectId: string, basePath: string) =>
 
       if (!response.ok) {
         throw new Error("Failed to fetch file completion");
+      }
+
+      return await response.json();
+    },
+  }) as const;
+
+export const fuzzySearchFilesQuery = (
+  projectId: string,
+  basePath: string,
+  query: string,
+  limit?: number,
+) =>
+  ({
+    queryKey: ["fuzzy-search", projectId, basePath, query, limit],
+    queryFn: async (): Promise<FuzzySearchResult> => {
+      const response = await honoClient.api.fs["fuzzy-search"].$get({
+        query: {
+          projectId,
+          basePath,
+          query,
+          ...(limit !== undefined ? { limit: limit.toString() } : {}),
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to search files");
       }
 
       return await response.json();

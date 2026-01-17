@@ -442,6 +442,7 @@ export const SchedulerJobDialog: FC<SchedulerJobDialogProps> = ({
                 onChange={(e) =>
                   completion.handleChange(e.target.value, setMessageContent)
                 }
+                onSelect={completion.handleSelect}
                 onKeyDown={(e) => completion.handleKeyDown(e)}
                 placeholder={i18n._({
                   id: "scheduler.form.message.placeholder",
@@ -466,13 +467,18 @@ export const SchedulerJobDialog: FC<SchedulerJobDialogProps> = ({
               <InlineCompletion
                 projectId={projectId}
                 message={messageContent}
+                cursorIndex={completion.cursorIndex}
                 commandCompletionRef={completion.commandCompletionRef}
                 fileCompletionRef={completion.fileCompletionRef}
                 handleCommandSelect={(cmd) =>
                   completion.handleCommandSelect(cmd, setMessageContent)
                 }
-                handleFileSelect={(file) =>
-                  completion.handleFileSelect(file, setMessageContent)
+                handleFileSelect={(newMessage, newCursorPosition) =>
+                  completion.handleFileSelect(
+                    newMessage,
+                    newCursorPosition,
+                    setMessageContent,
+                  )
                 }
                 cursorPosition={completion.cursorPosition}
               />

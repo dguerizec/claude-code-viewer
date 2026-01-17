@@ -16,7 +16,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
-        267
+        357
       ]
     ],
     "translation": "利用可能なファイルとディレクトリ"
@@ -98,6 +98,32 @@
     ],
     "translation": "プッシュに失敗しました"
   },
+  "Files & Directories": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
+        470
+      ]
+    ],
+    "translation": ""
+  },
+  "In {path}": {
+    "placeholders": {
+      "path": [
+        "basePath"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
+        471
+      ]
+    ],
+    "translation": "{path} 内"
+  },
   "Message input with completion support": {
     "placeholders": {},
     "comments": [],
@@ -131,6 +157,17 @@
     ],
     "translation": "プッシュを再試行"
   },
+  "Search Results": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
+        410
+      ]
+    ],
+    "translation": "検索結果"
+  },
   "Select auto-abort timeout": {
     "placeholders": {},
     "comments": [],
@@ -152,6 +189,21 @@
       ]
     ],
     "translation": "Enterキーの動作を選択"
+  },
+  "Select folder {name}": {
+    "translation": "フォルダ {name} を選択",
+    "placeholders": {
+      "name": [
+        "selectFolderEntry.name"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
+        382
+      ]
+    ]
   },
   "Select language": {
     "placeholders": {},
@@ -196,6 +248,17 @@
       ]
     ],
     "translation": "テーマを選択"
+  },
+  "Select this folder": {
+    "translation": "このフォルダを選択",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
+        389
+      ]
+    ]
   },
   "Uncommitted changes": {
     "placeholders": {},
@@ -1494,7 +1557,6 @@
     "translation": "毎週"
   },
   "diff.close_confirm.cancel": {
-    "translation": "開いたままにする",
     "placeholders": {},
     "comments": [],
     "origin": [
@@ -1502,10 +1564,10 @@
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
         1047
       ]
-    ]
+    ],
+    "translation": "開いたままにする"
   },
   "diff.close_confirm.confirm": {
-    "translation": "閉じる",
     "placeholders": {},
     "comments": [],
     "origin": [
@@ -1513,10 +1575,10 @@
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
         1050
       ]
-    ]
+    ],
+    "translation": "閉じる"
   },
   "diff.close_confirm.description": {
-    "translation": "未送信のコメントが{count}件あります。閉じて別のセッションに切り替えると、コメントは警告なしに失われます。",
     "placeholders": {
       "count": [
         "nonEmptyCommentCount"
@@ -1528,10 +1590,10 @@
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
         1036
       ]
-    ]
+    ],
+    "translation": "未送信のコメントが{count}件あります。閉じて別のセッションに切り替えると、コメントは警告なしに失われます。"
   },
   "diff.close_confirm.title": {
-    "translation": "未送信のコメント",
     "placeholders": {},
     "comments": [],
     "origin": [
@@ -1539,7 +1601,8 @@
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
         1033
       ]
-    ]
+    ],
+    "translation": "未送信のコメント"
   },
   "diff.commit": {
     "placeholders": {},

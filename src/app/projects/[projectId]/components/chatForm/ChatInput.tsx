@@ -128,6 +128,8 @@ export const ChatInput: FC<ChatInputProps> = ({
     relative: { top: number; left: number };
     absolute: { top: number; left: number };
   }>({ relative: { top: 0, left: 0 }, absolute: { top: 0, left: 0 } });
+  // Track cursor index in the text for completion parsing
+  const [cursorIndex, setCursorIndex] = useState(0);
   const [isDraggingOnPage, setIsDraggingOnPage] = useState(false);
   const [isDraggingOnZone, setIsDraggingOnZone] = useState(false);
   const dragCounterRef = useRef(0);
@@ -642,9 +644,22 @@ export const ChatInput: FC<ChatInputProps> = ({
     textareaRef.current?.focus();
   };
 
-  const handleFilePathSelect = (filePath: string) => {
-    setMessage(filePath);
-    textareaRef.current?.focus();
+  const handleFilePathSelect = (
+    newMessage: string,
+    newCursorPosition: number,
+  ) => {
+    setMessage(newMessage);
+    setDraft(newMessage);
+    setCursorIndex(newCursorPosition);
+
+    // Reposition cursor after React updates the textarea
+    requestAnimationFrame(() => {
+      const textarea = textareaRef.current;
+      if (textarea) {
+        textarea.focus();
+        textarea.setSelectionRange(newCursorPosition, newCursorPosition);
+      }
+    });
   };
 
   return (
@@ -690,18 +705,34 @@ export const ChatInput: FC<ChatInputProps> = ({
               ref={textareaRef}
               value={message}
               onChange={(e) => {
-                if (
-                  e.target.value.endsWith("@") ||
-                  e.target.value.endsWith("/")
-                ) {
+                const newValue = e.target.value;
+                const newCursorIndex = e.target.selectionStart;
+
+                // Update cursor position for widget positioning when:
+                // - @ is typed anywhere (file completion)
+                // - / is typed as the first character (command completion)
+                const charTyped = newValue.slice(
+                  newCursorIndex - 1,
+                  newCursorIndex,
+                );
+                const isAtTyped = charTyped === "@";
+                const isSlashAtStart =
+                  charTyped === "/" && newCursorIndex === 1;
+
+                if (isAtTyped || isSlashAtStart) {
                   const position = getCursorPosition();
                   if (position) {
                     setCursorPosition(position);
                   }
                 }
 
-                setMessage(e.target.value);
-                setDraft(e.target.value);
+                setCursorIndex(newCursorIndex);
+                setMessage(newValue);
+                setDraft(newValue);
+              }}
+              onSelect={(e) => {
+                // Track cursor movements (arrow keys, mouse clicks)
+                setCursorIndex(e.currentTarget.selectionStart);
               }}
               onKeyDown={handleKeyDown}
               onPaste={handlePaste}
@@ -916,6 +947,7 @@ export const ChatInput: FC<ChatInputProps> = ({
         <InlineCompletion
           projectId={projectId}
           message={message}
+          cursorIndex={cursorIndex}
           commandCompletionRef={commandCompletionRef}
           fileCompletionRef={fileCompletionRef}
           handleCommandSelect={handleCommandSelect}

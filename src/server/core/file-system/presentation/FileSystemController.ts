@@ -3,6 +3,7 @@ import { Context, Effect, Layer } from "effect";
 import type { ControllerResponse } from "../../../lib/effect/toEffectResponse";
 import type { InferEffect } from "../../../lib/effect/types";
 import { ProjectRepository } from "../../project/infrastructure/ProjectRepository";
+import { fuzzySearchFiles } from "../functions/fuzzySearchFiles";
 import { getDirectoryListing } from "../functions/getDirectoryListing";
 import { getFileCompletion } from "../functions/getFileCompletion";
 
@@ -79,9 +80,47 @@ const LayerImpl = Effect.gen(function* () {
       }
     });
 
+  const fuzzySearchFilesRoute = (options: {
+    projectId: string;
+    basePath: string;
+    query: string;
+    limit?: number;
+  }) =>
+    Effect.gen(function* () {
+      const { projectId, basePath, query, limit } = options;
+
+      const { project } = yield* projectRepository.getProject(projectId);
+
+      if (project.meta.projectPath === null) {
+        return {
+          response: { error: "Project path not found" },
+          status: 400,
+        } as const satisfies ControllerResponse;
+      }
+
+      const projectPath = project.meta.projectPath;
+
+      try {
+        const result = yield* Effect.promise(() =>
+          fuzzySearchFiles(projectPath, basePath, query, limit),
+        );
+        return {
+          response: result,
+          status: 200,
+        } as const satisfies ControllerResponse;
+      } catch (error) {
+        console.error("Fuzzy search error:", error);
+        return {
+          response: { error: "Failed to search files" },
+          status: 500,
+        } as const satisfies ControllerResponse;
+      }
+    });
+
   return {
     getFileCompletionRoute,
     getDirectoryListingRoute,
+    fuzzySearchFilesRoute,
   };
 });
 

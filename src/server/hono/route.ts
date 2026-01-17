@@ -728,6 +728,31 @@ export const routes = (app: HonoAppType, options: CliOptions) =>
           },
         )
 
+        .get(
+          "/api/fs/fuzzy-search",
+          zValidator(
+            "query",
+            z.object({
+              projectId: z.string(),
+              basePath: z.string().optional().default("/"),
+              query: z.string().min(1),
+              limit: z
+                .string()
+                .optional()
+                .transform((val) => (val ? parseInt(val, 10) : 10)),
+            }),
+          ),
+          async (c) => {
+            const response = await effectToResponse(
+              c,
+              fileSystemController.fuzzySearchFilesRoute({
+                ...c.req.valid("query"),
+              }),
+            );
+            return response;
+          },
+        )
+
         /**
          * SearchController Routes
          */

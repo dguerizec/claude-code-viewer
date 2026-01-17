@@ -16,7 +16,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
-        267
+        357
       ]
     ],
     "translation": "Available files and directories"
@@ -98,6 +98,32 @@
     ],
     "translation": "Failed to push"
   },
+  "Files & Directories": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
+        470
+      ]
+    ],
+    "translation": "Files & Directories"
+  },
+  "In {path}": {
+    "placeholders": {
+      "path": [
+        "basePath"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
+        471
+      ]
+    ],
+    "translation": "In {path}"
+  },
   "Message input with completion support": {
     "placeholders": {},
     "comments": [],
@@ -131,6 +157,17 @@
     ],
     "translation": "Retry Push"
   },
+  "Search Results": {
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
+        410
+      ]
+    ],
+    "translation": "Search Results"
+  },
   "Select auto-abort timeout": {
     "placeholders": {},
     "comments": [],
@@ -152,6 +189,21 @@
       ]
     ],
     "translation": "Select enter key behavior"
+  },
+  "Select folder {name}": {
+    "translation": "Select folder {name}",
+    "placeholders": {
+      "name": [
+        "selectFolderEntry.name"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
+        382
+      ]
+    ]
   },
   "Select language": {
     "placeholders": {},
@@ -196,6 +248,17 @@
       ]
     ],
     "translation": "Select theme"
+  },
+  "Select this folder": {
+    "translation": "Select this folder",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
+        389
+      ]
+    ]
   },
   "Uncommitted changes": {
     "placeholders": {},
@@ -1494,7 +1557,6 @@
     "translation": "Weekly"
   },
   "diff.close_confirm.cancel": {
-    "translation": "Stay open",
     "placeholders": {},
     "comments": [],
     "origin": [
@@ -1502,10 +1564,10 @@
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
         1047
       ]
-    ]
+    ],
+    "translation": "Stay open"
   },
   "diff.close_confirm.confirm": {
-    "translation": "Close anyway",
     "placeholders": {},
     "comments": [],
     "origin": [
@@ -1513,10 +1575,10 @@
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
         1050
       ]
-    ]
+    ],
+    "translation": "Close anyway"
   },
   "diff.close_confirm.description": {
-    "translation": "You have {count} unsent comment(s). If you close now and switch to another session, your comments will be lost without warning.",
     "placeholders": {
       "count": [
         "nonEmptyCommentCount"
@@ -1528,10 +1590,10 @@
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
         1036
       ]
-    ]
+    ],
+    "translation": "You have {count} unsent comment(s). If you close now and switch to another session, your comments will be lost without warning."
   },
   "diff.close_confirm.title": {
-    "translation": "Unsent comments",
     "placeholders": {},
     "comments": [],
     "origin": [
@@ -1539,7 +1601,8 @@
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
         1033
       ]
-    ]
+    ],
+    "translation": "Unsent comments"
   },
   "diff.commit": {
     "placeholders": {},
