@@ -15,18 +15,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import {
   type CommentsMap,
   hasNonEmptyComment,
-  type LineCommentData,
 } from "@/contexts/DiffLineCommentContext";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import {
-  formatAllComments,
-  formatLineCommentBlock,
-  LineCommentWidget,
-} from "./LineCommentWidget";
-
-export type { LineCommentData };
-export { formatLineCommentBlock, formatAllComments };
+import { getLangFromFilePath } from "@/lib/utils/fileLineComments";
+import { LineCommentWidget } from "./LineCommentWidget";
 
 import type { FileStatus } from "./types";
 
@@ -91,43 +84,6 @@ function extractFileName(diffText: string): string {
 }
 
 /**
- * Gets language from file extension
- */
-function getLangFromFileName(fileName: string): string {
-  const ext = fileName.split(".").pop()?.toLowerCase() ?? "";
-  const langMap: Record<string, string> = {
-    ts: "typescript",
-    tsx: "typescript",
-    js: "javascript",
-    jsx: "javascript",
-    json: "json",
-    md: "markdown",
-    css: "css",
-    scss: "scss",
-    html: "html",
-    py: "python",
-    rb: "ruby",
-    go: "go",
-    rs: "rust",
-    java: "java",
-    c: "c",
-    cpp: "cpp",
-    h: "c",
-    hpp: "cpp",
-    sh: "bash",
-    yaml: "yaml",
-    yml: "yaml",
-    xml: "xml",
-    sql: "sql",
-    php: "php",
-    swift: "swift",
-    kt: "kotlin",
-    scala: "scala",
-  };
-  return langMap[ext] ?? "text";
-}
-
-/**
  * Checks if a diff is considered "large" based on character count or line count
  */
 function isLargeDiff(diffText: string): boolean {
@@ -152,17 +108,6 @@ function formatSize(bytes: number): string {
  */
 export function getFileElementId(filePath: string): string {
   return `diff-file-${filePath.replace(/[^a-zA-Z0-9-_]/g, "-")}`;
-}
-
-/**
- * Creates a unique key for a comment based on file, line, and side
- */
-export function createCommentKey(
-  filePath: string,
-  lineNumber: number,
-  side: "old" | "new",
-): string {
-  return `${filePath}:${lineNumber}:${side}`;
 }
 
 // CommentsMap is imported from @/contexts/DiffLineCommentContext
@@ -360,7 +305,7 @@ const SingleFileDiff: FC<SingleFileDiffProps> = ({
   onRemoveComment,
 }) => {
   const fileName = useMemo(() => extractFileName(diffText), [diffText]);
-  const lang = useMemo(() => getLangFromFileName(fileName), [fileName]);
+  const lang = useMemo(() => getLangFromFilePath(fileName, "text"), [fileName]);
   const large = useMemo(() => isLargeDiff(diffText), [diffText]);
   const [expanded, setExpanded] = useState(!large);
 

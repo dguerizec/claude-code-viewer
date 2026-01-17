@@ -8,112 +8,13 @@ import {
 } from "@git-diff-view/react";
 import "@git-diff-view/react/styles/diff-view.css";
 import { type FC, useCallback, useMemo, useRef } from "react";
-import {
-  type FileExplorerCommentsMap,
-  type FileExplorerLineCommentData,
-  hasNonEmptyComment,
-} from "@/contexts/FileExplorerCommentContext";
+import type { FileExplorerCommentsMap } from "@/contexts/FileExplorerCommentContext";
 import { useTheme } from "@/hooks/useTheme";
+import { getLangFromFilePath } from "@/lib/utils/fileLineComments";
 import { LineCommentWidget } from "../diffModal/LineCommentWidget";
 import { generatePseudoDiff } from "./pseudoDiff";
 import type { FileViewOptions } from "./types";
 import "./FileViewerStyles.css";
-
-/**
- * Gets the language identifier from a file name for syntax highlighting
- */
-function getLangFromFileName(fileName: string): string {
-  const ext = fileName.split(".").pop()?.toLowerCase() ?? "";
-  const langMap: Record<string, string> = {
-    ts: "typescript",
-    tsx: "typescript",
-    js: "javascript",
-    jsx: "javascript",
-    json: "json",
-    md: "markdown",
-    css: "css",
-    scss: "scss",
-    html: "html",
-    py: "python",
-    rb: "ruby",
-    go: "go",
-    rs: "rust",
-    java: "java",
-    c: "c",
-    cpp: "cpp",
-    h: "c",
-    hpp: "cpp",
-    sh: "bash",
-    yaml: "yaml",
-    yml: "yaml",
-    xml: "xml",
-    sql: "sql",
-    php: "php",
-    swift: "swift",
-    kt: "kotlin",
-    scala: "scala",
-  };
-  return langMap[ext] ?? "text";
-}
-
-/**
- * Creates a unique key for a comment based on file path and line number.
- * Unlike diff comments, file viewer comments don't have a "side" since
- * we're viewing the full file content (not a diff).
- */
-export function createFileCommentKey(
-  filePath: string,
-  lineNumber: number,
-): string {
-  return `${filePath}:${lineNumber}`;
-}
-
-/**
- * Formats a single line comment block for the chat textarea.
- *
- * Format:
- * ---
- *
- * file:line
- * ```lang
- * code
- * ```
- *
- * user comment (can be multiline)
- */
-export function formatFileExplorerLineCommentBlock(
-  data: FileExplorerLineCommentData,
-): string {
-  const lang = getLangFromFileName(data.filePath);
-  const lines = [
-    "---",
-    "",
-    `${data.filePath}:${data.lineNumber}`,
-    `\`\`\`${lang}`,
-    data.lineContent.trimEnd(),
-    "```",
-  ];
-
-  if (data.comment) {
-    lines.push("");
-    lines.push(data.comment);
-  }
-
-  return lines.join("\n");
-}
-
-/**
- * Formats multiple file explorer comments into a single string for the chat textarea.
- * Only includes comments with non-empty content.
- */
-export function formatAllFileExplorerComments(
-  comments: FileExplorerLineCommentData[],
-): string {
-  return comments
-    .filter(hasNonEmptyComment)
-    .map(formatFileExplorerLineCommentBlock)
-    .join("\n\n");
-}
 
 interface ExtendDataItem {
   commentKey: string;
@@ -132,6 +33,7 @@ export interface FileContentViewerProps {
   onAddComment: (
     filePath: string,
     lineNumber: number,
+    side: "old" | "new",
     lineContent: string,
   ) => void;
   /** Callback when a comment is updated */
@@ -165,7 +67,7 @@ export const FileContentViewer: FC<FileContentViewerProps> = ({
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
   const theme = isDark ? "dark" : "light";
-  const lang = useMemo(() => getLangFromFileName(fileName), [fileName]);
+  const lang = useMemo(() => getLangFromFilePath(fileName, "text"), [fileName]);
 
   // Use a ref to access comments without causing re-renders of renderExtendLine
   // This prevents the textarea cursor from jumping to the end on each keystroke
@@ -229,9 +131,9 @@ export const FileContentViewer: FC<FileContentViewerProps> = ({
   // Handle click on line number to add a comment
   const handleAddWidgetClick = useCallback(
     (lineNumber: number, _side: SplitSide) => {
-      // In file viewer mode, we only use the "new" side
+      // In file viewer mode, we always use the "new" side
       const lineContent = getLineContent(lineNumber);
-      onAddComment(fileName, lineNumber, lineContent);
+      onAddComment(fileName, lineNumber, "new", lineContent);
     },
     [fileName, getLineContent, onAddComment],
   );

@@ -1,15 +1,7 @@
 "use client";
 
-import {
-  createContext,
-  type FC,
-  type ReactNode,
-  useCallback,
-  useContext,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { createCommentCountContext } from "./createCommentCountContext";
+import type { LineCommentData } from "./DiffLineCommentContext";
 
 /**
  * Context for inserting text from file explorer line comments into the chat textarea
@@ -19,99 +11,24 @@ import {
  * and no interference between Git dialog and File Explorer.
  */
 
-type InsertTextCallback = (text: string) => void;
+/**
+ * Map of comment key to comment data.
+ * Uses the unified LineCommentData type from DiffLineCommentContext.
+ * In File Explorer, the `side` field is always "new".
+ */
+export type FileExplorerCommentsMap = Map<string, LineCommentData>;
+
+// Create context using factory
+const { Provider, useCommentCount } = createCommentCountContext("FileExplorer");
 
 /**
- * Data for a single line comment in the file explorer
+ * Provider for file explorer comment context.
+ * Wrap your component tree with this to enable comment functionality.
  */
-export interface FileExplorerLineCommentData {
-  filePath: string;
-  lineNumber: number;
-  lineContent: string;
-  comment: string;
-}
+export const FileExplorerCommentProvider = Provider;
 
 /**
- * Map of comment key to comment data
+ * Hook to access file explorer comment context.
+ * Must be used within a FileExplorerCommentProvider.
  */
-export type FileExplorerCommentsMap = Map<string, FileExplorerLineCommentData>;
-
-/**
- * Checks if a comment has non-empty content (not just whitespace).
- */
-export function hasNonEmptyComment(
-  comment: FileExplorerLineCommentData,
-): boolean {
-  return comment.comment.trim().length > 0;
-}
-
-interface FileExplorerCommentContextValue {
-  /**
-   * Register a callback to insert text into the chat textarea.
-   * Returns an unregister function.
-   */
-  registerInsertCallback: (callback: InsertTextCallback) => () => void;
-  /**
-   * Insert text into the chat textarea at cursor position or at the end.
-   */
-  insertText: (text: string) => void;
-  /**
-   * Count of non-empty comments (set by FileExplorerDialog, read by badge components)
-   */
-  nonEmptyCommentCount: number;
-  /**
-   * Update the non-empty comment count (called by FileExplorerDialog)
-   */
-  setNonEmptyCommentCount: (count: number) => void;
-}
-
-const FileExplorerCommentContext =
-  createContext<FileExplorerCommentContextValue | null>(null);
-
-interface FileExplorerCommentProviderProps {
-  children: ReactNode;
-}
-
-export const FileExplorerCommentProvider: FC<
-  FileExplorerCommentProviderProps
-> = ({ children }) => {
-  const callbackRef = useRef<InsertTextCallback | null>(null);
-  const [nonEmptyCommentCount, setNonEmptyCommentCount] = useState(0);
-
-  const registerInsertCallback = useCallback((callback: InsertTextCallback) => {
-    callbackRef.current = callback;
-    return () => {
-      callbackRef.current = null;
-    };
-  }, []);
-
-  const insertText = useCallback((text: string) => {
-    callbackRef.current?.(text);
-  }, []);
-
-  const value = useMemo(
-    () => ({
-      registerInsertCallback,
-      insertText,
-      nonEmptyCommentCount,
-      setNonEmptyCommentCount,
-    }),
-    [registerInsertCallback, insertText, nonEmptyCommentCount],
-  );
-
-  return (
-    <FileExplorerCommentContext.Provider value={value}>
-      {children}
-    </FileExplorerCommentContext.Provider>
-  );
-};
-
-export const useFileExplorerComment = (): FileExplorerCommentContextValue => {
-  const context = useContext(FileExplorerCommentContext);
-  if (!context) {
-    throw new Error(
-      "useFileExplorerComment must be used within a FileExplorerCommentProvider",
-    );
-  }
-  return context;
-};
+export const useFileExplorerComment = useCommentCount;

@@ -27,7 +27,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        317
+        243
       ]
     ],
     "translation": ""
@@ -49,7 +49,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        806
+        739
       ]
     ],
     "translation": ""
@@ -60,7 +60,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        765
+        698
       ]
     ],
     "translation": "比较起点"
@@ -71,7 +71,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        771
+        704
       ]
     ],
     "translation": "比较终点"
@@ -82,7 +82,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        640
+        573
       ]
     ],
     "translation": "提交失败"
@@ -93,7 +93,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        706
+        639
       ]
     ],
     "translation": "提交和推送失败"
@@ -104,7 +104,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        658
+        591
       ]
     ],
     "translation": "推送失败"
@@ -163,7 +163,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        693
+        626
       ]
     ],
     "translation": "重试推送"
@@ -277,7 +277,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        505
+        438
       ]
     ],
     "translation": "未提交的更改"
@@ -1166,7 +1166,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        138
+        114
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
@@ -1204,11 +1204,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        410
+        343
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        761
+        694
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
@@ -1600,11 +1600,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        1055
+        988
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        392
+        318
       ]
     ],
     "translation": "保持打开"
@@ -1615,11 +1615,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        1058
+        991
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        395
+        321
       ]
     ],
     "translation": "关闭"
@@ -1634,11 +1634,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        1044
+        977
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        381
+        307
       ]
     ],
     "translation": "您有{count}条未发送的评论。如果现在关闭并切换到其他会话，您的评论将丢失且不会收到警告。"
@@ -1649,11 +1649,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        1041
+        974
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        378
+        304
       ]
     ],
     "translation": "未发送的评论"
@@ -1664,7 +1664,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        925
+        858
       ]
     ],
     "translation": "提交"
@@ -1675,7 +1675,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        841
+        774
       ]
     ],
     "translation": "提交更改"
@@ -1686,7 +1686,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        899
+        832
       ]
     ],
     "translation": "提交信息"
@@ -1697,7 +1697,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        957
+        890
       ]
     ],
     "translation": "提交并推送"
@@ -1708,7 +1708,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        922
+        855
       ]
     ],
     "translation": "提交中..."
@@ -1719,7 +1719,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        954
+        887
       ]
     ],
     "translation": "提交并推送中..."
@@ -1730,7 +1730,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        860
+        793
       ]
     ],
     "translation": "取消全选"
@@ -1741,7 +1741,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        967
+        900
       ]
     ],
     "translation": "请输入提交信息"
@@ -1774,7 +1774,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffViewer.tsx",
-        344
+        303
       ]
     ],
     "translation": "加载差异"
@@ -1792,7 +1792,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffViewer.tsx",
-        332
+        291
       ]
     ],
     "translation": "大文件差异已隐藏 ({size}, {lines} 行)"
@@ -1803,7 +1803,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/LineCommentWidget.tsx",
-        95
+        99
       ]
     ],
     "translation": "取消"
@@ -1814,7 +1814,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/LineCommentWidget.tsx",
-        83
+        87
       ]
     ],
     "translation": "添加关于此行的评论..."
@@ -1829,11 +1829,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        1014
+        947
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        362
+        288
       ]
     ],
     "translation": "将 {count} 条评论添加到聊天"
@@ -1848,7 +1848,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/LineCommentWidget.tsx",
-        74
+        78
       ]
     ],
     "translation": "在第 {line} 行添加评论"
@@ -1859,7 +1859,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        1030
+        963
       ]
     ],
     "translation": "加载差异中..."
@@ -1870,11 +1870,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        793
+        726
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        305
+        231
       ]
     ],
     "translation": "语法"
@@ -1885,7 +1885,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        778
+        711
       ]
     ],
     "translation": "分屏视图"
@@ -1896,11 +1896,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        788
+        721
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        300
+        226
       ]
     ],
     "translation": "自动换行"
@@ -1911,7 +1911,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        940
+        873
       ]
     ],
     "translation": "推送"
@@ -1922,7 +1922,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        937
+        870
       ]
     ],
     "translation": "推送中..."
@@ -1933,7 +1933,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        852
+        785
       ]
     ],
     "translation": "全选"
@@ -1944,7 +1944,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        965
+        898
       ]
     ],
     "translation": "请至少选择一个文件"
@@ -2021,7 +2021,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileViewer.tsx",
-        135
+        136
       ]
     ],
     "translation": "文件加载失败"
@@ -2032,7 +2032,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        294
+        220
       ]
     ],
     "translation": "文件浏览器"

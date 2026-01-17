@@ -27,7 +27,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        317
+        243
       ]
     ],
     "translation": ""
@@ -49,7 +49,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        806
+        739
       ]
     ],
     "translation": ""
@@ -60,7 +60,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        765
+        698
       ]
     ],
     "translation": "比較元"
@@ -71,7 +71,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        771
+        704
       ]
     ],
     "translation": "比較先"
@@ -82,7 +82,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        640
+        573
       ]
     ],
     "translation": "コミットに失敗しました"
@@ -93,7 +93,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        706
+        639
       ]
     ],
     "translation": "コミットとプッシュに失敗しました"
@@ -104,7 +104,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        658
+        591
       ]
     ],
     "translation": "プッシュに失敗しました"
@@ -163,7 +163,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        693
+        626
       ]
     ],
     "translation": "プッシュを再試行"
@@ -277,7 +277,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        505
+        438
       ]
     ],
     "translation": "未コミットの変更"
@@ -1166,7 +1166,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        138
+        114
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
@@ -1204,11 +1204,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        410
+        343
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        761
+        694
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
@@ -1600,11 +1600,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        1055
+        988
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        392
+        318
       ]
     ],
     "translation": "開いたままにする"
@@ -1615,11 +1615,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        1058
+        991
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        395
+        321
       ]
     ],
     "translation": "閉じる"
@@ -1634,11 +1634,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        1044
+        977
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        381
+        307
       ]
     ],
     "translation": "未送信のコメントが{count}件あります。閉じて別のセッションに切り替えると、コメントは警告なしに失われます。"
@@ -1649,11 +1649,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        1041
+        974
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        378
+        304
       ]
     ],
     "translation": "未送信のコメント"
@@ -1664,7 +1664,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        925
+        858
       ]
     ],
     "translation": "コミット"
@@ -1675,7 +1675,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        841
+        774
       ]
     ],
     "translation": "変更をコミット"
@@ -1686,7 +1686,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        899
+        832
       ]
     ],
     "translation": "コミットメッセージ"
@@ -1697,7 +1697,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        957
+        890
       ]
     ],
     "translation": "コミット＆プッシュ"
@@ -1708,7 +1708,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        922
+        855
       ]
     ],
     "translation": "コミット中..."
@@ -1719,7 +1719,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        954
+        887
       ]
     ],
     "translation": "コミット＆プッシュ中..."
@@ -1730,7 +1730,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        860
+        793
       ]
     ],
     "translation": "すべて選択解除"
@@ -1741,7 +1741,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        967
+        900
       ]
     ],
     "translation": "コミットメッセージを入力"
@@ -1774,7 +1774,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffViewer.tsx",
-        344
+        303
       ]
     ],
     "translation": "差分を読み込む"
@@ -1792,7 +1792,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffViewer.tsx",
-        332
+        291
       ]
     ],
     "translation": "大きな差分は非表示です ({size}, {lines} 行)"
@@ -1803,7 +1803,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/LineCommentWidget.tsx",
-        95
+        99
       ]
     ],
     "translation": "キャンセル"
@@ -1814,7 +1814,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/LineCommentWidget.tsx",
-        83
+        87
       ]
     ],
     "translation": "この行についてコメントを追加..."
@@ -1829,11 +1829,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        1014
+        947
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        362
+        288
       ]
     ],
     "translation": "{count}件のコメントをチャットに追加"
@@ -1848,7 +1848,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/LineCommentWidget.tsx",
-        74
+        78
       ]
     ],
     "translation": "行 {line} にコメントを追加"
@@ -1859,7 +1859,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        1030
+        963
       ]
     ],
     "translation": "差分を読み込み中..."
@@ -1870,11 +1870,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        793
+        726
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        305
+        231
       ]
     ],
     "translation": "構文"
@@ -1885,7 +1885,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        778
+        711
       ]
     ],
     "translation": "分割表示"
@@ -1896,11 +1896,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        788
+        721
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        300
+        226
       ]
     ],
     "translation": "折り返し"
@@ -1911,7 +1911,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        940
+        873
       ]
     ],
     "translation": "プッシュ"
@@ -1922,7 +1922,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        937
+        870
       ]
     ],
     "translation": "プッシュ中..."
@@ -1933,7 +1933,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        852
+        785
       ]
     ],
     "translation": "すべて選択"
@@ -1944,7 +1944,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        965
+        898
       ]
     ],
     "translation": "少なくとも1つのファイルを選択してください"
@@ -2021,7 +2021,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileViewer.tsx",
-        135
+        136
       ]
     ],
     "translation": "ファイルの読み込みに失敗しました"
@@ -2032,7 +2032,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        294
+        220
       ]
     ],
     "translation": "ファイルエクスプローラー"

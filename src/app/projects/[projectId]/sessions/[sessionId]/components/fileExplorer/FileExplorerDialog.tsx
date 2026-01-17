@@ -2,10 +2,18 @@
 
 import { Trans, useLingui } from "@lingui/react";
 import { FolderOpen, MessageSquarePlus, X } from "lucide-react";
-import type { FC } from "react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { FC, ReactNode } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -14,18 +22,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  type FileExplorerCommentsMap,
-  hasNonEmptyComment,
-  useFileExplorerComment,
-} from "@/contexts/FileExplorerCommentContext";
+import { useFileExplorerComment } from "@/contexts/FileExplorerCommentContext";
 import { usePersistentDialog } from "@/contexts/PersistentDialogsContext";
+import { useFileLineComments } from "@/hooks/useFileLineComments";
 import { cn } from "@/lib/utils";
+import { formatFileLineComments } from "@/lib/utils/fileLineComments";
 import { EmptyState } from "./EmptyState";
-import {
-  createFileCommentKey,
-  formatAllFileExplorerComments,
-} from "./FileContentViewer";
 import { FileTree } from "./FileTree";
 import { FileViewer } from "./FileViewer";
 import { DEFAULT_FILE_VIEW_OPTIONS, type FileViewOptions } from "./types";
@@ -37,32 +39,29 @@ export interface FileExplorerDialogProps {
 }
 
 /**
- * Toggle button for view options (Wrap, Syntax)
+ * Checkbox toggle for view options (Wrap, Syntax)
+ * Uses the same pattern as DiffOptionToggle in DiffViewer.tsx for UI consistency.
  */
-interface ViewOptionToggleProps {
-  label: React.ReactNode;
+const OptionToggle: FC<{
+  label: ReactNode;
   checked: boolean;
   onChange: (checked: boolean) => void;
-}
-
-const ViewOptionToggle: FC<ViewOptionToggleProps> = ({
-  label,
-  checked,
-  onChange,
-}) => {
+}> = ({ label, checked, onChange }) => {
+  const id = useId();
   return (
-    <button
-      type="button"
-      onClick={() => onChange(!checked)}
-      className={cn(
-        "px-2 py-1 text-xs rounded transition-colors",
-        checked
-          ? "bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300"
-          : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700",
-      )}
-    >
-      {label}
-    </button>
+    <div className="flex items-center gap-1.5 whitespace-nowrap">
+      <Checkbox
+        id={id}
+        checked={checked}
+        onCheckedChange={(value) => onChange(value === true)}
+      />
+      <label
+        htmlFor={id}
+        className="text-xs text-gray-600 dark:text-gray-400 cursor-pointer select-none"
+      >
+        {label}
+      </label>
+    </div>
   );
 };
 
@@ -87,48 +86,25 @@ export const FileExplorerDialog: FC<FileExplorerDialogProps> = ({
   // Context for inserting comments into chat
   const { insertText, setNonEmptyCommentCount } = useFileExplorerComment();
 
+  // Use shared hook for comment management
+  const {
+    comments,
+    handleAddComment,
+    handleUpdateComment,
+    handleRemoveComment,
+    resetComments,
+    nonEmptyCommentCount,
+    commentCountByFile,
+  } = useFileLineComments({
+    setContextCommentCount: setNonEmptyCommentCount,
+  });
+
   // Local state
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
-  const [comments, setComments] = useState<FileExplorerCommentsMap>(
-    () => new Map(),
-  );
   const [showCloseConfirm, setShowCloseConfirm] = useState(false);
   const [viewOptions, setViewOptions] = useState<FileViewOptions>(
     DEFAULT_FILE_VIEW_OPTIONS,
   );
-
-  // Calculate non-empty comment count
-  const nonEmptyCommentCount = useMemo(() => {
-    let count = 0;
-    for (const comment of comments.values()) {
-      if (hasNonEmptyComment(comment)) count++;
-    }
-    return count;
-  }, [comments]);
-
-  // Count non-empty comments per file (for badges in tree view)
-  const commentCountByFile = useMemo(() => {
-    const counts = new Map<string, number>();
-    for (const comment of comments.values()) {
-      if (hasNonEmptyComment(comment)) {
-        const current = counts.get(comment.filePath) ?? 0;
-        counts.set(comment.filePath, current + 1);
-      }
-    }
-    return counts;
-  }, [comments]);
-
-  // Sync non-empty comment count to context for badge display
-  useEffect(() => {
-    setNonEmptyCommentCount(nonEmptyCommentCount);
-  }, [nonEmptyCommentCount, setNonEmptyCommentCount]);
-
-  // Reset context count on unmount
-  useEffect(() => {
-    return () => {
-      setNonEmptyCommentCount(0);
-    };
-  }, [setNonEmptyCommentCount]);
 
   // Register as a persistent dialog
   const dialogConfig = useMemo(
@@ -157,70 +133,20 @@ export const FileExplorerDialog: FC<FileExplorerDialogProps> = ({
     hideDialog();
   }, [hideDialog]);
 
-  // Handle adding a comment
-  const handleAddComment = useCallback(
-    (filePath: string, lineNumber: number, lineContent: string) => {
-      const key = createFileCommentKey(filePath, lineNumber);
-      // Don't add if already exists
-      if (comments.has(key)) return;
-
-      setComments((prev) => {
-        const next = new Map(prev);
-        next.set(key, {
-          filePath,
-          lineNumber,
-          lineContent,
-          comment: "",
-        });
-        return next;
-      });
-    },
-    [comments],
-  );
-
-  // Handle updating a comment
-  const handleUpdateComment = useCallback((key: string, comment: string) => {
-    setComments((prev) => {
-      const existing = prev.get(key);
-      if (!existing) return prev;
-
-      // CRITICAL: Don't create a new Map if the value hasn't changed.
-      // This prevents an infinite loop caused by:
-      // 1. LineCommentWidget's useEffect syncs localComment to parent on mount
-      // 2. If we always create a new Map, comments changes -> extendData changes
-      // 3. Library re-renders extend lines -> new onCommentChange callback
-      // 4. LineCommentWidget sees new callback -> useEffect runs again -> LOOP!
-      if (existing.comment === comment) return prev;
-
-      const next = new Map(prev);
-      next.set(key, { ...existing, comment });
-      return next;
-    });
-  }, []);
-
-  // Handle removing a comment
-  const handleRemoveComment = useCallback((key: string) => {
-    setComments((prev) => {
-      const next = new Map(prev);
-      next.delete(key);
-      return next;
-    });
-  }, []);
-
   // Send all comments to chat
   const handleSendAllComments = useCallback(() => {
     if (nonEmptyCommentCount === 0) return;
 
     const commentsArray = Array.from(comments.values());
-    const formatted = formatAllFileExplorerComments(commentsArray);
+    const formatted = formatFileLineComments(commentsArray);
     insertText(formatted);
 
     // Clear all comments after sending
-    setComments(new Map());
+    resetComments();
 
     // Minimize dialog and focus chat input (focus happens in insertText callback)
     hideDialog();
-  }, [comments, insertText, nonEmptyCommentCount, hideDialog]);
+  }, [comments, insertText, nonEmptyCommentCount, resetComments, hideDialog]);
 
   // Handle file selection
   const handleFileSelect = useCallback((filePath: string) => {
@@ -296,12 +222,12 @@ export const FileExplorerDialog: FC<FileExplorerDialogProps> = ({
 
           <div className="flex items-center gap-2">
             {/* View options */}
-            <ViewOptionToggle
+            <OptionToggle
               label={<Trans id="diff.options.wrap" />}
               checked={viewOptions.wrap}
               onChange={(wrap) => setViewOptions((prev) => ({ ...prev, wrap }))}
             />
-            <ViewOptionToggle
+            <OptionToggle
               label={<Trans id="diff.options.highlight" />}
               checked={viewOptions.highlight}
               onChange={(highlight) =>

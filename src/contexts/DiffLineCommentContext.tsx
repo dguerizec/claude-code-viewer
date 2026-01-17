@@ -1,22 +1,11 @@
 "use client";
 
-import {
-  createContext,
-  type FC,
-  type ReactNode,
-  useCallback,
-  useContext,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { createCommentCountContext } from "./createCommentCountContext";
 
 /**
  * Context for inserting text from diff line comments into the chat textarea
  * and for sharing the comment count with badge components.
  */
-
-type InsertTextCallback = (text: string) => void;
 
 /**
  * Data for a single line comment in a diff
@@ -41,73 +30,17 @@ export function hasNonEmptyComment(comment: LineCommentData): boolean {
   return comment.comment.trim().length > 0;
 }
 
-interface DiffLineCommentContextValue {
-  /**
-   * Register a callback to insert text into the chat textarea.
-   * Returns an unregister function.
-   */
-  registerInsertCallback: (callback: InsertTextCallback) => () => void;
-  /**
-   * Insert text into the chat textarea at cursor position or at the end.
-   */
-  insertText: (text: string) => void;
-  /**
-   * Count of non-empty comments (set by DiffModal, read by badge components)
-   */
-  nonEmptyCommentCount: number;
-  /**
-   * Update the non-empty comment count (called by DiffModal)
-   */
-  setNonEmptyCommentCount: (count: number) => void;
-}
+// Create context using factory
+const { Provider, useCommentCount } = createCommentCountContext("DiffLine");
 
-const DiffLineCommentContext =
-  createContext<DiffLineCommentContextValue | null>(null);
+/**
+ * Provider for diff line comment context.
+ * Wrap your component tree with this to enable comment functionality.
+ */
+export const DiffLineCommentProvider = Provider;
 
-interface DiffLineCommentProviderProps {
-  children: ReactNode;
-}
-
-export const DiffLineCommentProvider: FC<DiffLineCommentProviderProps> = ({
-  children,
-}) => {
-  const callbackRef = useRef<InsertTextCallback | null>(null);
-  const [nonEmptyCommentCount, setNonEmptyCommentCount] = useState(0);
-
-  const registerInsertCallback = useCallback((callback: InsertTextCallback) => {
-    callbackRef.current = callback;
-    return () => {
-      callbackRef.current = null;
-    };
-  }, []);
-
-  const insertText = useCallback((text: string) => {
-    callbackRef.current?.(text);
-  }, []);
-
-  const value = useMemo(
-    () => ({
-      registerInsertCallback,
-      insertText,
-      nonEmptyCommentCount,
-      setNonEmptyCommentCount,
-    }),
-    [registerInsertCallback, insertText, nonEmptyCommentCount],
-  );
-
-  return (
-    <DiffLineCommentContext.Provider value={value}>
-      {children}
-    </DiffLineCommentContext.Provider>
-  );
-};
-
-export const useDiffLineComment = (): DiffLineCommentContextValue => {
-  const context = useContext(DiffLineCommentContext);
-  if (!context) {
-    throw new Error(
-      "useDiffLineComment must be used within a DiffLineCommentProvider",
-    );
-  }
-  return context;
-};
+/**
+ * Hook to access diff line comment context.
+ * Must be used within a DiffLineCommentProvider.
+ */
+export const useDiffLineComment = useCommentCount;

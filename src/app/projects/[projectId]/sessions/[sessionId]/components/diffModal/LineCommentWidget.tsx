@@ -3,10 +3,6 @@
 import { Trans, useLingui } from "@lingui/react";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  hasNonEmptyComment,
-  type LineCommentData,
-} from "@/contexts/DiffLineCommentContext";
 
 interface LineCommentWidgetProps {
   filePath: string;
@@ -98,80 +94,3 @@ export const LineCommentWidget = forwardRef<
     </div>
   );
 });
-
-/**
- * Formats a line comment into a markdown block for the chat textarea.
- *
- * Format:
- * ---
- *
- * file:line
- * ```lang
- * code
- * ```
- *
- * user comment (can be multiline)
- */
-export function formatLineCommentBlock(data: LineCommentData): string {
-  const lang = getLangFromFileName(data.filePath);
-  const lines = [
-    "---",
-    "",
-    `${data.filePath}:${data.lineNumber}`,
-    `\`\`\`${lang}`,
-    data.lineContent.trimEnd(),
-    "```",
-  ];
-
-  if (data.comment) {
-    lines.push("");
-    lines.push(data.comment);
-  }
-
-  return lines.join("\n");
-}
-
-/**
- * Formats multiple comments into a single string for the chat textarea.
- * Only includes comments with non-empty content.
- */
-export function formatAllComments(comments: LineCommentData[]): string {
-  return comments
-    .filter(hasNonEmptyComment)
-    .map(formatLineCommentBlock)
-    .join("\n\n");
-}
-
-function getLangFromFileName(fileName: string): string {
-  const ext = fileName.split(".").pop()?.toLowerCase() ?? "";
-  const langMap: Record<string, string> = {
-    ts: "typescript",
-    tsx: "typescript",
-    js: "javascript",
-    jsx: "javascript",
-    json: "json",
-    md: "markdown",
-    css: "css",
-    scss: "scss",
-    html: "html",
-    py: "python",
-    rb: "ruby",
-    go: "go",
-    rs: "rust",
-    java: "java",
-    c: "c",
-    cpp: "cpp",
-    h: "c",
-    hpp: "cpp",
-    sh: "bash",
-    yaml: "yaml",
-    yml: "yaml",
-    xml: "xml",
-    sql: "sql",
-    php: "php",
-    swift: "swift",
-    kt: "kotlin",
-    scala: "scala",
-  };
-  return langMap[ext] ?? "";
-}

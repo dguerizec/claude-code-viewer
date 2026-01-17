@@ -46,7 +46,9 @@ import {
   useDiffLineComment,
 } from "@/contexts/DiffLineCommentContext";
 import { usePersistentDialog } from "@/contexts/PersistentDialogsContext";
+import { useFileLineComments } from "@/hooks/useFileLineComments";
 import { cn } from "@/lib/utils";
+import { formatFileLineComments } from "@/lib/utils/fileLineComments";
 import {
   useCommitAndPush,
   useCommitFiles,
@@ -56,11 +58,9 @@ import {
 } from "../../hooks/useGit";
 import type { DiffViewOptions } from "./DiffViewer";
 import {
-  createCommentKey,
   DEFAULT_DIFF_OPTIONS,
   DiffOptionToggle,
   DiffViewer,
-  formatAllComments,
   getFileElementId,
 } from "./DiffViewer";
 import type { DiffModalProps, DiffSummary, FileStatus, GitRef } from "./types";
@@ -322,85 +322,18 @@ export const DiffModal: FC<DiffModalProps> = ({
   // Context for inserting line comments into chat
   const { insertText, setNonEmptyCommentCount } = useDiffLineComment();
 
-  // Local comments state (reset on session change via component remount)
-  const [comments, setComments] = useState<CommentsMap>(() => new Map());
+  // Use shared hook for comment management
+  const {
+    comments,
+    handleAddComment,
+    handleUpdateComment,
+    handleRemoveComment,
+    resetComments,
+    nonEmptyCommentCount,
+  } = useFileLineComments({ setContextCommentCount: setNonEmptyCommentCount });
 
   // State for close confirmation dialog
   const [showCloseConfirm, setShowCloseConfirm] = useState(false);
-
-  // Calculate non-empty comment count
-  const nonEmptyCommentCount = useMemo(() => {
-    let count = 0;
-    for (const comment of comments.values()) {
-      if (hasNonEmptyComment(comment)) count++;
-    }
-    return count;
-  }, [comments]);
-
-  // Sync non-empty comment count to context for badge display
-  useEffect(() => {
-    setNonEmptyCommentCount(nonEmptyCommentCount);
-  }, [nonEmptyCommentCount, setNonEmptyCommentCount]);
-
-  // Reset context count on unmount
-  useEffect(() => {
-    return () => {
-      setNonEmptyCommentCount(0);
-    };
-  }, [setNonEmptyCommentCount]);
-
-  const handleAddComment = useCallback(
-    (
-      filePath: string,
-      lineNumber: number,
-      side: "old" | "new",
-      lineContent: string,
-    ) => {
-      const key = createCommentKey(filePath, lineNumber, side);
-      // Don't add if already exists
-      if (comments.has(key)) return;
-
-      setComments((prev) => {
-        const next = new Map(prev);
-        next.set(key, {
-          filePath,
-          lineNumber,
-          side,
-          lineContent,
-          comment: "",
-        });
-        return next;
-      });
-    },
-    [comments],
-  );
-
-  const handleUpdateComment = useCallback((key: string, comment: string) => {
-    setComments((prev) => {
-      const existing = prev.get(key);
-      if (!existing) return prev;
-
-      // CRITICAL: Don't create a new Map if the value hasn't changed.
-      // This prevents an infinite loop caused by:
-      // 1. LineCommentWidget's useEffect syncs localComment to parent on mount
-      // 2. If we always create a new Map, comments changes -> extendData changes
-      // 3. Library re-renders extend lines -> new onCommentChange callback
-      // 4. LineCommentWidget sees new callback -> useEffect runs again -> LOOP!
-      if (existing.comment === comment) return prev;
-
-      const next = new Map(prev);
-      next.set(key, { ...existing, comment });
-      return next;
-    });
-  }, []);
-
-  const handleRemoveComment = useCallback((key: string) => {
-    setComments((prev) => {
-      const next = new Map(prev);
-      next.delete(key);
-      return next;
-    });
-  }, []);
 
   // Register as a persistent dialog
   const dialogConfig = useMemo(
@@ -433,15 +366,15 @@ export const DiffModal: FC<DiffModalProps> = ({
     if (nonEmptyCommentCount === 0) return;
 
     const commentsArray = Array.from(comments.values());
-    const formatted = formatAllComments(commentsArray);
+    const formatted = formatFileLineComments(commentsArray);
     insertText(formatted);
 
     // Clear all comments after sending
-    setComments(new Map());
+    resetComments();
 
     // Minimize dialog and focus chat input (focus happens in insertText callback)
     hideDialog();
-  }, [comments, insertText, nonEmptyCommentCount, hideDialog]);
+  }, [comments, insertText, nonEmptyCommentCount, hideDialog, resetComments]);
 
   // Handle Escape key to hide
   useEffect(() => {

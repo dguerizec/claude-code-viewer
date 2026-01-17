@@ -86,6 +86,7 @@ export interface FileViewerProps {
   onAddComment: (
     filePath: string,
     lineNumber: number,
+    side: "old" | "new",
     lineContent: string,
   ) => void;
   /** Callback when a comment is updated */
