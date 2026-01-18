@@ -49,6 +49,7 @@ import {
   useGitDiff,
   usePushCommits,
 } from "../../hooks/useGit";
+import { DiffFileTree } from "./DiffFileTree";
 import type { DiffViewOptions } from "./DiffViewer";
 import {
   DEFAULT_DIFF_OPTIONS,
@@ -201,39 +202,12 @@ const DiffSummaryComponent: FC<DiffSummaryProps> = ({
         </div>
       </button>
       {isExpanded && (
-        <div className="border-t border-gray-200 dark:border-gray-700 p-2 space-y-1 max-h-60 overflow-y-auto">
-          {summary.files.map((file) => {
-            const fileCommentCount = commentCountByFile.get(file.filePath) ?? 0;
-            return (
-              <button
-                key={file.filePath}
-                type="button"
-                onClick={() => onFileClick?.(file.filePath)}
-                className="w-full text-left px-2 py-1 text-sm font-mono hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors flex items-center gap-2"
-              >
-                <FileStatusBadge status={file.status} />
-                <span className="truncate flex-1">{file.filePath}</span>
-                {fileCommentCount > 0 && (
-                  <span className="shrink-0 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-1.5 py-0.5 rounded">
-                    {fileCommentCount} 💬
-                  </span>
-                )}
-                <span className="shrink-0 text-xs">
-                  {file.additions > 0 && (
-                    <span className="text-green-600 dark:text-green-400">
-                      +{file.additions}
-                    </span>
-                  )}
-                  {file.additions > 0 && file.deletions > 0 && " "}
-                  {file.deletions > 0 && (
-                    <span className="text-red-600 dark:text-red-400">
-                      -{file.deletions}
-                    </span>
-                  )}
-                </span>
-              </button>
-            );
-          })}
+        <div className="border-t border-gray-200 dark:border-gray-700 p-2 max-h-60 overflow-y-auto">
+          <DiffFileTree
+            files={summary.files}
+            onFileClick={(filePath) => onFileClick?.(filePath)}
+            commentCountByFile={commentCountByFile}
+          />
         </div>
       )}
     </div>
