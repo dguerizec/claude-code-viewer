@@ -160,8 +160,7 @@ export const ChatInput: FC<ChatInputProps> = ({
   const createSchedulerJob = useCreateSchedulerJob();
 
   // Auto-resize textarea based on content
-  // biome-ignore lint/correctness/useExhaustiveDependencies: message is intentionally included to trigger resize
-  useEffect(() => {
+  const adjustTextareaHeight = useCallback(() => {
     const textarea = textareaRef.current;
     if (!textarea) return;
 
@@ -169,9 +168,14 @@ export const ChatInput: FC<ChatInputProps> = ({
     textarea.style.height = "auto";
     // Set height to scrollHeight, but respect min/max constraints
     const scrollHeight = textarea.scrollHeight;
-    const maxHeight = 200; // Maximum height in pixels (approx 5 lines)
+    const maxHeight = 400; // Maximum height in pixels (approx 10 lines)
     textarea.style.height = `${Math.max(minHeightValue, Math.min(scrollHeight, maxHeight))}px`;
-  }, [message, minHeightValue]);
+  }, [minHeightValue]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: message is intentionally included to trigger resize
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [message, adjustTextareaHeight]);
 
   // Set initial height to 1 line on mount
   useEffect(() => {
@@ -758,6 +762,7 @@ export const ChatInput: FC<ChatInputProps> = ({
                 // Track cursor movements (arrow keys, mouse clicks)
                 setCursorIndex(e.currentTarget.selectionStart);
               }}
+              onFocus={adjustTextareaHeight}
               onKeyDown={handleKeyDown}
               onPaste={handlePaste}
               placeholder={placeholder}
