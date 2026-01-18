@@ -73,7 +73,7 @@ export const TaskModal: FC<TaskModalProps> = ({
   const shouldFetchFromApi = isOpen && !hasLegacyData && agentId !== undefined;
 
   const { data, isLoading, error, refetch } = useQuery({
-    ...agentSessionQuery(projectId, agentId ?? ""),
+    ...agentSessionQuery(projectId, sessionId, agentId ?? ""),
     enabled: shouldFetchFromApi,
     staleTime: 0,
   });

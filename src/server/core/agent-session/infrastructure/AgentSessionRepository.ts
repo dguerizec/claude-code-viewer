@@ -10,26 +10,42 @@ const LayerImpl = Effect.gen(function* () {
 
   /**
    * Get agent session conversations by agentId.
-   * Directly reads agent-${agentId}.jsonl file from project directory.
-   * Returns null if file does not exist.
+   * Tries subagents path first (${sessionId}/subagents/agent-${agentId}.jsonl),
+   * then falls back to flat path (agent-${agentId}.jsonl at project root).
+   * Returns null if neither file exists.
    */
   const getAgentSessionByAgentId = (
     projectId: string,
+    sessionId: string,
     agentId: string,
   ): Effect.Effect<ExtendedConversation[] | null, Error> =>
     Effect.gen(function* () {
       const projectPath = decodeProjectId(projectId);
-      const agentFilePath = path.resolve(projectPath, `agent-${agentId}.jsonl`);
 
-      // Check if file exists
-      const exists = yield* fs.exists(agentFilePath);
-      if (!exists) {
-        return null;
+      // New format: ${sessionId}/subagents/agent-${agentId}.jsonl
+      const subagentsFilePath = path.resolve(
+        projectPath,
+        sessionId,
+        "subagents",
+        `agent-${agentId}.jsonl`,
+      );
+
+      const subagentsPathExists = yield* fs.exists(subagentsFilePath);
+      if (subagentsPathExists) {
+        const content = yield* fs.readFileString(subagentsFilePath);
+        return parseJsonl(content);
       }
 
-      const content = yield* fs.readFileString(agentFilePath);
-      const conversations = parseJsonl(content);
-      return conversations;
+      // Legacy format: agent-${agentId}.jsonl at project root
+      const flatFilePath = path.resolve(projectPath, `agent-${agentId}.jsonl`);
+
+      const flatPathExists = yield* fs.exists(flatFilePath);
+      if (flatPathExists) {
+        const content = yield* fs.readFileString(flatFilePath);
+        return parseJsonl(content);
+      }
+
+      return null;
     });
 
   return {
@@ -44,6 +60,7 @@ export class AgentSessionRepository extends Context.Tag(
   {
     readonly getAgentSessionByAgentId: (
       projectId: string,
+      sessionId: string,
       agentId: string,
     ) => Effect.Effect<ExtendedConversation[] | null, Error>;
   }

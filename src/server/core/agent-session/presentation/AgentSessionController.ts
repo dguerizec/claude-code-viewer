@@ -8,15 +8,20 @@ const LayerImpl = Effect.gen(function* () {
 
   /**
    * Get agent session by agentId.
-   * Directly reads agent-${agentId}.jsonl file without mapping service.
+   * Reads agent session file with V3→V2 path fallback.
    */
-  const getAgentSession = (params: { projectId: string; agentId: string }) =>
+  const getAgentSession = (params: {
+    projectId: string;
+    sessionId: string;
+    agentId: string;
+  }) =>
     Effect.gen(function* () {
-      const { projectId, agentId } = params;
+      const { projectId, sessionId, agentId } = params;
 
-      // Read conversations directly using agentId
+      // Read conversations directly using agentId with V3→V2 fallback
       const conversations = yield* repository.getAgentSessionByAgentId(
         projectId,
+        sessionId,
         agentId,
       );
 

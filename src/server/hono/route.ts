@@ -308,20 +308,24 @@ export const routes = (app: HonoAppType, options: CliOptions) =>
           },
         )
 
-        .get("/api/projects/:projectId/agent-sessions/:agentId", async (c) => {
-          const { projectId, agentId } = c.req.param();
+        .get(
+          "/api/projects/:projectId/sessions/:sessionId/agent-sessions/:agentId",
+          async (c) => {
+            const { projectId, sessionId, agentId } = c.req.param();
 
-          const response = await effectToResponse(
-            c,
-            agentSessionController
-              .getAgentSession({
-                projectId,
-                agentId,
-              })
-              .pipe(Effect.provide(runtime)),
-          );
-          return response;
-        })
+            const response = await effectToResponse(
+              c,
+              agentSessionController
+                .getAgentSession({
+                  projectId,
+                  sessionId,
+                  agentId,
+                })
+                .pipe(Effect.provide(runtime)),
+            );
+            return response;
+          },
+        )
 
         /**
          * GitController Routes
