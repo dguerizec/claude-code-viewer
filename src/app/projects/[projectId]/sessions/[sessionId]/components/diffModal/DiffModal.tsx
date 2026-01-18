@@ -2,6 +2,7 @@ import { Trans, useLingui } from "@lingui/react";
 import {
   ChevronDown,
   ChevronRight,
+  ChevronUp,
   FileText,
   GitBranch,
   GitCommitHorizontal,
@@ -332,6 +333,9 @@ const DiffModalContent: FC<DiffModalContentProps> = ({
 
   // Commit section collapse state (default: collapsed)
   const [isCommitSectionExpanded, setIsCommitSectionExpanded] = useState(false);
+
+  // Ref selectors collapse state for mobile (default: expanded)
+  const [isRefSelectorsExpanded, setIsRefSelectorsExpanded] = useState(true);
 
   // Diff view options state
   const [diffOptions, setDiffOptions] =
@@ -710,14 +714,125 @@ const DiffModalContent: FC<DiffModalContentProps> = ({
   return (
     <>
       <PersistentDialogShell.Header>
-        <GitCompareIcon className="w-5 h-5" />
-        <span className="font-semibold">
+        <GitCompareIcon className="w-5 h-5 shrink-0" />
+        <span className="font-semibold truncate">
           <Trans id="control.git" /> — {projectName}
         </span>
+
+        <div className="flex items-center gap-2 ml-auto shrink-0">
+          <DiffOptionToggle
+            label={<Trans id="diff.options.split" />}
+            checked={diffOptions.mode === "split"}
+            onChange={(isSplit) =>
+              setDiffOptions((prev) => ({
+                ...prev,
+                mode: isSplit ? "split" : "unified",
+              }))
+            }
+          />
+          <DiffOptionToggle
+            label={<Trans id="diff.options.wrap" />}
+            checked={diffOptions.wrap}
+            onChange={(wrap) => setDiffOptions((prev) => ({ ...prev, wrap }))}
+          />
+          <DiffOptionToggle
+            label={<Trans id="diff.options.highlight" />}
+            checked={diffOptions.highlight}
+            onChange={(highlight) =>
+              setDiffOptions((prev) => ({ ...prev, highlight }))
+            }
+          />
+          {compareTo === "working" && (
+            <Button
+              onClick={() =>
+                setIsCommitSectionExpanded(!isCommitSectionExpanded)
+              }
+              size="icon"
+              variant={isCommitSectionExpanded ? "default" : "ghost"}
+              title={i18n._("Commit Changes")}
+            >
+              <GitCommitHorizontal className="w-4 h-4" />
+            </Button>
+          )}
+          <Button
+            onClick={handleCompare}
+            disabled={
+              isDiffLoading || isLoadingRevisions || compareFrom === compareTo
+            }
+            size="icon"
+            variant="ghost"
+            title={i18n._("Refresh")}
+          >
+            {isDiffLoading ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <RefreshCcwIcon className="w-4 h-4" />
+            )}
+          </Button>
+        </div>
       </PersistentDialogShell.Header>
 
-      <PersistentDialogShell.Content className="gap-4 px-2 md:px-8 py-6">
-        <div className="flex flex-wrap items-end gap-2">
+      <PersistentDialogShell.Content className="gap-4 px-2 md:px-8 md:py-6">
+        {/* Ref selectors - collapsible on mobile */}
+        {isRefSelectorsExpanded ? (
+          <div className="flex flex-wrap items-end gap-2 md:hidden">
+            <RefSelector
+              label={i18n._("Compare from")}
+              value={compareFrom}
+              onValueChange={handleFromChange}
+              refs={gitRefs.filter((ref) => ref.name !== "working")}
+            />
+            <RefSelector
+              label={i18n._("Compare to")}
+              value={compareTo}
+              onValueChange={handleToChange}
+              refs={gitRefs}
+            />
+            {commitSelectorRefs.length > 0 && (
+              <div className="flex items-end gap-2">
+                <RefSelector
+                  label={i18n._("Single commit")}
+                  value={selectedCommit ?? ""}
+                  onValueChange={handleCommitSelect}
+                  refs={commitSelectorRefs}
+                />
+                {selectedCommitSha && (
+                  <Button
+                    className="mb-0.5"
+                    onClick={handleToggleCommitDetails}
+                    size="sm"
+                    variant={showCommitDetails ? "default" : "outline"}
+                    title={i18n._("Show commit details")}
+                  >
+                    <Info className="w-4 h-4" />
+                  </Button>
+                )}
+              </div>
+            )}
+            {/* Collapse chevron */}
+            <button
+              type="button"
+              onClick={() => setIsRefSelectorsExpanded(false)}
+              className="ml-auto p-1 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              title={i18n._("Hide ref selectors")}
+            >
+              <ChevronUp className="w-5 h-5" />
+            </button>
+          </div>
+        ) : (
+          <div className="relative md:hidden h-0">
+            <button
+              type="button"
+              onClick={() => setIsRefSelectorsExpanded(true)}
+              className="absolute right-0 -top-[5px] p-1 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              title={i18n._("Show ref selectors")}
+            >
+              <ChevronDown className="w-5 h-5" />
+            </button>
+          </div>
+        )}
+        {/* Desktop ref selectors - always visible */}
+        <div className="hidden md:flex flex-wrap items-end gap-2">
           <RefSelector
             label={i18n._("Compare from")}
             value={compareFrom}
@@ -751,55 +866,6 @@ const DiffModalContent: FC<DiffModalContentProps> = ({
               )}
             </div>
           )}
-          <div className="flex flex-wrap items-center gap-3 ml-auto">
-            <DiffOptionToggle
-              label={<Trans id="diff.options.split" />}
-              checked={diffOptions.mode === "split"}
-              onChange={(isSplit) =>
-                setDiffOptions((prev) => ({
-                  ...prev,
-                  mode: isSplit ? "split" : "unified",
-                }))
-              }
-            />
-            <DiffOptionToggle
-              label={<Trans id="diff.options.wrap" />}
-              checked={diffOptions.wrap}
-              onChange={(wrap) => setDiffOptions((prev) => ({ ...prev, wrap }))}
-            />
-            <DiffOptionToggle
-              label={<Trans id="diff.options.highlight" />}
-              checked={diffOptions.highlight}
-              onChange={(highlight) =>
-                setDiffOptions((prev) => ({ ...prev, highlight }))
-              }
-            />
-            {compareTo === "working" && (
-              <Button
-                onClick={() =>
-                  setIsCommitSectionExpanded(!isCommitSectionExpanded)
-                }
-                size="sm"
-                variant={isCommitSectionExpanded ? "default" : "outline"}
-                title={i18n._("Commit Changes")}
-              >
-                <GitCommitHorizontal className="w-4 h-4" />
-              </Button>
-            )}
-            <Button
-              onClick={handleCompare}
-              disabled={
-                isDiffLoading || isLoadingRevisions || compareFrom === compareTo
-              }
-              size="sm"
-            >
-              {isDiffLoading ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <RefreshCcwIcon className="w-4 h-4" />
-              )}
-            </Button>
-          </div>
         </div>
 
         {/* Commit details section - shown when toggle is active and commit is selected */}
@@ -1000,7 +1066,7 @@ const DiffModalContent: FC<DiffModalContentProps> = ({
                 files: diffData.data.files,
               }}
               comments={comments}
-              className="mb-3 shrink-0"
+              className="shrink-0"
               onFileClick={(filePath) => {
                 const element = document.getElementById(
                   getFileElementId(filePath),

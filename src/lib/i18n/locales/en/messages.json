@@ -49,7 +49,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        649
+        752
       ]
     ],
     "translation": "Commit Changes"
@@ -60,7 +60,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        608
+        780
+      ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
+        837
       ]
     ],
     "translation": "Compare from"
@@ -71,7 +75,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        614
+        786
+      ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
+        843
       ]
     ],
     "translation": "Compare to"
@@ -82,7 +90,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        517
+        635
       ]
     ],
     "translation": "Failed to commit"
@@ -93,10 +101,21 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        583
+        701
       ]
     ],
     "translation": "Failed to commit and push"
+  },
+  "Failed to load commit details": {
+    "translation": "Failed to load commit details",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
+        906
+      ]
+    ]
   },
   "Failed to push": {
     "placeholders": {},
@@ -104,7 +123,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        535
+        653
       ]
     ],
     "translation": "Failed to push"
@@ -119,6 +138,17 @@
       ]
     ],
     "translation": "Files & Directories"
+  },
+  "Hide ref selectors": {
+    "translation": "Hide ref selectors",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
+        817
+      ]
+    ]
   },
   "In {path}": {
     "placeholders": {
@@ -141,10 +171,21 @@
     "origin": [
       [
         "src/app/projects/[projectId]/components/chatForm/ChatInput.tsx",
-        769
+        774
       ]
     ],
     "translation": "Message input with completion support"
+  },
+  "Refresh": {
+    "translation": "Refresh",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
+        764
+      ]
+    ]
   },
   "Reload MCP servers": {
     "placeholders": {},
@@ -163,7 +204,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        570
+        688
       ]
     ],
     "translation": "Retry Push"
@@ -282,13 +323,58 @@
     ],
     "translation": "Select this folder"
   },
+  "Show commit details": {
+    "translation": "Show commit details",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
+        805
+      ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
+        862
+      ]
+    ]
+  },
+  "Show ref selectors": {
+    "translation": "Show ref selectors",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
+        828
+      ]
+    ]
+  },
+  "Single commit": {
+    "translation": "Single commit",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
+        794
+      ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
+        851
+      ]
+    ]
+  },
   "Uncommitted changes": {
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        372
+        369
+      ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
+        420
       ]
     ],
     "translation": "Uncommitted changes"
@@ -446,7 +532,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/components/chatForm/ChatInput.tsx",
-        855
+        860
       ],
       [
         "src/components/AttachButton.tsx",
@@ -461,7 +547,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/components/chatForm/ChatInput.tsx",
-        867
+        872
       ]
     ],
     "translation": "Autocomplete Active"
@@ -483,7 +569,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/components/chatForm/ChatInput.tsx",
-        695
+        699
       ]
     ],
     "translation": "Failed to send message. Please try again."
@@ -701,7 +787,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/components/chatForm/ChatInput.tsx",
-        390
+        394
       ]
     ],
     "translation": "Failed to schedule message"
@@ -713,7 +799,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/components/chatForm/ChatInput.tsx",
-        373
+        377
       ]
     ],
     "translation": "Message scheduled successfully"
@@ -725,7 +811,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/components/chatForm/ChatInput.tsx",
-        378
+        382
       ]
     ],
     "translation": "You can view and manage it in the Scheduler tab"
@@ -747,15 +833,15 @@
     "origin": [
       [
         "src/app/projects/[projectId]/components/chatForm/ChatInput.tsx",
-        812
+        817
       ],
       [
         "src/app/projects/[projectId]/components/chatForm/ChatInput.tsx",
-        897
+        902
       ],
       [
         "src/app/projects/[projectId]/components/chatForm/ChatInput.tsx",
-        931
+        936
       ]
     ],
     "translation": "Send Now"
@@ -766,11 +852,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/components/chatForm/ChatInput.tsx",
-        795
+        800
       ],
       [
         "src/app/projects/[projectId]/components/chatForm/ChatInput.tsx",
-        880
+        885
       ]
     ],
     "translation": "Send Mode"
@@ -781,15 +867,15 @@
     "origin": [
       [
         "src/app/projects/[projectId]/components/chatForm/ChatInput.tsx",
-        815
+        820
       ],
       [
         "src/app/projects/[projectId]/components/chatForm/ChatInput.tsx",
-        909
+        914
       ],
       [
         "src/app/projects/[projectId]/components/chatForm/ChatInput.tsx",
-        937
+        942
       ]
     ],
     "translation": "Schedule Send"
@@ -801,7 +887,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/components/chatForm/ChatInput.tsx",
-        904
+        909
       ]
     ],
     "translation": "Scheduled (not available with attachments)"
@@ -812,7 +898,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/components/chatForm/ChatInput.tsx",
-        822
+        827
       ]
     ],
     "translation": "Scheduled Send Time"
@@ -824,11 +910,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/components/chatForm/ChatInput.tsx",
-        453
+        457
       ],
       [
         "src/app/projects/[projectId]/components/chatForm/ChatInput.tsx",
-        560
+        564
       ]
     ],
     "translation": "Switched to immediate send (scheduled send doesn't support attachments)"
@@ -995,7 +1081,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/components/chatForm/ChatInput.tsx",
-        957
+        962
       ]
     ],
     "translation": "Processing..."
@@ -1177,7 +1263,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        278
+        285
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
@@ -1215,11 +1301,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        601
+        719
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        906
+        1148
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
@@ -1366,7 +1452,7 @@
       ],
       [
         "src/components/terminal/TerminalDialog.tsx",
-        98
+        230
       ]
     ],
     "translation": "Terminal"
@@ -1638,11 +1724,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        921
+        1163
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        293
+        300
       ]
     ],
     "translation": "Stay open"
@@ -1653,11 +1739,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        922
+        1164
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        294
+        301
       ]
     ],
     "translation": "Close anyway"
@@ -1672,11 +1758,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        916
+        1158
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        288
+        295
       ]
     ],
     "translation": "You have {count} unsent comment(s). If you close now and switch to another project or branch, your comments will be lost without warning."
@@ -1687,11 +1773,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        914
+        1156
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        286
+        293
       ]
     ],
     "translation": "Unsent comments"
@@ -1702,7 +1788,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        768
+        1010
       ]
     ],
     "translation": "Commit"
@@ -1713,7 +1799,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        684
+        926
       ]
     ],
     "translation": "Commit Changes"
@@ -1724,7 +1810,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        742
+        984
       ]
     ],
     "translation": "Commit Message"
@@ -1735,7 +1821,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        800
+        1042
       ]
     ],
     "translation": "Commit & Push"
@@ -1746,7 +1832,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        765
+        1007
       ]
     ],
     "translation": "Committing..."
@@ -1757,7 +1843,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        797
+        1039
       ]
     ],
     "translation": "Committing & Pushing..."
@@ -1768,7 +1854,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        703
+        945
       ]
     ],
     "translation": "Deselect All"
@@ -1779,7 +1865,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        810
+        1052
       ]
     ],
     "translation": "Please enter a commit message"
@@ -1790,7 +1876,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        178
+        185
       ]
     ],
     "translation": "Files"
@@ -1801,7 +1887,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        175
+        182
       ]
     ],
     "translation": "files changed"
@@ -1867,11 +1953,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        857
+        1099
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        233
+        240
       ]
     ],
     "translation": "Add {count} comment(s) to chat"
@@ -1897,7 +1983,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        873
+        878
+      ],
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
+        1115
       ]
     ],
     "translation": "Loading diff..."
@@ -1908,11 +1998,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        636
+        739
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        153
+        160
       ]
     ],
     "translation": "Syntax"
@@ -1923,7 +2013,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        621
+        724
       ]
     ],
     "translation": "Split"
@@ -1934,11 +2024,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        631
+        734
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        148
+        155
       ]
     ],
     "translation": "Wrap"
@@ -1949,7 +2039,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        783
+        1025
       ]
     ],
     "translation": "Push"
@@ -1960,7 +2050,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        780
+        1022
       ]
     ],
     "translation": "Pushing..."
@@ -1971,7 +2061,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        695
+        937
       ]
     ],
     "translation": "Select All"
@@ -1982,7 +2072,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/diffModal/DiffModal.tsx",
-        808
+        1050
       ]
     ],
     "translation": "Please select at least one file"
@@ -2070,7 +2160,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        142
+        149
       ]
     ],
     "translation": "File Explorer"
@@ -4314,7 +4404,7 @@
     "origin": [
       [
         "src/components/terminal/TerminalDialog.tsx",
-        166
+        157
       ]
     ],
     "translation": "Add to chat"
@@ -4329,21 +4419,21 @@
     "origin": [
       [
         "src/components/terminal/TerminalDialog.tsx",
-        127
+        118
       ]
     ],
     "translation": "Added {count} chars"
   },
   "terminal.clear": {
-    "translation": "Clear",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/components/terminal/TerminalDialog.tsx",
-        203
+        194
       ]
-    ]
+    ],
+    "translation": "Clear"
   },
   "terminal.copied_count": {
     "placeholders": {
@@ -4355,7 +4445,7 @@
     "origin": [
       [
         "src/components/terminal/TerminalDialog.tsx",
-        116
+        107
       ]
     ],
     "translation": "Copied {count} chars"
@@ -4366,7 +4456,7 @@
     "origin": [
       [
         "src/components/terminal/TerminalDialog.tsx",
-        155
+        146
       ]
     ],
     "translation": "Copy"
@@ -4377,7 +4467,7 @@
     "origin": [
       [
         "src/components/terminal/TerminalDialog.tsx",
-        178
+        169
       ]
     ],
     "translation": "Scroll"
@@ -4388,7 +4478,7 @@
     "origin": [
       [
         "src/components/terminal/TerminalDialog.tsx",
-        191
+        182
       ]
     ],
     "translation": "Select"
@@ -4403,7 +4493,7 @@
     "origin": [
       [
         "src/components/terminal/TerminalDialog.tsx",
-        141
+        132
       ]
     ],
     "translation": "Selection: {count} chars"
@@ -4414,7 +4504,7 @@
     "origin": [
       [
         "src/components/terminal/TerminalDialog.tsx",
-        107
+        98
       ]
     ],
     "translation": "Terminal"
