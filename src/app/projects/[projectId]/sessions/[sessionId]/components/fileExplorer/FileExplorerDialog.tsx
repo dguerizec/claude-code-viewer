@@ -12,6 +12,7 @@ import { useFileLineComments } from "@/hooks/useFileLineComments";
 import { formatFileLineComments } from "@/lib/utils/fileLineComments";
 import { EmptyState } from "./EmptyState";
 import { FileTree } from "./FileTree";
+import { FileTreeSearch } from "./FileTreeSearch";
 import { FileViewer } from "./FileViewer";
 import { DEFAULT_FILE_VIEW_OPTIONS, type FileViewOptions } from "./types";
 
@@ -136,14 +137,24 @@ const FileExplorerDialogContent: FC<FileExplorerDialogContentProps> = ({
         {/* Main content - two panel layout */}
         <div className="flex-1 flex overflow-hidden min-h-0">
           {/* Left panel - File tree */}
-          <div className="w-64 md:w-72 lg:w-80 border-r border-gray-200 dark:border-gray-700 overflow-hidden shrink-0">
-            <FileTree
-              projectId={projectId}
-              projectPath={projectPath}
-              selectedFile={selectedFile}
-              onFileSelect={handleFileSelect}
-              commentCountByFile={commentCountByFile}
-            />
+          <div className="w-64 md:w-72 lg:w-80 border-r border-gray-200 dark:border-gray-700 overflow-hidden shrink-0 flex flex-col">
+            {/* Search bar */}
+            <div className="p-2 border-b border-gray-200 dark:border-gray-700 shrink-0">
+              <FileTreeSearch
+                projectId={projectId}
+                onFileSelect={handleFileSelect}
+              />
+            </div>
+            {/* File tree */}
+            <div className="flex-1 overflow-hidden">
+              <FileTree
+                projectId={projectId}
+                projectPath={projectPath}
+                selectedFile={selectedFile}
+                onFileSelect={handleFileSelect}
+                commentCountByFile={commentCountByFile}
+              />
+            </div>
           </div>
 
           {/* Right panel - File viewer */}

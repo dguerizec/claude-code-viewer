@@ -15,11 +15,22 @@
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
-        432
+        "src/components/FileSearchResults/FileSearchResults.tsx",
+        325
       ]
     ],
     "translation": "Available files and directories"
+  },
+  "Clear search": {
+    "translation": "Clear search",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileTreeSearch.tsx",
+        116
+      ]
+    ]
   },
   "Close sidebar": {
     "placeholders": {},
@@ -103,8 +114,8 @@
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
-        542
+        "src/components/FileSearchResults/FileSearchResults.tsx",
+        431
       ]
     ],
     "translation": "Files & Directories"
@@ -118,8 +129,8 @@
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
-        543
+        "src/components/FileSearchResults/FileSearchResults.tsx",
+        432
       ]
     ],
     "translation": "In {path}"
@@ -162,11 +173,22 @@
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
-        482
+        "src/components/FileSearchResults/FileSearchResults.tsx",
+        375
       ]
     ],
     "translation": "Search Results"
+  },
+  "Search files...": {
+    "translation": "Search files...",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileTreeSearch.tsx",
+        100
+      ]
+    ]
   },
   "Select auto-abort timeout": {
     "placeholders": {},
@@ -199,8 +221,8 @@
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
-        454
+        "src/components/FileSearchResults/FileSearchResults.tsx",
+        347
       ]
     ],
     "translation": "Select folder {name}"
@@ -254,8 +276,8 @@
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
-        461
+        "src/components/FileSearchResults/FileSearchResults.tsx",
+        354
       ]
     ],
     "translation": "Select this folder"
@@ -1155,11 +1177,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        219
+        230
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        113
+        109
       ]
     ],
     "translation": "Files"
@@ -1171,7 +1193,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        207
+        201
       ]
     ],
     "translation": "Force Reload"
@@ -1182,7 +1204,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        147
+        141
       ]
     ],
     "translation": "Full view"
@@ -1201,7 +1223,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        91
+        87
       ]
     ],
     "translation": "Git"
@@ -1223,7 +1245,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        164
+        158
       ]
     ],
     "translation": "New"
@@ -1235,7 +1257,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        157
+        151
       ]
     ],
     "translation": "New Chat"
@@ -1247,7 +1269,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        130
+        124
       ]
     ],
     "translation": "Open Browser"
@@ -1259,7 +1281,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        106
+        102
       ]
     ],
     "translation": "Open File Explorer"
@@ -1271,7 +1293,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        84
+        80
       ]
     ],
     "translation": "Open Git Dialog"
@@ -1294,7 +1316,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        191
+        185
       ]
     ],
     "translation": "Scroll to Bottom"
@@ -1306,7 +1328,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        175
+        169
       ]
     ],
     "translation": "Scroll to Top"
@@ -1593,7 +1615,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        233
+        244
       ]
     ],
     "translation": "Stay open"
@@ -1608,7 +1630,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        234
+        245
       ]
     ],
     "translation": "Close anyway"
@@ -1627,7 +1649,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        228
+        239
       ]
     ],
     "translation": "You have {count} unsent comment(s). If you close now and switch to another project or branch, your comments will be lost without warning."
@@ -1642,7 +1664,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        226
+        237
       ]
     ],
     "translation": "Unsent comments"
@@ -1822,7 +1844,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        174
+        185
       ]
     ],
     "translation": "Add {count} comment(s) to chat"
@@ -1863,7 +1885,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        125
+        126
       ]
     ],
     "translation": "Syntax"
@@ -1889,7 +1911,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        120
+        121
       ]
     ],
     "translation": "Wrap"
@@ -2021,7 +2043,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        114
+        115
       ]
     ],
     "translation": "File Explorer"

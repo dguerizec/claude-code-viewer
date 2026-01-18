@@ -15,11 +15,22 @@
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
-        432
+        "src/components/FileSearchResults/FileSearchResults.tsx",
+        325
       ]
     ],
     "translation": "可用的文件和目录"
+  },
+  "Clear search": {
+    "translation": "清除搜索",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileTreeSearch.tsx",
+        116
+      ]
+    ]
   },
   "Close sidebar": {
     "placeholders": {},
@@ -103,8 +114,8 @@
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
-        542
+        "src/components/FileSearchResults/FileSearchResults.tsx",
+        431
       ]
     ],
     "translation": ""
@@ -118,8 +129,8 @@
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
-        543
+        "src/components/FileSearchResults/FileSearchResults.tsx",
+        432
       ]
     ],
     "translation": "在 {path} 中"
@@ -162,11 +173,22 @@
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
-        482
+        "src/components/FileSearchResults/FileSearchResults.tsx",
+        375
       ]
     ],
     "translation": "搜索结果"
+  },
+  "Search files...": {
+    "translation": "搜索文件...",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileTreeSearch.tsx",
+        100
+      ]
+    ]
   },
   "Select auto-abort timeout": {
     "placeholders": {},
@@ -199,8 +221,8 @@
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
-        454
+        "src/components/FileSearchResults/FileSearchResults.tsx",
+        347
       ]
     ],
     "translation": "选择文件夹 {name}"
@@ -254,8 +276,8 @@
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
-        461
+        "src/components/FileSearchResults/FileSearchResults.tsx",
+        354
       ]
     ],
     "translation": "选择此文件夹"
@@ -1155,11 +1177,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        219
+        230
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        113
+        109
       ]
     ],
     "translation": "文件"
@@ -1171,7 +1193,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        207
+        201
       ]
     ],
     "translation": "强制刷新"
@@ -1182,7 +1204,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        147
+        141
       ]
     ],
     "translation": "完整视图"
@@ -1201,7 +1223,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        91
+        87
       ]
     ],
     "translation": "Git"
@@ -1223,7 +1245,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        164
+        158
       ]
     ],
     "translation": "新建"
@@ -1235,7 +1257,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        157
+        151
       ]
     ],
     "translation": "新建对话"
@@ -1247,7 +1269,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        130
+        124
       ]
     ],
     "translation": ""
@@ -1259,7 +1281,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        106
+        102
       ]
     ],
     "translation": "打开文件浏览器"
@@ -1271,7 +1293,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        84
+        80
       ]
     ],
     "translation": "打开 Git 对话框"
@@ -1294,7 +1316,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        191
+        185
       ]
     ],
     "translation": "滚动到底部"
@@ -1306,7 +1328,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        175
+        169
       ]
     ],
     "translation": "滚动到顶部"
@@ -1593,7 +1615,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        233
+        244
       ]
     ],
     "translation": "保持打开"
@@ -1608,7 +1630,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        234
+        245
       ]
     ],
     "translation": "关闭"
@@ -1627,7 +1649,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        228
+        239
       ]
     ],
     "translation": "您有{count}条未发送的评论。如果现在关闭并切换到其他项目或分支，您的评论将丢失且不会收到警告。"
@@ -1642,7 +1664,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        226
+        237
       ]
     ],
     "translation": "未发送的评论"
@@ -1822,7 +1844,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        174
+        185
       ]
     ],
     "translation": "将 {count} 条评论添加到聊天"
@@ -1863,7 +1885,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        125
+        126
       ]
     ],
     "translation": "语法"
@@ -1889,7 +1911,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        120
+        121
       ]
     ],
     "translation": "自动换行"
@@ -2021,7 +2043,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        114
+        115
       ]
     ],
     "translation": "文件浏览器"

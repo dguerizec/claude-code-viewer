@@ -15,11 +15,22 @@
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
-        432
+        "src/components/FileSearchResults/FileSearchResults.tsx",
+        325
       ]
     ],
     "translation": "利用可能なファイルとディレクトリ"
+  },
+  "Clear search": {
+    "translation": "検索をクリア",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileTreeSearch.tsx",
+        116
+      ]
+    ]
   },
   "Close sidebar": {
     "placeholders": {},
@@ -103,8 +114,8 @@
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
-        542
+        "src/components/FileSearchResults/FileSearchResults.tsx",
+        431
       ]
     ],
     "translation": ""
@@ -118,8 +129,8 @@
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
-        543
+        "src/components/FileSearchResults/FileSearchResults.tsx",
+        432
       ]
     ],
     "translation": "{path} 内"
@@ -162,11 +173,22 @@
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
-        482
+        "src/components/FileSearchResults/FileSearchResults.tsx",
+        375
       ]
     ],
     "translation": "検索結果"
+  },
+  "Search files...": {
+    "translation": "ファイルを検索...",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileTreeSearch.tsx",
+        100
+      ]
+    ]
   },
   "Select auto-abort timeout": {
     "placeholders": {},
@@ -199,8 +221,8 @@
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
-        454
+        "src/components/FileSearchResults/FileSearchResults.tsx",
+        347
       ]
     ],
     "translation": "フォルダ {name} を選択"
@@ -254,8 +276,8 @@
     "comments": [],
     "origin": [
       [
-        "src/app/projects/[projectId]/components/chatForm/FileCompletion.tsx",
-        461
+        "src/components/FileSearchResults/FileSearchResults.tsx",
+        354
       ]
     ],
     "translation": "このフォルダを選択"
@@ -1155,11 +1177,11 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        219
+        230
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        113
+        109
       ]
     ],
     "translation": "ファイル"
@@ -1171,7 +1193,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        207
+        201
       ]
     ],
     "translation": "強制リロード"
@@ -1182,7 +1204,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        147
+        141
       ]
     ],
     "translation": "フル表示"
@@ -1201,7 +1223,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        91
+        87
       ]
     ],
     "translation": "Git"
@@ -1223,7 +1245,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        164
+        158
       ]
     ],
     "translation": "新規"
@@ -1235,7 +1257,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        157
+        151
       ]
     ],
     "translation": "新しいチャット"
@@ -1247,7 +1269,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        130
+        124
       ]
     ],
     "translation": ""
@@ -1259,7 +1281,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        106
+        102
       ]
     ],
     "translation": "ファイルエクスプローラーを開く"
@@ -1271,7 +1293,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        84
+        80
       ]
     ],
     "translation": "Gitダイアログを開く"
@@ -1294,7 +1316,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        191
+        185
       ]
     ],
     "translation": "ボトムにスクロール"
@@ -1306,7 +1328,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/resumeChat/ChatActionMenu.tsx",
-        175
+        169
       ]
     ],
     "translation": "トップにスクロール"
@@ -1593,7 +1615,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        233
+        244
       ]
     ],
     "translation": "開いたままにする"
@@ -1608,7 +1630,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        234
+        245
       ]
     ],
     "translation": "閉じる"
@@ -1627,7 +1649,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        228
+        239
       ]
     ],
     "translation": "未送信のコメントが{count}件あります。閉じて別のプロジェクトやブランチに切り替えると、コメントは警告なしに失われます。"
@@ -1642,7 +1664,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        226
+        237
       ]
     ],
     "translation": "未送信のコメント"
@@ -1822,7 +1844,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        174
+        185
       ]
     ],
     "translation": "{count}件のコメントをチャットに追加"
@@ -1863,7 +1885,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        125
+        126
       ]
     ],
     "translation": "構文"
@@ -1889,7 +1911,7 @@
       ],
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        120
+        121
       ]
     ],
     "translation": "折り返し"
@@ -2021,7 +2043,7 @@
     "origin": [
       [
         "src/app/projects/[projectId]/sessions/[sessionId]/components/fileExplorer/FileExplorerDialog.tsx",
-        114
+        115
       ]
     ],
     "translation": "ファイルエクスプローラー"

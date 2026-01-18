@@ -7,6 +7,28 @@ import type { FileStatus } from "@/server/core/git/functions/getFileStatus";
 import { FileTreeNode } from "./FileTreeNode";
 
 /**
+ * Get all parent folder paths for a given file path.
+ * Example: "src/components/Button.tsx" -> ["/", "src", "src/components"]
+ * Note: Root is "/" but other paths have no leading slash to match entry.path format from API
+ */
+const getParentFolders = (filePath: string): string[] => {
+  const folders: string[] = ["/"];
+  if (!filePath || filePath === "/") return folders;
+
+  // Remove leading slash if present
+  const normalizedPath = filePath.startsWith("/")
+    ? filePath.slice(1)
+    : filePath;
+  const parts = normalizedPath.split("/").filter(Boolean);
+
+  // Remove the last part (file name) and build folder paths
+  for (let i = 0; i < parts.length - 1; i++) {
+    folders.push(parts.slice(0, i + 1).join("/"));
+  }
+  return folders;
+};
+
+/**
  * Props for the FileTree component
  */
 export interface FileTreeProps {
@@ -147,6 +169,24 @@ export const FileTree: FC<FileTreeProps> = ({
 
   // Track loading folders for spinner display
   const [loadingFolders, setLoadingFolders] = useState<Set<string>>(new Set());
+
+  // Auto-expand to selected file when it changes
+  useEffect(() => {
+    if (!selectedFile) return;
+
+    const parentFolders = getParentFolders(selectedFile);
+    setExpandedFolders((prev) => {
+      // Check if we need to expand any new folders
+      const needsExpansion = parentFolders.some((folder) => !prev.has(folder));
+      if (!needsExpansion) return prev;
+
+      const next = new Set(prev);
+      for (const folder of parentFolders) {
+        next.add(folder);
+      }
+      return next;
+    });
+  }, [selectedFile]);
 
   // Fetch git file status
   const { data: fileStatusData } = useQuery({
