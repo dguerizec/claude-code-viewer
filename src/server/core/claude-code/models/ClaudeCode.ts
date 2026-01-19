@@ -12,6 +12,10 @@ type AgentSdkQueryOptions = NonNullable<
   Parameters<AgentSdkQuery>[0]["options"]
 >;
 
+type CcvQueryOptions = AgentSdkQueryOptions & {
+  enableInternalChromeMcp?: boolean;
+};
+
 const npxCacheRegExp = /_npx[/\\].*node_modules[\\/]\.bin/;
 const localNodeModulesBinRegExp = new RegExp(
   `${process.cwd()}/node_modules/.bin`,
@@ -169,13 +173,24 @@ export const getAvailableFeatures = (
           patch: 77,
         })
       : false,
+  builtInChromeMcp:
+    claudeCodeVersion !== null
+      ? ClaudeCodeVersion.greaterThanOrEqual(claudeCodeVersion, {
+          major: 2,
+          minor: 0,
+          patch: 72, // Claude in Chrome (Beta) added in v2.0.72
+        })
+      : false,
 });
 
-export const query = (
-  prompt: AgentSdkPrompt,
-  options: AgentSdkQueryOptions,
-) => {
-  const { canUseTool, permissionMode, hooks, ...baseOptions } = options;
+export const query = (prompt: AgentSdkPrompt, options: CcvQueryOptions) => {
+  const {
+    canUseTool,
+    permissionMode,
+    hooks,
+    enableInternalChromeMcp,
+    ...baseOptions
+  } = options;
 
   return Effect.gen(function* () {
     const { claudeCodeExecutablePath, claudeCodeVersion } = yield* Config;
@@ -198,6 +213,11 @@ export const query = (
           systemPrompt: { type: "preset", preset: "claude_code" },
           settingSources: ["user", "project", "local"],
           ...options,
+          ...(enableInternalChromeMcp && {
+            extraArgs: {
+              chrome: null,
+            },
+          }),
         },
       });
     }

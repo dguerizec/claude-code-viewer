@@ -14,6 +14,7 @@ const LayerImpl = Effect.gen(function* () {
     searchHotkey: "command-k",
     simplifiedView: false,
     autoAbortAfterMinutes: "120",
+    enableInternalChromeMcp: false,
   });
 
   const setUserConfig = (newConfig: UserConfig) =>

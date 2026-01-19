@@ -298,6 +298,7 @@ const LayerImpl = Effect.gen(function* () {
               resume: task.def.baseSessionId,
               cwd: sessionProcess.def.cwd,
               abortController: sessionProcess.def.abortController,
+              enableInternalChromeMcp: userConfig.enableInternalChromeMcp,
               ...permissionOptions,
             });
           }),

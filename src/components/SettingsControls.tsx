@@ -45,6 +45,7 @@ export const SettingsControls: FC<SettingsControlsProps> = ({
   const localeId = useId();
   const themeId = useId();
   const simplifiedViewId = useId();
+  const enableInternalChromeMcpId = useId();
   const { config, updateConfig } = useConfig();
   const queryClient = useQueryClient();
   const { theme } = useTheme();
@@ -52,6 +53,7 @@ export const SettingsControls: FC<SettingsControlsProps> = ({
   const { isFlagEnabled } = useFeatureFlags();
 
   const isToolApprovalAvailable = isFlagEnabled("tool-approval");
+  const isBuiltInChromeMcpAvailable = isFlagEnabled("built-in-chrome-mcp");
   const inferredLocale = useMemo(() => {
     return detectLocaleFromNavigator() ?? DEFAULT_LOCALE;
   }, []);
@@ -138,6 +140,14 @@ export const SettingsControls: FC<SettingsControlsProps> = ({
     const newConfig = {
       ...config,
       simplifiedView: !config?.simplifiedView,
+    };
+    updateConfig(newConfig);
+  };
+
+  const handleEnableInternalChromeMcpChange = async () => {
+    const newConfig = {
+      ...config,
+      enableInternalChromeMcp: !config?.enableInternalChromeMcp,
     };
     updateConfig(newConfig);
   };
@@ -445,6 +455,33 @@ export const SettingsControls: FC<SettingsControlsProps> = ({
       {showDescriptions && (
         <p className="text-xs text-muted-foreground mt-1 ml-6">
           <Trans id="settings.display.simplified_view.description" />
+        </p>
+      )}
+
+      <div className="flex items-center space-x-2">
+        <Checkbox
+          id={enableInternalChromeMcpId}
+          checked={config?.enableInternalChromeMcp}
+          onCheckedChange={handleEnableInternalChromeMcpChange}
+          disabled={!isBuiltInChromeMcpAvailable}
+        />
+        {showLabels && (
+          <label
+            htmlFor={enableInternalChromeMcpId}
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            Enable Built-in Chrome MCP
+          </label>
+        )}
+      </div>
+      {showDescriptions && isBuiltInChromeMcpAvailable && (
+        <p className="text-xs text-muted-foreground mt-1 ml-6">
+          Activates Claude Code's built-in Chrome browser automation MCP server
+        </p>
+      )}
+      {showDescriptions && !isBuiltInChromeMcpAvailable && (
+        <p className="text-xs text-destructive mt-1 ml-6">
+          Requires Claude Code v2.0.72 or later
         </p>
       )}
     </div>

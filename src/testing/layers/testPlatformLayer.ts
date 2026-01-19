@@ -72,6 +72,8 @@ export const testPlatformLayer = (overrides?: {
         simplifiedView: overrides?.userConfig?.simplifiedView ?? false,
         autoAbortAfterMinutes:
           overrides?.userConfig?.autoAbortAfterMinutes ?? "120",
+        enableInternalChromeMcp:
+          overrides?.userConfig?.enableInternalChromeMcp ?? false,
       }),
   });
 

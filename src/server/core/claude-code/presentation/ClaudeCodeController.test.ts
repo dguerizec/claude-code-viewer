@@ -24,6 +24,7 @@ const testClaudeCodeServiceLayer = Layer.succeed(
         agentSdk: false,
         sidechainSeparation: false,
         runSkillsDirectly: false,
+        builtInChromeMcp: false,
       }),
     getMcpList: () => Effect.succeed([]),
   }),
@@ -642,6 +643,7 @@ describe("ClaudeCodeController.getClaudeCommands", () => {
             agentSdk: false,
             sidechainSeparation: false,
             runSkillsDirectly: true, // Enable the flag
+            builtInChromeMcp: false,
           }),
         getMcpList: () => Effect.succeed([]),
       }),

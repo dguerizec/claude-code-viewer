@@ -35,6 +35,10 @@ const LayerImpl = Effect.gen(function* () {
               name: "run-skills-directly",
               enabled: claudeCodeFeatures.runSkillsDirectly,
             },
+            {
+              name: "built-in-chrome-mcp",
+              enabled: claudeCodeFeatures.builtInChromeMcp,
+            },
           ] satisfies Flag[],
         },
         status: 200,

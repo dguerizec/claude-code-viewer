@@ -31,6 +31,7 @@ export const userConfigSchema = z.object({
     .enum(autoAbortAfterMinutesValues)
     .optional()
     .default("120"),
+  enableInternalChromeMcp: z.boolean().optional().default(false),
 });
 
 export const defaultUserConfig = userConfigSchema.parse({});
