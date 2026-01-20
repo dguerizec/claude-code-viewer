@@ -25,6 +25,11 @@ export const extractFirstUserMessage = (
     return undefined;
   }
 
+  // Filter out meta messages (system-injected like local-command-caveat)
+  if (conversation.isMeta === true) {
+    return undefined;
+  }
+
   const firstUserText = extractFirstUserText(conversation);
 
   if (firstUserText === null) {
